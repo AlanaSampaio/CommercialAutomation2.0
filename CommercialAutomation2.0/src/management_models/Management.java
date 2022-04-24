@@ -23,8 +23,18 @@ private ArrayList<Entities> listManagement = new ArrayList<>();
 	
 	public Users searchEntitiesNick(String nick) {
 		for (int i = 0; i < listManagement.size(); i++) {
-			//System.out.println(((Users) listManagement.get(i)).getNickname()));
-			if (nick.equals((Users) listManagement.get(i)).getNickname()) {
+			String currentNick = ((Users) listManagement.get(i)).getNickname();
+			if (nick.equals(currentNick)) {
+				return (Users) listManagement.get(i);
+			}
+		}
+		return null;
+	}
+	
+	public Users searchEntitiesPassword(String pass) {
+		for (int i = 0; i < listManagement.size(); i++) {
+			String currentPassword = ((Users) listManagement.get(i)).getPassword();
+			if (pass.equals(currentPassword)) {
 				return (Users) listManagement.get(i);
 			}
 		}

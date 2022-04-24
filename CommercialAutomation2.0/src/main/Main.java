@@ -1,51 +1,62 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import management_models.*;
 import modeling_models.Users;
 
 public class Main {
+	private static ArrayList<String> ids = new ArrayList<String>();
+	
+	static ManagementUsers managementUser = new ManagementUsers();
+	
 	public static void main(String args[]) {
 		
 		Scanner input = new Scanner(System.in);
 		
-		ManagementUsers managementUser = new ManagementUsers();
-		
 		int n = 0;
 		while (n == 0) {
-			
-			//if (managementUser.checkSizeList() == false) {
-				String nick, password, name, category;
-				System.out.println("Sistema não possui nenhum registro, faça o primeiro cadastro no sistema!");
-				System.out.println("Insira o nickname a ser registrado: ");
-				nick = input.nextLine();
-				System.out.println("Insira a senha a ser registrada: ");
-				password = input.nextLine();
-				System.out.println("Insira o nome do usuário: ");
-				name = input.nextLine();
-				System.out.println("Insira o cargo do funcionário: ");
-				category = input.nextLine();
-							
-				managementUser.register(nick, password, name, category);
-			//} 
-			
-			
-			
-			
-			/*System.out.println("1. Acessar login \n2. Cadastrar login \n3. Sair");
+			System.out.println("AUTOMAÇÃO COMERCIAL \n1 - Logar no sistema \n2 - Sair do sistema");
 			int answer = input.nextInt();
-			n = answer;
 			
-			switch(answer) {
-			case 3:
-				System.out.println("Saindo...");
+			if (answer == 1) {
+				String nick, password, name, category;
+				if (managementUser.checkSizeList() == false) {
+					System.out.println("Sistema não possui nenhum registro, faça o primeiro cadastro no sistema!");
+					System.out.println("Insira o nickname a ser registrado: ");
+					input.next();
+					nick = input.nextLine();
+					System.out.println("Insira a senha a ser registrada: ");
+					password = input.nextLine();
+					System.out.println("Insira o seu nome: ");
+					name = input.nextLine();
+					System.out.println("Insira o seu cargo: ");
+					category = input.nextLine();
+								
+					managementUser.register(nick, password, name, category);
+					
+					optionsMenu();
+				} else {
+					System.out.println("Insira o nickname a ser registrado: ");
+					nick = input.nextLine();
+					System.out.println("Insira a senha a ser registrada: ");
+					password = input.nextLine();
+					System.out.println("Insira o seu nome: ");
+					name = input.nextLine();
+					System.out.println("Insira o seu cargo: ");
+					category = input.nextLine();
+								
+					managementUser.register(nick, password, name, category);
+					
+					optionsMenu();
+				}
+			} else if (answer == 2) {
+				System.out.println("SISTEMA ENCERRADO");
 				break;
-			case 2:
-				System.out.println("Cadastrando...");
-			case 1:
-				System.out.println("Cadastrando..");
-			}*/
+			} else {
+				System.out.println("Opção inválida.");
+			}
 		}
 	}
 	
@@ -58,14 +69,91 @@ public class Main {
 		nick = input.nextLine();
 		System.out.println("Insira sua senha: ");
 		password = input.nextLine();
+		
+		boolean option = managementUser.checkLogin(nick, password);
+		
+		if (option == false) {
+			System.out.println("\nNickname ou senha incorreto, tente novamente!\n");
+		} else {
+			optionsMenu();
+		}
+	}
+	
+	public static void optionsMenu() {
+		String[] options = { "cadastrar", "editar", "excluir", "listar", "encerrar"};
+		String[] entities = {"usuario", "fornecedor", "item", "produto", "venda"};
+		int option = 0;
+		Scanner input = new Scanner(System.in);
+	
+		do {
+			System.out.println("O que você deseja fazer?");
+			
+			for (int i = 0; i < 5; i++) {
+				System.out.println((i + 1) + " - P/ " + options[i]);
+			}
+			option = input.nextInt();
+			
+			if (option >= 1 && option <= 4) {
+			System.out.println("O que voc� deseja " + options[option - 1] + "?");
+			for (int i = 0; i < 5; i++) {
+				System.out.println((i + 1) + " - P/ " + entities[i]);
+			}
+			int nEntities = input.nextInt();
+			System.out.println("\n");
+			switch (nEntities) {
+				case 1:
+					datasUsers(option, managementUser);
+					break;
+				/*case 2:
+					menuSimulaFornecedor(opcao, gerenForn);
+					break;
+				case 3:
+					menuSimulaItem(opcao, gerenCard);
+					break;
+				case 4:
+					menuSimulaProduto(opcao, gerenProd);
+					break;
+				case 5:
+					menuSimulaVenda(opcao, gerenVenda);
+					break;*/
+			}
+			System.out.println("\n");
+			} else if (option != 5) {
+				System.out.println("Opição inválida. Tente de novo.");
+			}
+		} while (option != 5);
+		System.out.println("Deslogando do sistema.");
+		}
+	
+	public static boolean idExist(String idCheck) {
+		return ids.contains(idCheck);
+	}
+	
+	public static void addId(String id) {
+		ids.add(id);
+	}
+
+	public ArrayList<String> getIds() {
+		return ids;
 	}
 	
 	public static void datasUsers(int operation, ManagementUsers managementSimulator) {
+		Scanner input = new Scanner(System.in);
+		String nick, password, name, category;
 		String id1;
+		
 		switch(operation) {
 		case 1:
-			managementSimulator.register("carlinho", "abc123", "nome1", "funcionario");
-			System.out.println("Usuario cadastrado com sucesso.");
+			System.out.println("Insira o nickname a ser registrado: ");
+			nick = input.nextLine();
+			System.out.println("Insira a senha a ser registrada: ");
+			password = input.nextLine();
+			System.out.println("Insira o seu nome: ");
+			name = input.nextLine();
+			System.out.println("Insira o seu cargo: ");
+			category = input.nextLine();
+			
+			managementSimulator.register(nick, password, name, category);
 			break;
 		case 2:
 			id1 = managementSimulator.list().get(0).getId();

@@ -6,21 +6,30 @@ public class ManagementUsers extends Management{
 
 	public void register(String nick, String password, String name, String category) {
 		Users userRegister = (Users) this.searchEntitiesNick(nick);
-		System.out.println(this.checkSizeList());
-		System.out.println(userRegister);
 		
 		if (this.checkSizeList() == false) {
 			Users newUser = new Users(nick, password, name, category);
 			this.register(newUser);	
+			System.out.println("\nUsuario cadastrado com sucesso.\n");
 		} else {
-			if (userRegister != null) {
+			if (userRegister == null) {
 				Users newUser = new Users(nick, password, name, category);
 				this.register(newUser);
-				System.out.println("Foi!");
-			} else if (userRegister == null) {
-				System.out.println("Nickname já existente, tente outro!");
+				System.out.println("\nUsuario cadastrado com sucesso.\n");
+			} else if (userRegister != null) {
+				System.out.println("\nNickname já existente, tente outro!\n");
 			}
 		}
+	}
+	
+	public boolean checkLogin(String nick, String pass) {
+		Users userRegisterNick = (Users) this.searchEntitiesNick(nick);
+		Users userRegisterPass = (Users) this.searchEntitiesPassword(pass);
+		
+		if (userRegisterNick == null && userRegisterPass == null) {
+			return true;
+		}
+		return false;
 	}
 		
 	public boolean checkSizeList() {
