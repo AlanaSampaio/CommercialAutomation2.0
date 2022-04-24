@@ -25,8 +25,7 @@ public class ManagementUsers extends Management{
 	public boolean checkLogin(String nick, String pass) {
 		Users userRegisterNick = (Users) this.searchEntitiesNick(nick);
 		Users userRegisterPass = (Users) this.searchEntitiesPassword(pass);
-		
-		if (userRegisterNick == null && userRegisterPass == null) {
+		if (userRegisterNick != null && userRegisterPass != null) {
 			return true;
 		}
 		return false;

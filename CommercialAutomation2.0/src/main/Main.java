@@ -25,19 +25,16 @@ public class Main {
 				if (managementUser.checkSizeList() == false) {
 					System.out.println("Sistema não possui nenhum registro, faça o primeiro cadastro no sistema!");
 					System.out.println("Insira o nickname a ser registrado: ");
-					input.next();
-					nick = input.nextLine();
+					nick = input.next();
 					System.out.println("Insira a senha a ser registrada: ");
-					password = input.nextLine();
+					password = input.next();
 					System.out.println("Insira o seu nome: ");
-					name = input.nextLine();
+					name = input.next();
 					System.out.println("Insira o seu cargo: ");
-					category = input.nextLine();
+					category = input.next();
 								
 					managementUser.register(nick, password, name, category);
-					if (login() == true) {
-						optionsMenu();
-					}
+					login();
 				} else {
 					System.out.println("Insira o nickname a ser registrado: ");
 					input.next();
@@ -50,9 +47,7 @@ public class Main {
 					category = input.nextLine();
 								
 					managementUser.register(nick, password, name, category);
-					if (login() == true) {
-						optionsMenu();
-					}
+					login();
 				}
 			} else if (answer == 2) {
 				System.out.println("SISTEMA ENCERRADO");
@@ -63,7 +58,7 @@ public class Main {
 		}
 	}
 	
-	public static boolean login() {
+	public static void login() {
 		Scanner input = new Scanner(System.in);
 		String nick, password;
 		
@@ -76,30 +71,28 @@ public class Main {
 		boolean option = managementUser.checkLogin(nick, password);
 		
 		if (option == false) {
-			System.out.println("\nNickname ou senha incorreto, tente novamente!\n"); //Ta repetindo isso
-			return false;
+			System.out.println("\nNickname ou senha incorreto, tente novamente!\n");
 		} else {
 			optionsMenu();
 		}
-		return true;
 	}
 	
 	public static void optionsMenu() {
-		String[] options = { "cadastrar", "editar", "excluir", "listar", "encerrar"};
+		String[] options = { "cadastrar", "editar", "excluir", "listar", "gerar relatório", "encerrar"};
 		String[] entities = {"usuario", "fornecedor", "item", "produto", "venda"};
 		int option = 0;
 		Scanner input = new Scanner(System.in);
 	
 		do {
-			System.out.println("O que você deseja fazer?");
+			System.out.println("\nO que você deseja fazer?");
 			
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < 6; i++) {
 				System.out.println((i + 1) + " - P/ " + options[i]);
 			}
 			option = input.nextInt();
 			
 			if (option >= 1 && option <= 4) {
-			System.out.println("O que voc� deseja " + options[option - 1] + "?");
+			System.out.println("O que você deseja " + options[option - 1] + "?");
 			for (int i = 0; i < 5; i++) {
 				System.out.println((i + 1) + " - P/ " + entities[i]);
 			}
@@ -119,14 +112,16 @@ public class Main {
 					menuSimulaProduto(opcao, gerenProd);
 					break;
 				case 5:
-					menuSimulaVenda(opcao, gerenVenda);
+					menuSimulaVenda(option, managementUser);
 					break;*/
 			}
 			System.out.println("\n");
-			} else if (option != 5) {
+			} else if (option == 5) {
+				System.out.println("\nGerando relatório\n");
+			} else if (option != 6) {
 				System.out.println("Opição inválida. Tente de novo.");
 			}
-		} while (option != 5);
+		} while (option != 6);
 		System.out.println("Deslogando do sistema.");
 		}
 	
@@ -172,6 +167,8 @@ public class Main {
 		case 4:
 			managementSimulator.list().forEach(simulator -> System.out.println(((Users)simulator).getId() + "\n" + 
 																((Users)simulator).getName()+ "\n" + 
+																((Users)simulator).getNickname() + "\n" +
+																((Users)simulator).getPassword() + "\n" +
 																((Users)simulator).getCategory()));
 			break;
 		}
