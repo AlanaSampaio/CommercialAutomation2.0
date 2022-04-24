@@ -35,10 +35,12 @@ public class Main {
 					category = input.nextLine();
 								
 					managementUser.register(nick, password, name, category);
-					
-					optionsMenu();
+					if (login() == true) {
+						optionsMenu();
+					}
 				} else {
 					System.out.println("Insira o nickname a ser registrado: ");
+					input.next();
 					nick = input.nextLine();
 					System.out.println("Insira a senha a ser registrada: ");
 					password = input.nextLine();
@@ -48,8 +50,9 @@ public class Main {
 					category = input.nextLine();
 								
 					managementUser.register(nick, password, name, category);
-					
-					optionsMenu();
+					if (login() == true) {
+						optionsMenu();
+					}
 				}
 			} else if (answer == 2) {
 				System.out.println("SISTEMA ENCERRADO");
@@ -60,7 +63,7 @@ public class Main {
 		}
 	}
 	
-	public void login() {
+	public static boolean login() {
 		Scanner input = new Scanner(System.in);
 		String nick, password;
 		
@@ -73,10 +76,12 @@ public class Main {
 		boolean option = managementUser.checkLogin(nick, password);
 		
 		if (option == false) {
-			System.out.println("\nNickname ou senha incorreto, tente novamente!\n");
+			System.out.println("\nNickname ou senha incorreto, tente novamente!\n"); //Ta repetindo isso
+			return false;
 		} else {
 			optionsMenu();
 		}
+		return true;
 	}
 	
 	public static void optionsMenu() {
