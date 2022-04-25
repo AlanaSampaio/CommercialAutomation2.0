@@ -50,6 +50,12 @@ public class ManagementUsers extends Management{
 		case "cargo":
 			userPEdit.setCategory((String) newValue);
 			break;
+		case "nickname":
+			userPEdit.setNickname((String) newValue);
+			break;
+		case "senha":
+			userPEdit.setPassword((String) newValue);
+			break;
 		}
 	}
 }

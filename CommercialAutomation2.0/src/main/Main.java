@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import management_models.*;
+import modeling_models.Providers;
 import modeling_models.Users;
 
 import com.itextpdf.text.Document;
@@ -19,6 +20,7 @@ public class Main {
 	private static ArrayList<String> ids = new ArrayList<String>();
 	
 	static ManagementUsers managementUser = new ManagementUsers();
+	static ManagementProviders managementProvider = new ManagementProviders();
 	
 	public static void main(String args[]) {
 		
@@ -111,10 +113,10 @@ public class Main {
 				case 1:
 					datasUsers(option, managementUser);
 					break;
-				/*case 2:
-					menuSimulaFornecedor(opcao, gerenForn);
+				case 2:
+					menuSimulaFornecedor(option, managementProvider);
 					break;
-				case 3:
+				/*case 3:
 					menuSimulaItem(opcao, gerenCard);
 					break;
 				case 4:
@@ -150,7 +152,6 @@ public class Main {
 	public static void datasUsers(int operation, ManagementUsers managementSimulator) {
 		Scanner input = new Scanner(System.in);
 		String nick, password, name, category;
-		String id1;
 		
 		switch(operation) {
 		case 1:
@@ -165,19 +166,88 @@ public class Main {
 			
 			managementSimulator.register(nick, password, name, category);
 			break;
-		case 2:
-			id1 = managementSimulator.list().get(0).getId();
-			managementSimulator.edit(id1, "nome", "nome2");
+		case 2: //ERRO Cannot invoke "modeling_models.Users.setName(String)" because "userPEdit" is null
+			String id, option1, name1 = null, newName = null;
+			managementSimulator.list().forEach(simulator -> System.out.println(((Users)simulator).getId() + "\n" + 
+																				((Users)simulator).getName()+ "\n" + 
+																				((Users)simulator).getNickname()+ "\n"));
+			
+			System.out.println("Insita o ID do usuário que deseja alterar: ");
+			id = input.next();
+			System.out.println("Deseja alterar nome, nickname, senha ou cargo? ");
+			option1 = input.next();
+			System.out.println("Insira o atributo novo: ");
+			newName = input.next();
+			
+			managementSimulator.edit(id, option1, newName);
 			System.out.println("Atributo do Usuario alterado com sucesso.");
 			break;
-		case 3:
-			id1 = managementSimulator.list().get(0).getId();
-			managementSimulator.delete(id1);
+		case 3: //ERRO não apagou
+			managementSimulator.list().forEach(simulator -> System.out.println(((Users)simulator).getId() + "\n" + 
+																				((Users)simulator).getName()+ "\n" + 
+																				((Users)simulator).getNickname()+ "\n"));
+			
+			System.out.println("Insira o ID do usuário que deseja deletar: ");
+			id = input.next();
+			
+			managementSimulator.delete(id);
 			break;
 		case 4:
 			managementSimulator.list().forEach(simulator -> System.out.println(((Users)simulator).getId() + "\n" + 
 																((Users)simulator).getName()+ "\n" + 
-																((Users)simulator).getCategory()));
+																((Users)simulator).getNickname()+ "\n" + 
+																((Users)simulator).getCategory()+ "\n"));
+			break;
+		}
+	}
+	
+	public static void menuSimulaFornecedor(int operation, ManagementProviders managementSimulator) {
+		Scanner input = new Scanner(System.in);
+		String name, cnpj, address, option1, newName, id;
+		
+		switch(operation) {
+		case 1:
+			System.out.println("Insira o nome a ser registrado: ");
+			name = input.nextLine();
+			System.out.println("Insira o CNPJ a ser registrada: ");
+			cnpj = input.nextLine();
+			System.out.println("Insira o endereço a ser registrado: ");
+			address = input.nextLine();
+			
+			managementSimulator.register(name, cnpj, address);
+			System.out.println("Fornecedor cadastrado com sucesso.");
+			break;
+		case 2:
+			managementSimulator.list().forEach(simulator -> System.out.println(((Providers)simulator).getId() + "\n" + 
+																				((Providers)simulator).getName()+ "\n" + 
+																				((Providers)simulator).getCnpj()+ "\n"));
+			
+			System.out.println("Insita o ID do fornecedor que deseja alterar: ");
+			id = input.next();
+			System.out.println("Deseja alterar nome, endereco ou cnpj? ");
+			option1 = input.next();
+			System.out.println("Insira o atributo novo: ");
+			newName = input.next();
+			
+			managementSimulator.edit(id, option1, newName);
+			System.out.println("Atributo do fornecedor alterado com sucesso.");
+			break;
+		case 3:
+			managementSimulator.list().forEach(simulator -> System.out.println(((Providers)simulator).getId() + "\n" + 
+																				((Providers)simulator).getName()+ "\n" + 
+																				((Providers)simulator).getCnpj()+ "\n"));
+			
+			System.out.println("Insira o ID do fornecedor que deseja deletar: ");
+			id = input.next();
+			
+			managementSimulator.delete(id);
+			System.out.println("Fornecedor deletado com sucesso.");
+			break;
+		case 4:
+			managementSimulator.list().forEach(simulator -> System.out.println(((Providers)simulator).getId() + "\n" + 
+																((Providers)simulator).getName()+ "\n" + 
+																((Providers)simulator).getCnpj()+ "\n"+
+																((Providers)simulator).getAddress()));
 			break;
 		}
 	}

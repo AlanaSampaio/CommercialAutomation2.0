@@ -14,7 +14,8 @@ private ArrayList<Entities> listManagement = new ArrayList<>();
 	
 	public Entities searchEntities(String id) {
 		for (int i = 0; i < listManagement.size(); i++) {
-			if (id == listManagement.get(i).getId()) {
+			String currentEntities = ((Users) listManagement.get(i)).getId();
+			if (id.equals(currentEntities)) {
 				return listManagement.get(i);
 			}
 		}
