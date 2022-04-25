@@ -1,10 +1,19 @@
 package main;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import management_models.*;
 import modeling_models.Users;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class Main {
 	private static ArrayList<String> ids = new ArrayList<String>();
@@ -118,6 +127,7 @@ public class Main {
 			System.out.println("\n");
 			} else if (option == 5) {
 				System.out.println("\nGerando relatório\n");
+				generatePDF();
 			} else if (option != 6) {
 				System.out.println("Opição inválida. Tente de novo.");
 			}
@@ -167,11 +177,44 @@ public class Main {
 		case 4:
 			managementSimulator.list().forEach(simulator -> System.out.println(((Users)simulator).getId() + "\n" + 
 																((Users)simulator).getName()+ "\n" + 
-																((Users)simulator).getNickname() + "\n" +
-																((Users)simulator).getPassword() + "\n" +
 																((Users)simulator).getCategory()));
 			break;
 		}
+	}
+	
+	public static void generatePDF() {
+		Document document = new Document();
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream("documents.pdf"));
+            document.open();
+
+            // adicionando um parágrafo no documento
+            Paragraph p = new Paragraph("Relatório");
+            p.setAlignment(1);
+            document.add(p);
+            p = new Paragraph(" ");
+            document.add(p);
+            p = new Paragraph("Vendas:");
+            document.add(p);
+            p = new Paragraph(" ");
+            document.add(p);
+            p = new Paragraph("Estoque:");
+            document.add(p);
+            p = new Paragraph(" ");
+            document.add(p);
+            p = new Paragraph("Fornecedores:");
+            document.add(p);
+        
+            document.close();
+            Desktop.getDesktop().open(new File("documents.pdf"));
+        }
+        catch(DocumentException de) {
+            System.err.println(de.getMessage());
+        }
+        catch(IOException ioe) {
+            System.err.println(ioe.getMessage());
+        }
+        
 	}
 }
 
