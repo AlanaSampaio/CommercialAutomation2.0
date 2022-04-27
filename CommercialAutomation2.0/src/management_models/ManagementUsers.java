@@ -6,7 +6,7 @@ import modeling_models.Users;
 
 public class ManagementUsers extends Management{
 	
-	public void getDataRegister() {
+	public void dataRegister() {
 		// Método para receber os dados do usuário e fazer o cadastro a partir deles.
 		String nick, password, name, category;
 		Scanner input = new Scanner(System.in);

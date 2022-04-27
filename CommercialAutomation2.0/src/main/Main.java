@@ -32,7 +32,7 @@ public class Main {
 			if (answer == 1) {
 				if (managementUser.checkSizeList() == false) {
 					System.out.println("Sistema não possui nenhum registro, faça o primeiro cadastro no sistema!");
-					managementUser.getDataRegister();
+					managementUser.dataRegister();
 				}
 				login();
 				optionsMenu();
@@ -66,13 +66,13 @@ public class Main {
 	}
 	
 	public static void optionsMenu() {
-		String[] options = { "cadastrar", "editar", "excluir", "listar", "gerar relatÃ³rio", "encerrar"};
+		String[] options = { "cadastrar", "editar", "excluir", "listar", "gerar relatório", "encerrar"};
 		String[] entities = {"usuario", "fornecedor", "item", "produto", "venda"};
 		int option = 0;
 		Scanner input = new Scanner(System.in);
 	
 		do {
-			System.out.println("\nO que vocÃª deseja fazer?");
+			System.out.println("\nO que você deseja fazer?");
 			
 			for (int i = 0; i < 6; i++) {
 				System.out.println((i + 1) + " - P/ " + options[i]);
@@ -80,7 +80,7 @@ public class Main {
 			option = input.nextInt();
 			
 			if (option >= 1 && option <= 4) {
-			System.out.println("O que vocÃª deseja " + options[option - 1] + "?");
+			System.out.println("O que você deseja " + options[option - 1] + "?");
 			for (int i = 0; i < 5; i++) {
 				System.out.println((i + 1) + " - P/ " + entities[i]);
 			}
@@ -105,10 +105,10 @@ public class Main {
 			}
 			System.out.println("\n");
 			} else if (option == 5) {
-				System.out.println("\nGerando relatÃ³rio\n");
+				System.out.println("\nGerando relatório\n");
 				generatePDF();
 			} else if (option != 6) {
-				System.out.println("OpiÃ§Ã£o invÃ¡lida. Tente de novo.");
+				System.out.println("Opção inválida. Tente de novo.");
 			}
 		} while (option != 6);
 		System.out.println("Deslogando do sistema.");
@@ -127,21 +127,11 @@ public class Main {
 	}
 	
 	public static void datasUsers(int operation, ManagementUsers managementSimulator) {
-		String nick, password, name, category;
 		Scanner input = new Scanner(System.in);
 		
 		switch(operation) {
 		case 1:
-			System.out.println("Insira o nickname a ser registrado: ");
-			nick = input.nextLine();
-			System.out.println("Insira a senha a ser registrada: ");
-			password = input.nextLine();
-			System.out.println("Insira o seu nome: ");
-			name = input.nextLine();
-			System.out.println("Insira o seu cargo: ");
-			category = input.nextLine();
-			
-			managementSimulator.register(nick, password, name, category);
+			managementSimulator.dataRegister();
 			break;
 		case 2: //ERRO Cannot invoke "modeling_models.Users.setName(String)" because "userPEdit" is null
 			String id, option1 = null, newName = null;
@@ -156,7 +146,7 @@ public class Main {
 			System.out.println("Insira o atributo novo: ");
 			newName = input.next();
 			
-			managementSimulator.edit(id, option1, newName);
+			managementSimulator.edit(id, option1, newName); //TESTAR SE O NOVO LOGIN É IGUAL A ALGUM JÁ CADASTRADO
 			System.out.println("Atributo do Usuario alterado com sucesso.");
 			break;
 		case 3: //ERRO nÃ£o apagou
