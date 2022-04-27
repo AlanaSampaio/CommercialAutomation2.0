@@ -1,9 +1,29 @@
 package management_models;
 
+import java.util.Scanner;
+
 import modeling_models.Users;
 
 public class ManagementUsers extends Management{
-
+	
+	public void getDataRegister() {
+		// MÈtodo para receber os dados do usu·rio e fazer o cadastro a partir deles.
+		String nick, password, name, category;
+		Scanner input = new Scanner(System.in);
+		
+		System.out.println("Insira o nickname a ser registrado: ");
+		nick = input.next();
+		System.out.println("Insira a senha a ser registrado: ");
+		password = input.next();
+		System.out.println("Insira o seu nome: ");
+		name = input.next();
+		System.out.println("Insira o seu cargo: ");
+		category = input.next();
+					
+		this.register(nick, password, name, category);
+	}
+	
+	
 	public void register(String nick, String password, String name, String category) {
 		Users userRegister = (Users) this.searchEntitiesNick(nick);
 		
@@ -17,7 +37,7 @@ public class ManagementUsers extends Management{
 				this.register(newUser);
 				System.out.println("\nUsuario cadastrado com sucesso.\n");
 			} else if (userRegister != null) {
-				System.out.println("\nNickname j√° existente, tente outro!\n");
+				System.out.println("\nNickname j· existente, tente outro!\n");
 			}
 		}
 	}

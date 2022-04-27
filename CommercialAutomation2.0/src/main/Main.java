@@ -23,69 +23,46 @@ public class Main {
 	static ManagementProviders managementProvider = new ManagementProviders();
 	
 	public static void main(String args[]) {
-		
 		Scanner input = new Scanner(System.in);
-		
 		int n = 0;
 		while (n == 0) {
-			System.out.println("AUTOMAÃ‡ÃƒO COMERCIAL \n1 - Logar no sistema \n2 - Sair do sistema");
+			System.out.println("AUTOMAÇÃO COMERCIAL \n1 - Logar no sistema \n2 - Sair do sistema");
 			int answer = input.nextInt();
 			
 			if (answer == 1) {
-				String nick, password, name, category;
 				if (managementUser.checkSizeList() == false) {
-					System.out.println("Sistema nÃ£o possui nenhum registro, faÃ§a o primeiro cadastro no sistema!");
-					System.out.println("Insira o nickname a ser registrado: ");
-					nick = input.next();
-					System.out.println("Insira a senha a ser registrada: ");
-					password = input.next();
-					System.out.println("Insira o seu nome: ");
-					name = input.next();
-					System.out.println("Insira o seu cargo: ");
-					category = input.next();
-								
-					managementUser.register(nick, password, name, category);
-					login();
-				} else {
-					System.out.println("Insira o nickname a ser registrado: ");
-					input.next();
-					nick = input.nextLine();
-					System.out.println("Insira a senha a ser registrada: ");
-					password = input.nextLine();
-					System.out.println("Insira o seu nome: ");
-					name = input.nextLine();
-					System.out.println("Insira o seu cargo: ");
-					category = input.nextLine();
-								
-					managementUser.register(nick, password, name, category);
-					login();
+					System.out.println("Sistema não possui nenhum registro, faça o primeiro cadastro no sistema!");
+					managementUser.getDataRegister();
 				}
+				login();
+				optionsMenu();
 			} else if (answer == 2) {
 				System.out.println("SISTEMA ENCERRADO");
 				break;
 			} else {
-				System.out.println("OpÃ§Ã£o invÃ¡lida.");
+				System.out.println("Opção inválida.");
 			}
 		}
 	}
 	
 	public static void login() {
-		Scanner input = new Scanner(System.in);
 		String nick, password;
+		Scanner input = new Scanner(System.in);
+		boolean option = false;
 		
+		do {
 		System.out.println("LOGIN");
 		System.out.println("Insira seu nickname: ");
 		nick = input.nextLine();
 		System.out.println("Insira sua senha: ");
 		password = input.nextLine();
 		
-		boolean option = managementUser.checkLogin(nick, password);
+		option = managementUser.checkLogin(nick, password);
 		
-		if (option == false) {
+		if (!option) {
 			System.out.println("\nNickname ou senha incorreto, tente novamente!\n");
-		} else {
-			optionsMenu();
-		}
+			}
+		} while(!option);
 	}
 	
 	public static void optionsMenu() {
@@ -150,8 +127,8 @@ public class Main {
 	}
 	
 	public static void datasUsers(int operation, ManagementUsers managementSimulator) {
-		Scanner input = new Scanner(System.in);
 		String nick, password, name, category;
+		Scanner input = new Scanner(System.in);
 		
 		switch(operation) {
 		case 1:
@@ -167,7 +144,7 @@ public class Main {
 			managementSimulator.register(nick, password, name, category);
 			break;
 		case 2: //ERRO Cannot invoke "modeling_models.Users.setName(String)" because "userPEdit" is null
-			String id, option1, name1 = null, newName = null;
+			String id, option1 = null, newName = null;
 			managementSimulator.list().forEach(simulator -> System.out.println(((Users)simulator).getId() + "\n" + 
 																				((Users)simulator).getName()+ "\n" + 
 																				((Users)simulator).getNickname()+ "\n"));
@@ -202,8 +179,8 @@ public class Main {
 	}
 	
 	public static void menuSimulaFornecedor(int operation, ManagementProviders managementSimulator) {
-		Scanner input = new Scanner(System.in);
 		String name, cnpj, address, option1, newName, id;
+		Scanner input = new Scanner(System.in);
 		
 		switch(operation) {
 		case 1:
@@ -287,4 +264,3 @@ public class Main {
         
 	}
 }
-
