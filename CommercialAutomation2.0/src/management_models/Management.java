@@ -14,7 +14,7 @@ private ArrayList<Entities> listManagement = new ArrayList<>();
 	
 	public Entities searchEntities(String id) {
 		for (int i = 0; i < listManagement.size(); i++) {
-			String currentEntities = ((Users) listManagement.get(i)).getId();
+			String currentEntities = ((Entities) listManagement.get(i)).getId();
 			if (id.equals(currentEntities)) {
 				return listManagement.get(i);
 			}
@@ -44,13 +44,15 @@ private ArrayList<Entities> listManagement = new ArrayList<>();
 	
 	public abstract void edit(String idEntities, String changedValue, Object newValue);
 
-	public ArrayList<Entities> list() {
+	public ArrayList<Entities> getList(){
 		return listManagement;
 	}
 	
 	public int sizeList() {
 		return listManagement.size();
 	}
+	
+	public abstract void list();
 	
 	public void delete(String idEntities) {
 		Entities element = searchEntities(idEntities);

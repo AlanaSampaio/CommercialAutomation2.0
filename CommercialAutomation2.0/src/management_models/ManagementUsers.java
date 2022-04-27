@@ -10,7 +10,6 @@ public class ManagementUsers extends Management{
 		// Método para receber os dados do usuário e fazer o cadastro a partir deles.
 		String nick, password, name, category;
 		Scanner input = new Scanner(System.in);
-		
 		System.out.println("Insira o nickname a ser registrado: ");
 		nick = input.next();
 		System.out.println("Insira a senha a ser registrado: ");
@@ -19,7 +18,8 @@ public class ManagementUsers extends Management{
 		name = input.next();
 		System.out.println("Insira o seu cargo: ");
 		category = input.next();
-					
+		
+		
 		this.register(nick, password, name, category);
 	}
 	
@@ -77,6 +77,17 @@ public class ManagementUsers extends Management{
 			userPEdit.setPassword((String) newValue);
 			break;
 		}
+	}
+	
+	@Override
+	public void list() {
+		this.getList().forEach(element -> {
+			Users prov = (Users) element;
+			System.out.println("ID: " + prov.getId() + "\n" + 
+							   "Nome: " + prov.getName()+ "\n" + 
+							   "Cargo: " + prov.getCategory()+ "\n" +
+							   "NickName: " + prov.getNickname());
+		});
 	}
 }
 

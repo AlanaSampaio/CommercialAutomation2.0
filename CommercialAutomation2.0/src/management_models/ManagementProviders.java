@@ -9,16 +9,16 @@ public class ManagementProviders extends Management {
 	public void dataRegister() {
 		// Método para receber os dados do usuário e fazer o cadastro a partir deles.
 		String name, cnpj, address;
-		Scanner input = new Scanner(System.in);
+		try (Scanner input = new Scanner(System.in)) {
+			System.out.println("CADASTRO DO FORNECEDOR");
+			System.out.println("Insira o nome: ");
+			name = input.next();
+			System.out.println("Insira o cnpj: ");
+			cnpj = input.next();
+			System.out.println("Insira o endereço: ");
+			address = input.next();
+		}
 		
-		System.out.println("CADASTRO DO FORNECEDOR");
-		System.out.println("Insira o nome: ");
-		name = input.next();
-		System.out.println("Insira o cnpj: ");
-		cnpj = input.next();
-		System.out.println("Insira o endereço: ");
-		address = input.next();
-					
 		this.register(name, cnpj, address);
 	}
 	
@@ -45,5 +45,17 @@ public class ManagementProviders extends Management {
 			break;
 		}
 	}
+	
+	@Override
+	public void list() {
+		this.getList().forEach(element -> {
+			Providers prov = (Providers) element;
+			System.out.println("ID: " + prov.getId() + "\n" + 
+							   "Nome: " + prov.getName()+ "\n" + 
+							   "CNPJ: " + prov.getCnpj()+ "\n" +
+							   "Endereço: " + prov.getAddress());
+		});
+	}
+	
 
 }

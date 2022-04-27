@@ -135,9 +135,7 @@ public class Main {
 			break;
 		case 2: //ERRO Cannot invoke "modeling_models.Users.setName(String)" because "userPEdit" is null
 			String id, option1 = null, newName = null;
-			managementSimulator.list().forEach(simulator -> System.out.println(((Users)simulator).getId() + "\n" + 
-																				((Users)simulator).getName()+ "\n" + 
-																				((Users)simulator).getNickname()+ "\n"));
+			managementSimulator.list();
 			
 			System.out.println("Insita o ID do usuário que deseja alterar: ");
 			id = input.next();
@@ -150,9 +148,7 @@ public class Main {
 			System.out.println("Atributo do Usuario alterado com sucesso.");
 			break;
 		case 3: //ERRO não apagou
-			managementSimulator.list().forEach(simulator -> System.out.println(((Users)simulator).getId() + "\n" + 
-																				((Users)simulator).getName()+ "\n" + 
-																				((Users)simulator).getNickname()+ "\n"));
+			managementSimulator.list();
 			
 			System.out.println("Insira o ID do usuário que deseja deletar: ");
 			id = input.next();
@@ -160,10 +156,7 @@ public class Main {
 			managementSimulator.delete(id);
 			break;
 		case 4:
-			managementSimulator.list().forEach(simulator -> System.out.println(((Users)simulator).getId() + "\n" + 
-																((Users)simulator).getName()+ "\n" + 
-																((Users)simulator).getNickname()+ "\n" + 
-																((Users)simulator).getCategory()+ "\n"));
+			managementSimulator.list();
 			break;
 		}
 	}
@@ -185,9 +178,7 @@ public class Main {
 			System.out.println("Fornecedor cadastrado com sucesso.");
 			break;
 		case 2:
-			managementSimulator.list().forEach(simulator -> System.out.println(((Providers)simulator).getId() + "\n" + 
-																				((Providers)simulator).getName()+ "\n" + 
-																				((Providers)simulator).getCnpj()+ "\n"));
+			managementSimulator.list();
 			
 			System.out.println("Insita o ID do fornecedor que deseja alterar: ");
 			id = input.next();
@@ -200,9 +191,7 @@ public class Main {
 			System.out.println("Atributo do fornecedor alterado com sucesso.");
 			break;
 		case 3:
-			managementSimulator.list().forEach(simulator -> System.out.println(((Providers)simulator).getId() + "\n" + 
-																				((Providers)simulator).getName()+ "\n" + 
-																				((Providers)simulator).getCnpj()+ "\n"));
+			managementSimulator.list();
 			
 			System.out.println("Insira o ID do fornecedor que deseja deletar: ");
 			id = input.next();
@@ -211,10 +200,7 @@ public class Main {
 			System.out.println("Fornecedor deletado com sucesso.");
 			break;
 		case 4:
-			managementSimulator.list().forEach(simulator -> System.out.println(((Providers)simulator).getId() + "\n" + 
-																((Providers)simulator).getName()+ "\n" + 
-																((Providers)simulator).getCnpj()+ "\n"+
-																((Providers)simulator).getAddress()));
+			managementSimulator.list();
 			break;
 		}
 	}
