@@ -16,6 +16,8 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import exceptions.*;
+
 public class Main {
 	private static ArrayList<String> ids = new ArrayList<String>();
 	
@@ -57,11 +59,13 @@ public class Main {
 		System.out.println("Insira sua senha: ");
 		password = input.nextLine();
 		
-		option = managementUser.checkLogin(nick, password);
+		try {
+			managementUser.checkLogin(nick, password);
+			option = true;
+		} catch(LoginDoesntMatch eLog) {
+			System.out.println(eLog.getMessage());
+		}
 		
-		if (!option) {
-			System.out.println("\nNickname ou senha incorreto, tente novamente!\n");
-			}
 		} while(!option);
 	}
 	
@@ -133,19 +137,23 @@ public class Main {
 		case 1:
 			managementSimulator.dataRegister();
 			break;
-		case 2: //ERRO Cannot invoke "modeling_models.Users.setName(String)" because "userPEdit" is null
+		case 2:
 			String id, option1 = null, newName = null;
 			managementSimulator.list();
 			
-			System.out.println("Insita o ID do usu√°rio que deseja alterar: ");
+			System.out.println("Insira o ID do usu·rio que deseja alterar: ");
 			id = input.next();
 			System.out.println("Deseja alterar nome, nickname, senha ou cargo? ");
 			option1 = input.next();
 			System.out.println("Insira o atributo novo: ");
 			newName = input.next();
 			
-			managementSimulator.edit(id, option1, newName); //TESTAR SE O NOVO LOGIN … IGUAL A ALGUM J¡ CADASTRADO
-			System.out.println("Atributo do Usuario alterado com sucesso.");
+			try {
+			managementSimulator.edit(id, option1, newName);
+			System.out.println("Atributo alterado com sucesso.");
+			} catch(ExistentNicknameException eNick) {
+				System.out.println(eNick.getMessage());
+			}
 			break;
 		case 3: //ERRO n√£o apagou
 			managementSimulator.list();

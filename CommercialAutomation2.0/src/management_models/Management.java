@@ -42,7 +42,7 @@ private ArrayList<Entities> listManagement = new ArrayList<>();
 		return null;
 	}
 	
-	public abstract void edit(String idEntities, String changedValue, Object newValue);
+	//public abstract void edit(String idEntities, String changedValue, Object newValue);
 
 	public ArrayList<Entities> getList(){
 		return listManagement;
