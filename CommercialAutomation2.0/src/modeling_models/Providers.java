@@ -10,6 +10,7 @@ public class Providers extends Entities {
 		this.name = name;
 		this.cnpj = cnpj;
 		this.address = address;
+		generatorCode("P");
 	}
 
 	public String getName() {

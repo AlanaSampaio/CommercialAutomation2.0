@@ -26,12 +26,12 @@ public class Main {
 		Scanner input = new Scanner(System.in);
 		int n = 0;
 		while (n == 0) {
-			System.out.println("AUTOMAÇÃO COMERCIAL \n1 - Logar no sistema \n2 - Sair do sistema");
+			System.out.println("AUTOMAï¿½ï¿½O COMERCIAL \n1 - Logar no sistema \n2 - Sair do sistema");
 			int answer = input.nextInt();
 			
 			if (answer == 1) {
 				if (managementUser.checkSizeList() == false) {
-					System.out.println("Sistema não possui nenhum registro, faça o primeiro cadastro no sistema!");
+					System.out.println("Sistema nï¿½o possui nenhum registro, faï¿½a o primeiro cadastro no sistema!");
 					managementUser.getDataRegister();
 				}
 				login();
@@ -40,7 +40,7 @@ public class Main {
 				System.out.println("SISTEMA ENCERRADO");
 				break;
 			} else {
-				System.out.println("Opção inválida.");
+				System.out.println("Opï¿½ï¿½o invï¿½lida.");
 			}
 		}
 	}
