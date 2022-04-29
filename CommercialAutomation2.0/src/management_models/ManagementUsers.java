@@ -1,34 +1,11 @@
 package management_models;
 
-import java.util.Scanner;
-
 import exceptions.*;
 import modeling_models.Users;
 
 public class ManagementUsers extends Management{
 	
-	public void dataRegister() {
-		// Método para receber os dados do usuário e fazer o cadastro a partir deles.
-		String nick, password, name, category;
-		Scanner input = new Scanner(System.in);
-		System.out.println("Insira o nickname a ser registrado: ");
-		nick = input.next();
-		System.out.println("Insira a senha a ser registrado: ");
-		password = input.next();
-		System.out.println("Insira o seu nome: ");
-		name = input.next();
-		System.out.println("Insira o seu cargo: ");
-		category = input.next();
-		System.out.println("\n");
-		
-		try {
-		this.register(nick, password, name, category);
-		System.out.println("Usuário cadastrado com sucesso!");
-		} catch(ExistentNicknameException eNick) {
-			System.out.println(eNick.getMessage());
-		}
-	}
-	
+	private String idUserOn;
 	
 	public void register(String nick, String password, String name, String category) throws ExistentNicknameException {
 		Users userRegister = (Users) this.searchEntitiesNick(nick);
@@ -97,7 +74,24 @@ public class ManagementUsers extends Management{
 							   "Nome: " + prov.getName()+ "\n" + 
 							   "Cargo: " + prov.getCategory()+ "\n" +
 							   "NickName: " + prov.getNickname());
+			System.out.println("\n");
 		});
+	}
+
+
+	/**
+	 * @return the idUserOn
+	 */
+	public String getIdUserOn() {
+		return idUserOn;
+	}
+
+
+	/**
+	 * @param idUserOn the idUserOn to set
+	 */
+	public void setIdUserOn(String idUserOn) {
+		this.idUserOn = idUserOn;
 	}
 }
 

@@ -4,6 +4,7 @@
 package modeling_models;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 
 /**
  * Classe dos produtos do estabelecimento. Se relaciona com a classe Fornecedores, por um 
@@ -44,7 +45,17 @@ public class Products extends Entities{
 		this.provider = provider;
 		generatorCode("P");
 	}
-
+	
+	public HashMap<String, String> getAttributes() {
+		HashMap<String, String> attributes = new HashMap<String, String>();
+		attributes.put("id", this.getId());
+		attributes.put("nome", this.getName());
+		attributes.put("preço", String.valueOf(this.getPrice()));
+		attributes.put("validade", this.getValidity());
+		attributes.put("fornecedor", String.valueOf(this.getProvider()));
+		return attributes;
+	}
+	
 	/**
 	 * @return o nome
 	 */

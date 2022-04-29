@@ -15,6 +15,17 @@ public class Providers extends Entities {
 		this.address = address;
 		generatorCode("F");
 	}
+	
+	public void listProdProvided() {
+		this.getProductsProvided().forEach(product -> {
+			System.out.println("ID: " + product.getId() + "\n" + 
+							   "Nome: " + product.getName()+ "\n" + 
+							   "Preço: " + product.getPrice()+ "\n" +
+							   "Validade: " + product.getValidity());
+			System.out.println("\n");
+		});
+		
+	}
 
 	public String getName() {
 		return name;

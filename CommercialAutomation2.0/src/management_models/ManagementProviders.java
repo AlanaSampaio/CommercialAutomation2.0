@@ -1,26 +1,9 @@
 package management_models;
 
-import java.util.Scanner;
 
 import modeling_models.Providers;
 
 public class ManagementProviders extends Management {
-	
-	public void dataRegister() {
-		// Método para receber os dados do usuário e fazer o cadastro a partir deles.
-		String name, cnpj, address;
-		try (Scanner input = new Scanner(System.in)) {
-			System.out.println("CADASTRO DO FORNECEDOR");
-			System.out.println("Insira o nome: ");
-			name = input.next();
-			System.out.println("Insira o cnpj: ");
-			cnpj = input.next();
-			System.out.println("Insira o endereço: ");
-			address = input.next();
-		}
-		
-		this.register(name, cnpj, address);
-	}
 	
 	public void register(String name, String cnpj, String address) {
 		Providers newProvider = new Providers(name, cnpj, address);
@@ -30,7 +13,6 @@ public class ManagementProviders extends Management {
 	/**
 	 * Método herdado de Gerenciamentos para editar um fornecedor.
 	 */
-	@Override
 	public void edit(String idPEdit, String changedValue, Object newValue) {
 		Providers providerPEdit = (Providers) this.searchEntities(idPEdit);
 		switch(changedValue) {
@@ -54,6 +36,7 @@ public class ManagementProviders extends Management {
 							   "Nome: " + prov.getName()+ "\n" + 
 							   "CNPJ: " + prov.getCnpj()+ "\n" +
 							   "Endereço: " + prov.getAddress());
+			System.out.println("\n");
 		});
 	}
 	
