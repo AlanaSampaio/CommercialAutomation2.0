@@ -37,9 +37,7 @@ public class Main {
 		int answer = 1;
 		while (answer != 2) {
 			System.out.println("AUTOMAÇÃO COMERCIAL \n1 - Logar no sistema \n2 - Sair do sistema");
-			//answer = input.nextInt();
-			
-			answer = 1;
+			answer = input.nextInt();
 			
 			if (answer == 1) {
 				if (managementUser.checkSizeList() == false) {
@@ -128,11 +126,9 @@ public class Main {
 		do {
 		System.out.println("LOGIN");
 		System.out.println("Insira seu nickname: ");
-		//nick = input.nextLine();
-		nick = "login";
+		nick = input.nextLine();
 		System.out.println("Insira sua senha: ");
-		//password = input.nextLine();
-		password = "senha";
+		password = input.nextLine();
 		
 		try {
 			managementUser.checkLogin(nick, password);
@@ -155,20 +151,16 @@ public class Main {
 			int choice;
 			
 			System.out.println("Insira o nickname a ser registrado: ");
-			//nick = inputUsers.next();
-			nick = "login";
+			nick = inputUsers.next();
 			System.out.println("Insira a senha a ser registrado: ");
-			//password = inputUsers.next();
-			password = "senha";
+			password = inputUsers.next();
 			System.out.println("Insira o seu nome: ");
-			//name = inputUsers.next();
-			name = "nome";
+			name = inputUsers.next();
 		
 			System.out.println("Qual o cargo do usuário?");
 			System.out.println("1 - P/ Gerente\n"
 							 + "2 - P/ Funcionário\n");
-			//choice = inputUsers.nextInt();
-			choice = 1;
+			choice = inputUsers.nextInt();
 			while (choice != 1 && choice != 2) {
 				System.out.println("Resposta inválida. Tente novamente:");
 				System.out.println("1 - P/ Gerente\n"
