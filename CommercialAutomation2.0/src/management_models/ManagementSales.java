@@ -40,6 +40,7 @@ public class ManagementSales extends Management {
 		}
 	}
 
+
 	@Override
 	public void list() {
 		// TODO Auto-generated method stub

@@ -1,3 +1,4 @@
+
 /**
  * 
  */
@@ -18,12 +19,12 @@ public class Products extends Entities{
 	 */
 	private String name;
 	/**
-	 * Preço do produto.
+	 * Preï¿½o do produto.
 	 */
 	private BigDecimal price;
 	/**
 	 * Validade do produto. 
-	 * Por não haver manipulação da data, ela é armazenada em String
+	 * Por nï¿½o haver manipulaï¿½ï¿½o da data, ela ï¿½ armazenada em String
 	 */
 	private LocalDate validity;
 	
@@ -35,9 +36,9 @@ public class Products extends Entities{
 	private BigDecimal quantity;
 	
 	/**
-	 * Construtor do produto com a declaração de seus atributos
+	 * Construtor do produto com a declaraï¿½ï¿½o de seus atributos
 	 * @param name: Nome do produto.
-	 * @param price: Preço do produto.
+	 * @param price: Preï¿½o do produto.
 	 * @param validity: Validade do produto.
 	 * @param provider: Fornecedor do produto.
 	 */
@@ -54,7 +55,7 @@ public class Products extends Entities{
 		HashMap<String, String> attributes = new HashMap<String, String>();
 		attributes.put("id", this.getId());
 		attributes.put("nome", this.getName());
-		attributes.put("preço", String.valueOf(this.getPrice()));
+		attributes.put("preï¿½o", String.valueOf(this.getPrice()));
 		attributes.put("validade", String.valueOf(this.getValidity()));
 		attributes.put("fornecedor", String.valueOf(this.getProvider()));
 		return attributes;
@@ -67,26 +68,32 @@ public class Products extends Entities{
 		return name;
 	}
 
+
 	/**
 	 * @param nome: Novo nome
 	 */
+
 	public void setName(String name) {
 		this.name = name;
 	}
 
+
 	/**
-	 * @return o preço
+	 * @return o preï¿½o
 	 */
 	public BigDecimal getPrice() {
 		return price;
 	}
 
+
 	/**
-	 * @param price: Novo preço
+	 * @param price: Novo preï¿½o
 	 */
+
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
+
 
 	/**
 	 * @return a validade
@@ -105,9 +112,11 @@ public class Products extends Entities{
 	/**
 	 * @return o fornecedor
 	 */
+
 	public Providers getProvider() {
 		return provider;
 	}
+
 
 	/**
 	 * @param fornecedor: Novo fornecedor.
@@ -129,4 +138,5 @@ public class Products extends Entities{
 	public void setQuantity(BigDecimal quantity) {
 		this.quantity = quantity;
 	}
+
 }

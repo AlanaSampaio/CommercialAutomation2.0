@@ -1,21 +1,24 @@
 package management_models;
 
 import java.math.BigDecimal;
+
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
 import java.util.HashMap;
+
 
 import modeling_models.Items;
 import modeling_models.Products;
 
 public class ManagementMenu extends Management {
 
+
 	public String register(String name, String description, BigDecimal price, String category, HashMap<Products, BigDecimal> composition) {
 		Items newItem = new Items(name, description, price, category, composition);
 		this.register((Items) newItem);
 		return newItem.getId();
 	}
-	
+
 	public void edit(String idPEdit, String changedValue, Object newValue) {
 		Items itemPEdit = (Items) this.searchEntities(idPEdit);
 		switch(changedValue) {
@@ -26,6 +29,7 @@ public class ManagementMenu extends Management {
 			itemPEdit.setDescription((String) newValue);
 			break;
 		case "preco":
+
 			itemPEdit.setPrice((BigDecimal) newValue);
 			break;
 		case "categoria":
@@ -34,18 +38,21 @@ public class ManagementMenu extends Management {
 		}
 	}
 	
+
 	public void addProductsItems(String idPEdit, Products productPAdd, BigDecimal quantity) {
 		Items itemPEdit = (Items) this.searchEntities(idPEdit);
 		itemPEdit.addProduct(quantity, productPAdd);
 	}
 	
 	public void removeProductFromItem (String idPEdit, Products produtoPRemover) {
+
 		Items itemPEdit = (Items) this.searchEntities(idPEdit);
 		int size = itemPEdit.deleteProduct(produtoPRemover);
 		if (size == 0) {
 			this.delete(idPEdit);
 		}
 	}
+
 
 	@Override
 	public void list() {
@@ -55,8 +62,8 @@ public class ManagementMenu extends Management {
 		    		.withResolverStyle(ResolverStyle.STRICT);    
 			System.out.println("ID: " + item.getId() + "\n" + 
 							   "Nome: " + item.getName()+ "\n" + 
-							   "Preço: R$ " + item.getPrice()+ "\n" +
-							   "Descrição: " + item.getDescription()+ "\n" +
+							   "Preï¿½o: R$ " + item.getPrice()+ "\n" +
+							   "Descriï¿½ï¿½o: " + item.getDescription()+ "\n" +
 							   "Categoria: " + item.getCategoryItems()+ "\n" +
 							   "Composto de: \n");
 			

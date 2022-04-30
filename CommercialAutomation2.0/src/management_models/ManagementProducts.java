@@ -1,14 +1,17 @@
 package management_models;
 
 import java.math.BigDecimal;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
+
 
 import modeling_models.Products;
 import modeling_models.Providers;
 
 public class ManagementProducts extends Management {
+
 
 	public String register(String name, BigDecimal price, LocalDate validity, BigDecimal quantity, Providers provider) {
 		Products novoProduto = new Products (name, price, validity, quantity, provider);
@@ -23,6 +26,7 @@ public class ManagementProducts extends Management {
 				productPEdit.setName((String) newValue);
 				break;
 			case "preco":
+
 				productPEdit.setPrice((BigDecimal) newValue);
 				break;
 			case "validade":
@@ -30,6 +34,7 @@ public class ManagementProducts extends Management {
 				break;
 			case "quantidade":
 				productPEdit.setQuantity((BigDecimal) newValue);
+
 				break;
 			case "fornecedor":
 				productPEdit.setProvider((Providers) newValue);
@@ -37,6 +42,7 @@ public class ManagementProducts extends Management {
 		}
 		
 	}
+
 	
 	@Override
 	public void list() {
@@ -46,7 +52,7 @@ public class ManagementProducts extends Management {
 		    		.withResolverStyle(ResolverStyle.STRICT);    
 			System.out.println("ID: " + prod.getId() + "\n" + 
 							   "Nome: " + prod.getName()+ "\n" + 
-							   "Preço: R$ " + prod.getPrice()+ "\n" +
+							   "Preï¿½o: R$ " + prod.getPrice()+ "\n" +
 							   "Validade: " + prod.getValidity().format(dateTimeFormatter)+ "\n" +
 							   "Quantidade: " + prod.getQuantity()+ "unidades \n" +
 							   "Fornecedor: \n" + 

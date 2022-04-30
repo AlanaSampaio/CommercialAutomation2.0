@@ -2,6 +2,7 @@ package modeling_models;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+
 import java.util.HashMap;
 
 public class Items extends Entities {
@@ -10,10 +11,12 @@ public class Items extends Entities {
 	private BigDecimal price;
 	private String categoryItems;
 	
+
 	private HashMap<Products, BigDecimal> composition = new HashMap<Products, BigDecimal>();
 
 	public Items(String name, String description, BigDecimal price, String categoryItems,
 			HashMap<Products, BigDecimal> composition) {
+
 		super();
 		this.name = name;
 		this.description = description;
@@ -23,12 +26,14 @@ public class Items extends Entities {
 		generatorCode("I");
 	}
 	
+
 	public void addProduct(BigDecimal quantity, Products product) {
 		this.composition.put(product, quantity);
 	}
 	
 	public int deleteProduct(Products prod) {
 		this.composition.remove(prod);
+
 		return this.composition.size();
 	}
 
@@ -63,6 +68,7 @@ public class Items extends Entities {
 	public void setCategoryItems(String categoryItems) {
 		this.categoryItems = categoryItems;
 	}
+
 
 	public HashMap<Products, BigDecimal> getComposition() {
 		return composition;
