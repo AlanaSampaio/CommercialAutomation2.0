@@ -7,20 +7,16 @@ public class ManagementUsers extends Management{
 	
 	private String idUserOn;
 	
-	public void register(String nick, String password, String name, String category) throws ExistentNicknameException {
+	public String register(String nick, String password, String name, String category) throws ExistentNicknameException {
 		Users userRegister = (Users) this.searchEntitiesNick(nick);
+		Users newUser = new Users(nick, password, name, category);
 		
-		if (this.checkSizeList() == false) {
-			Users newUser = new Users(nick, password, name, category);
-			this.register(newUser);	
-		} else {
-			if (userRegister == null) {
-				Users newUser = new Users(nick, password, name, category);
-				this.register(newUser);
-			} else if (userRegister != null) {
-				throw new ExistentNicknameException();
-			}
+		if (userRegister == null) {
+			this.register(newUser);
+		} else if (userRegister != null) {
+			throw new ExistentNicknameException();
 		}
+		return newUser.getId();
 	}
 	
 	

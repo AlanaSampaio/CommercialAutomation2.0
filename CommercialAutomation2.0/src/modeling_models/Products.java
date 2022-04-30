@@ -4,6 +4,7 @@
 package modeling_models;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.HashMap;
 
 /**
@@ -24,12 +25,14 @@ public class Products extends Entities{
 	 * Validade do produto. 
 	 * Por não haver manipulação da data, ela é armazenada em String
 	 */
-	private String validity;
+	private LocalDate validity;
 	
 	/**
-	 * Fornecedor do produto.
+	 * Atributos do fornecedor do produto.
 	 */
 	private Providers provider;
+	
+	private BigDecimal quantity;
 	
 	/**
 	 * Construtor do produto com a declaração de seus atributos
@@ -38,10 +41,11 @@ public class Products extends Entities{
 	 * @param validity: Validade do produto.
 	 * @param provider: Fornecedor do produto.
 	 */
-	public Products(String name, BigDecimal price, String validity, Providers provider){
+	public Products(String name, BigDecimal price, LocalDate validity, BigDecimal quantity, Providers provider){
 		this.name = name;
 		this.price = price;
 		this.validity = validity;
+		this.setQuantity(quantity);
 		this.provider = provider;
 		generatorCode("P");
 	}
@@ -51,7 +55,7 @@ public class Products extends Entities{
 		attributes.put("id", this.getId());
 		attributes.put("nome", this.getName());
 		attributes.put("preço", String.valueOf(this.getPrice()));
-		attributes.put("validade", this.getValidity());
+		attributes.put("validade", String.valueOf(this.getValidity()));
 		attributes.put("fornecedor", String.valueOf(this.getProvider()));
 		return attributes;
 	}
@@ -87,14 +91,14 @@ public class Products extends Entities{
 	/**
 	 * @return a validade
 	 */
-	public String getValidity() {
+	public LocalDate getValidity() {
 		return validity;
 	}
 
 	/**
 	 * @param validity: Nova validade
 	 */
-	public void setValidity(String validity) {
+	public void setValidity(LocalDate validity) {
 		this.validity = validity;
 	}
 
@@ -110,5 +114,19 @@ public class Products extends Entities{
 	 */
 	public void setProvider(Providers provider) {
 		this.provider = provider;
+	}
+
+	/**
+	 * @return the quantity
+	 */
+	public BigDecimal getQuantity() {
+		return quantity;
+	}
+
+	/**
+	 * @param quantity the quantity to set
+	 */
+	public void setQuantity(BigDecimal quantity) {
+		this.quantity = quantity;
 	}
 }

@@ -5,9 +5,10 @@ import modeling_models.Providers;
 
 public class ManagementProviders extends Management {
 	
-	public void register(String name, String cnpj, String address) {
+	public String register(String name, String cnpj, String address) {
 		Providers newProvider = new Providers(name, cnpj, address);
 		this.register(newProvider);
+		return newProvider.getId();
 	}
 
 	/**
@@ -36,6 +37,8 @@ public class ManagementProviders extends Management {
 							   "Nome: " + prov.getName()+ "\n" + 
 							   "CNPJ: " + prov.getCnpj()+ "\n" +
 							   "Endereço: " + prov.getAddress());
+			System.out.println("Produtos fornecidos:");
+			prov.listProdProvided();
 			System.out.println("\n");
 		});
 	}
