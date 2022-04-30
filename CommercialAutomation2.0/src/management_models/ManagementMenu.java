@@ -1,19 +1,24 @@
 package management_models;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+
+import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
+import java.util.HashMap;
+
 
 import modeling_models.Items;
 import modeling_models.Products;
 
 public class ManagementMenu extends Management {
 
-	public void register(String name, String description, String price, String category, ArrayList<Products> composition) {
-		Items newItem = new Items(name, description, new BigDecimal(price), category, composition);
+
+	public String register(String name, String description, BigDecimal price, String category, HashMap<Products, BigDecimal> composition) {
+		Items newItem = new Items(name, description, price, category, composition);
 		this.register((Items) newItem);
+		return newItem.getId();
 	}
-	
-	@Override
+
 	public void edit(String idPEdit, String changedValue, Object newValue) {
 		Items itemPEdit = (Items) this.searchEntities(idPEdit);
 		switch(changedValue) {
@@ -24,7 +29,8 @@ public class ManagementMenu extends Management {
 			itemPEdit.setDescription((String) newValue);
 			break;
 		case "preco":
-			itemPEdit.setPrice(new BigDecimal((String) newValue));
+
+			itemPEdit.setPrice((BigDecimal) newValue);
 			break;
 		case "categoria":
 			itemPEdit.setCategoryItems((String) newValue);
@@ -32,16 +38,45 @@ public class ManagementMenu extends Management {
 		}
 	}
 	
-	public void addProductsItems(String idPEdit, Products productPAdd) {
+
+	public void addProductsItems(String idPEdit, Products productPAdd, BigDecimal quantity) {
 		Items itemPEdit = (Items) this.searchEntities(idPEdit);
-		itemPEdit.addProduct(productPAdd);
+		itemPEdit.addProduct(quantity, productPAdd);
 	}
 	
-	public void removerProdutoDeItem (String idPEdit, Products produtoPRemover) {
+	public void removeProductFromItem (String idPEdit, Products produtoPRemover) {
+
 		Items itemPEdit = (Items) this.searchEntities(idPEdit);
 		int size = itemPEdit.deleteProduct(produtoPRemover);
 		if (size == 0) {
 			this.delete(idPEdit);
 		}
+	}
+
+
+	@Override
+	public void list() {
+		this.getList().forEach(element -> {
+			Items item = (Items) element;
+		    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
+		    		.withResolverStyle(ResolverStyle.STRICT);    
+			System.out.println("ID: " + item.getId() + "\n" + 
+							   "Nome: " + item.getName()+ "\n" + 
+							   "Pre�o: R$ " + item.getPrice()+ "\n" +
+							   "Descri��o: " + item.getDescription()+ "\n" +
+							   "Categoria: " + item.getCategoryItems()+ "\n" +
+							   "Composto de: \n");
+			
+			item.getComposition().forEach((prod, quantity) ->{
+				System.out.println(prod);
+				System.out.println(quantity);
+				if (prod != null) {
+				System.out.println("\tID: " + prod.getId() +
+								   "\n\tNome: " + prod.getName()+ 
+								   "\n\tQntd por item: " + quantity);
+				}
+			});
+			System.out.println("\n");
+		});
 	}
 }

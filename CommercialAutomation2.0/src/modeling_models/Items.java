@@ -3,16 +3,20 @@ package modeling_models;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import java.util.HashMap;
+
 public class Items extends Entities {
 	private String name;
 	private String description;
 	private BigDecimal price;
 	private String categoryItems;
 	
-	private ArrayList<Products> composition = new ArrayList<Products>();
+
+	private HashMap<Products, BigDecimal> composition = new HashMap<Products, BigDecimal>();
 
 	public Items(String name, String description, BigDecimal price, String categoryItems,
-			ArrayList<Products> composition) {
+			HashMap<Products, BigDecimal> composition) {
+
 		super();
 		this.name = name;
 		this.description = description;
@@ -22,14 +26,14 @@ public class Items extends Entities {
 		generatorCode("I");
 	}
 	
-	public void addProduct(Products product) {
-		this.composition.add(product);
+
+	public void addProduct(BigDecimal quantity, Products product) {
+		this.composition.put(product, quantity);
 	}
 	
 	public int deleteProduct(Products prod) {
-		if (this.composition.remove(prod) == false) {
-			System.out.println("Produto não está nessa composição");
-		}
+		this.composition.remove(prod);
+
 		return this.composition.size();
 	}
 
@@ -65,19 +69,12 @@ public class Items extends Entities {
 		this.categoryItems = categoryItems;
 	}
 
-	public ArrayList<Products> getComposition() {
+
+	public HashMap<Products, BigDecimal> getComposition() {
 		return composition;
 	}
 
-	public void setComposition(ArrayList<Products> composition) {
-		this.composition = composition;
-	}
-	
-	public ArrayList<Products> getComposition1() {
-		return composition;
-	}
-	
-	public void setComposicao(ArrayList<Products> composition) {
+	public void setComposition(HashMap<Products, BigDecimal> composition) {
 		this.composition = composition;
 	}
 }

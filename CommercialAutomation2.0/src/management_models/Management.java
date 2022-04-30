@@ -42,15 +42,17 @@ private ArrayList<Entities> listManagement = new ArrayList<>();
 		return null;
 	}
 	
-	public abstract void edit(String idEntities, String changedValue, Object newValue);
+	//public abstract void edit(String idEntities, String changedValue, Object newValue);
 
-	public ArrayList<Entities> list() {
+	public ArrayList<Entities> getList(){
 		return listManagement;
 	}
 	
 	public int sizeList() {
 		return listManagement.size();
 	}
+	
+	public abstract void list();
 	
 	public void delete(String idEntities) {
 		Entities element = searchEntities(idEntities);

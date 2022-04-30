@@ -12,7 +12,6 @@ public class ManagementSales extends Management {
 		this.register(newSales);
 	}
 
-	@Override
 	public void edit(String idPEdit, String changedValue, Object newValue) {
 		Sales salesPEdit = (Sales) this.searchEntities(idPEdit);
 		switch(changedValue) {
@@ -39,5 +38,12 @@ public class ManagementSales extends Management {
 		if (size == 0) {
 			this.delete(idPEditar);
 		}
+	}
+
+
+	@Override
+	public void list() {
+		// TODO Auto-generated method stub
+		
 	}
 }

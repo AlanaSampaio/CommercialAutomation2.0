@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import management_models.*;
-import modeling_models.*;
+//import modeling_models.*;
 
 public class Modeling {
 private static ArrayList<String> ids = new ArrayList<String>();
@@ -80,22 +80,20 @@ private static ArrayList<String> ids = new ArrayList<String>();
 		String id1;
 		switch(operation) {
 		case 1:
-			managementSimulator.register("carlinho", "abc123", "nome1", "funcionario");
+			//managementSimulator.register("carlinho", "abc123", "nome1", "funcionario"); //TRATAR O ERRO
 			System.out.println("Usuario cadastrado com sucesso.");
 			break;
 		case 2:
-			id1 = managementSimulator.list().get(0).getId();
-			managementSimulator.edit(id1, "nome", "nome2");
+			id1 = managementSimulator.getList().get(0).getId();
+			//managementSimulator.edit(id1, "nome", "nome2");
 			System.out.println("Atributo do Usuario alterado com sucesso.");
 			break;
 		case 3:
-			id1 = managementSimulator.list().get(0).getId();
+			id1 = managementSimulator.getList().get(0).getId();
 			managementSimulator.delete(id1);
 			break;
 		case 4:
-			managementSimulator.list().forEach(simulator -> System.out.println(((Users)simulator).getId() + "\n" + 
-																((Users)simulator).getName()+ "\n" + 
-																((Users)simulator).getCategory()));
+			managementSimulator.list();
 			break;
 		}
 	
