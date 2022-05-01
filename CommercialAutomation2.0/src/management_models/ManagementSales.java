@@ -1,5 +1,7 @@
 package management_models;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import modeling_models.Items;
@@ -7,19 +9,20 @@ import modeling_models.Sales;
 
 public class ManagementSales extends Management {
 
-	public void register(String day, String hour, ArrayList<Items> itemsPurchased, String paymentMethod) {
-		Sales newSales = new Sales(day, hour, paymentMethod, itemsPurchased);
-		this.register(newSales);
+	public String register(LocalDate day, LocalTime hour, ArrayList<Items> itemsPurchased, String paymentMethod) {
+		Sales newSale = new Sales(day, hour, paymentMethod, itemsPurchased);
+		this.register(newSale);
+		return newSale.getId();
 	}
 
 	public void edit(String idPEdit, String changedValue, Object newValue) {
 		Sales salesPEdit = (Sales) this.searchEntities(idPEdit);
 		switch(changedValue) {
 			case "dia":
-				salesPEdit.setDay((String) newValue);
+				salesPEdit.setDay((LocalDate) newValue);
 				break;
 			case "horario":
-				salesPEdit.setHour((String) newValue);
+				salesPEdit.setHour((LocalTime) newValue);
 				break;
 			case "modoDePagamento":
 				salesPEdit.setPaymentMethod((String) newValue);
@@ -43,7 +46,22 @@ public class ManagementSales extends Management {
 
 	@Override
 	public void list() {
-		// TODO Auto-generated method stub
+		this.getList().forEach(element -> {
+			Sales sale = (Sales) element; 
+			System.out.println("ID: " + sale.getId() + "\n" + 
+							   "Dia: " + sale.getDay()+ "\n" + 
+							   "Horario: " + sale.getHour()+ "\n" +
+							   "Preco total: R$" + sale.getPriceTotal() + "\n" +
+							   "Modo de Pagamento: " + sale.getPaymentMethod()+ "\n" +
+							   "Itens vendidos: \n");
+			
+			sale.getItemsPurchased().forEach(item ->{
+				System.out.println("\tID: " + item.getId() +
+								   "\n\tNome: " + item.getName() +
+								   "\n\tPreco: " + item.getPrice());
+			});
+			System.out.println("\n");
+		});
 		
 	}
 }

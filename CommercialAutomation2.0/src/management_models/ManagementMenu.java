@@ -2,8 +2,6 @@ package management_models;
 
 import java.math.BigDecimal;
 
-import java.time.format.DateTimeFormatter;
-import java.time.format.ResolverStyle;
 import java.util.HashMap;
 
 
@@ -57,19 +55,15 @@ public class ManagementMenu extends Management {
 	@Override
 	public void list() {
 		this.getList().forEach(element -> {
-			Items item = (Items) element;
-		    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
-		    		.withResolverStyle(ResolverStyle.STRICT);    
+			Items item = (Items) element; 
 			System.out.println("ID: " + item.getId() + "\n" + 
 							   "Nome: " + item.getName()+ "\n" + 
-							   "Pre�o: R$ " + item.getPrice()+ "\n" +
-							   "Descri��o: " + item.getDescription()+ "\n" +
+							   "Preco: R$ " + item.getPrice()+ "\n" +
+							   "Descricao: " + item.getDescription()+ "\n" +
 							   "Categoria: " + item.getCategoryItems()+ "\n" +
 							   "Composto de: \n");
 			
 			item.getComposition().forEach((prod, quantity) ->{
-				System.out.println(prod);
-				System.out.println(quantity);
 				if (prod != null) {
 				System.out.println("\tID: " + prod.getId() +
 								   "\n\tNome: " + prod.getName()+ 

@@ -1,23 +1,25 @@
 package modeling_models;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Sales extends Entities {
-	private String day;
-	private String hour;
+	private LocalDate day;
+	private LocalTime hour;
 	private ArrayList<Items> itemsPurchased;
 	private BigDecimal priceTotal;
 	private String paymentMethod;
 	
-	public Sales(String day, String hour, String paymentMethod, ArrayList<Items> itemsPurchased) {
+	public Sales(LocalDate day, LocalTime hour, String paymentMethod, ArrayList<Items> itemsPurchased) {
 		super();
 		this.day = day;
 		this.hour = hour;
 		this.itemsPurchased = itemsPurchased;
 		this.paymentMethod = paymentMethod;
 		addPrice();
-		generatorCode("S");
+		generatorCode("V");
 	}
 
 	public void addPrice() {
@@ -38,19 +40,19 @@ public class Sales extends Entities {
 		return this.itemsPurchased.size();
 	}
 
-	public String getDay() {
+	public LocalDate getDay() {
 		return day;
 	}
 
-	public void setDay(String day) {
+	public void setDay(LocalDate day) {
 		this.day = day;
 	}
 
-	public String getHour() {
+	public LocalTime getHour() {
 		return hour;
 	}
 
-	public void setHour(String hour) {
+	public void setHour(LocalTime hour) {
 		this.hour = hour;
 	}
 
