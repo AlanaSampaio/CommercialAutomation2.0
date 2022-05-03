@@ -33,7 +33,7 @@ public class Products extends Entities{
 	 */
 	private Providers provider;
 	
-	private BigDecimal quantity;
+	private int quantity;
 	
 	/**
 	 * Construtor do produto com a declara��o de seus atributos
@@ -42,7 +42,7 @@ public class Products extends Entities{
 	 * @param validity: Validade do produto.
 	 * @param provider: Fornecedor do produto.
 	 */
-	public Products(String name, BigDecimal price, LocalDate validity, BigDecimal quantity, Providers provider){
+	public Products(String name, BigDecimal price, LocalDate validity,int quantity, Providers provider){
 		this.name = name;
 		this.price = price;
 		this.validity = validity;
@@ -128,14 +128,14 @@ public class Products extends Entities{
 	/**
 	 * @return the quantity
 	 */
-	public BigDecimal getQuantity() {
+	public int getQuantity() {
 		return quantity;
 	}
 
 	/**
 	 * @param quantity the quantity to set
 	 */
-	public void setQuantity(BigDecimal quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 

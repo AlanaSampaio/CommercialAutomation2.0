@@ -12,6 +12,7 @@ import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import management_models.*;
@@ -39,13 +40,15 @@ public class Main {
 
 		int answer = 1;
 		while (answer != 2) {
-			System.out.println("AUTOMA��O COMERCIAL \n1 - Logar no sistema \n2 - Sair do sistema");
-			answer = input.nextInt();
-			input.nextLine();
+			System.out.println("AUTOMACAO COMERCIAL \n1 - Logar no sistema \n2 - Sair do sistema");
+			//answer = input.nextInt();
+			//input.nextLine();
+			
+			answer = 1;
 			
 			if (answer == 1) {
 				if (managementUser.checkSizeList() == false) {
-					System.out.println("Sistema n�o possui nenhum registro, fa�a o primeiro cadastro no sistema!");
+					System.out.println("Sistema nao possui nenhum registro, faca o primeiro cadastro no sistema!");
 					datasUsers(1, managementUser, input);
 
 				}
@@ -55,7 +58,7 @@ public class Main {
 				System.out.println("SISTEMA ENCERRADO");
 				answer = 2;
 			} else {
-				System.out.println("Op��o inv�lida.");
+				System.out.println("Opcao invalida.");
 			}
 		}
 		input.close();
@@ -80,7 +83,7 @@ public class Main {
 			
 			if (option >= 1 && option <= 4) {
 				System.out.println("O que voce deseja " + options[option - 1] + "?");
-				//Mostrar entidades que s�o alter�veis
+				//Mostrar entidades que sao alteraveis
 				for (int i = 0; i < entities.length; i++) {
 					System.out.println((i + 1) + " - P/ " + entities[i]);
 			}
@@ -92,7 +95,7 @@ public class Main {
 				
 				switch (nEntities) {
 					case 1:
-						//Usu�rios
+						//Usuarios
 						datasUsers(option, managementUser, inputOpt);
 						break;
 					case 2:
@@ -133,10 +136,13 @@ public class Main {
 		do {
 		System.out.println("LOGIN");
 		System.out.println("Insira seu nickname: ");
-		nick = input.nextLine();
-		System.out.println("Insira sua senha: ");
-		password = input.nextLine();
+		//nick = input.nextLine();
 		
+		nick = "login";
+		System.out.println("Insira sua senha: ");
+		//password = input.nextLine();
+		
+		password = "senha";
 		try {
 			managementUser.checkLogin(nick, password);
 			String idUser = managementUser.searchEntitiesNick(nick).getId();
@@ -153,22 +159,29 @@ public class Main {
 		
 		switch(operation) {
 		case 1:
-			// Recebe os dados do usu�rio e faz o cadastro a partir deles.
+			// Recebe os dados do usuario e faz o cadastro a partir deles.
 			String nick, password, name, category;
 			int choice;
 			
 			System.out.println("Insira o nickname a ser registrado: ");
-			nick = inputUsers.nextLine();
+			//nick = inputUsers.nextLine();
+			
+			nick = "login";
 			System.out.println("Insira a senha a ser registrado: ");
-			password = inputUsers.nextLine();
+			//password = inputUsers.nextLine();
+			
+			password = "senha";
 			System.out.println("Insira o seu nome: ");
-			name = inputUsers.nextLine();
+			//name = inputUsers.nextLine();
+			name = "nome";
 		
 			System.out.println("Qual o cargo do usu�rio?");
 			System.out.println("1 - P/ Gerente\n"
 							 + "2 - P/ Funcion�rio\n");
-			choice = inputUsers.nextInt();
-			inputUsers.nextLine();
+			//choice = inputUsers.nextInt();
+			//inputUsers.nextLine();
+			
+			choice = 1;
 			while (choice != 1 && choice != 2) {
 				System.out.println("Resposta inv�lida. Tente novamente:");
 				System.out.println("1 - P/ Gerente\n"
@@ -293,15 +306,18 @@ public class Main {
 			case 1:
 				
 				System.out.println("Insira o nome a ser registrado: ");
-				name = inputProv.nextLine();
+				//name = inputProv.nextLine();
+				name = "forn";
 				System.out.println("Insira o CNPJ a ser registrada: ");
-				cnpj = inputProv.nextLine();
-				System.out.println("Insira o endere�o a ser registrado: ");
-				address = inputProv.nextLine();
+				//cnpj = inputProv.nextLine();
+				cnpj = "cnpj";
+				System.out.println("Insira o endereco a ser registrado: ");
+				address = "endereco";
+				//address = inputProv.nextLine();
 				
 				managProv.register(name, cnpj, address);
 				System.out.println("Fornecedor cadastrado com sucesso.");
-				System.out.println("AVISO: � necess�rio cadastrar os produtos fornecidos por esse fornecedor!!");
+				System.out.println("AVISO: E necessario cadastrar os produtos fornecidos por esse fornecedor!!");
 				break;
 			case 2:
 				managProv.list();
@@ -359,9 +375,10 @@ public class Main {
 	}
 	
 	public static void datasProducts(int operation, ManagementProducts managProd, Scanner inputProd) {
-		String name, price, quantity, date, option2, id;
+		String name, price, date, option2, id;
 		LocalDate validity;
-		BigDecimal priceDecimal, quantityDecimal;
+		BigDecimal priceDecimal;
+		int quantity;
 		int option1;
 		
 		if (operation != 1 && managProd.getList().size() == 0) {
@@ -380,8 +397,8 @@ public class Main {
 					priceDecimal = new BigDecimal(price);
 					
 					System.out.println("Insira a quantidade de produtos comprados: ");
-					quantity = inputProd.nextLine();
-					quantityDecimal = new BigDecimal(quantity);
+					quantity = inputProd.nextInt();
+					inputProd.nextLine();
 					
 					System.out.println("Insira a validade do produto: ");
 					date = inputProd.nextLine();
@@ -402,14 +419,16 @@ public class Main {
 					};
 					
 					Providers prodProv = (Providers) managementProvider.searchEntities(idForn);
-					String idNewProd = managProd.register(name, priceDecimal, validity, quantityDecimal, prodProv);
+					String idNewProd = managProd.register(name, priceDecimal, validity, quantity, prodProv);
 					prodProv.addProduct((Products) managProd.searchEntities(idNewProd));
 					System.out.println("Produto cadastrado com sucesso.");
 
 				} catch(NumberFormatException eNum) {
-					System.out.println("Pre�o em formato inv�lido! Tente novamente.");
+					System.out.println("Preco em formato invalido! Tente novamente.");
 				} catch(DateTimeParseException eDate) {
-					System.out.println("Data inv�lida! Tente novamente.");
+					System.out.println("Data invalida! Tente novamente.");
+				} catch(InputMismatchException eQnt) {
+					System.out.println("Quantidade invalida! Tente novamente.");
 				}
 				
 				break;
@@ -465,8 +484,7 @@ public class Main {
 							break;
 						case "quantidade":
 							System.out.println("Insira a nova quantidade de produtos: ");
-							quantity = inputProd.nextLine();
-							newDataProd = new BigDecimal(quantity);
+							newDataProd = inputProd.nextInt();
 							break;
 						case "fornecedor":
 							System.out.println("Lista dos fornecedores cadastrados: ");
@@ -487,9 +505,11 @@ public class Main {
 						System.out.println("Atributo do produto alterado com sucesso.");
 						break;
 					}catch(NumberFormatException eNum) {
-					System.out.println("Formato inv�lido! Tente novamente.");
+					System.out.println("Formato invalido! Tente novamente.");
 					} catch(DateTimeParseException eDate) {
-					System.out.println("Data inv�lida! Tente novamente.");
+					System.out.println("Data invalida! Tente novamente.");
+					} catch(InputMismatchException eQnt) {
+						System.out.println("Quantidade invalida! Tente novamente.");
 					}
 
 			case 3:
@@ -499,7 +519,7 @@ public class Main {
 				id = inputProd.next();
 				
 				if (!idExist(id) || (id.charAt(0) != 'P')) {
-					System.out.println("ID n�o econtrado! Tente novamente");
+					System.out.println("ID nao econtrado! Tente novamente");
 				};
 				String idForn = ((Products) managProd.searchEntities(id)).getProvider().getId();
 				Providers prov = (Providers) managementProvider.searchEntities(idForn);
@@ -553,7 +573,7 @@ public class Main {
 						
 						do {
 							if (!idExist(idProd) || (idProd.charAt(0) != 'P')) {
-								System.out.println("ID n�o econtrado! Tente novamente");
+								System.out.println("ID nao econtrado! Tente novamente");
 							} else{
 								System.out.println("Insira a quantidade desse produto usada na preparacao do item (Em unidades): ");
 								quantity = inputItem.nextLine();

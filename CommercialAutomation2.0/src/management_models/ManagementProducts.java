@@ -5,18 +5,21 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
-import modeling_models.Products;
-import modeling_models.Providers;
+import modeling_models.*;
 
 public class ManagementProducts extends Management {
-
-
-	public String register(String name, BigDecimal price, LocalDate validity, BigDecimal quantity, Providers provider) {
-		Products novoProduto = new Products (name, price, validity, quantity, provider);
-		this.register(novoProduto);
-		return novoProduto.getId();
+	private HashMap<String, ArrayList<Products>> stock = new HashMap<String, ArrayList<Products>>();
+	private int totalQuantity;
+	
+	public String register(String name, BigDecimal price, LocalDate validity, int quantity, Providers provider) {
+		Products newProduct = new Products (name, price, validity, quantity, provider);
+		this.register(newProduct);
+		addProductStock(newProduct);
+		return newProduct.getId();
 	}
 
 	public void edit(String idPEdit, String changedValue, Object newValue) {
@@ -33,7 +36,7 @@ public class ManagementProducts extends Management {
 				productPEdit.setValidity((LocalDate) newValue);
 				break;
 			case "quantidade":
-				productPEdit.setQuantity((BigDecimal) newValue);
+				productPEdit.setQuantity((int) newValue);
 
 				break;
 			case "fornecedor":
@@ -52,7 +55,7 @@ public class ManagementProducts extends Management {
 		    		.withResolverStyle(ResolverStyle.STRICT);    
 			System.out.println("ID: " + prod.getId() + "\n" + 
 							   "Nome: " + prod.getName()+ "\n" + 
-							   "Pre�o: R$ " + prod.getPrice()+ "\n" +
+							   "Preco: R$ " + prod.getPrice()+ "\n" +
 							   "Validade: " + prod.getValidity().format(dateTimeFormatter)+ "\n" +
 							   "Quantidade: " + prod.getQuantity()+ "unidades \n" +
 							   "Fornecedor: \n" + 
@@ -60,5 +63,51 @@ public class ManagementProducts extends Management {
 							   "\tNome: "+ prod.getProvider().getName());
 			System.out.println("\n");
 		});
+	}
+	
+	public void addProductStock(Products newProd) {
+		boolean nameExist = this.stock.containsKey(newProd.getName());
+		if (nameExist) {
+			this.stock.get(newProd.getName()).add(newProd);
+		} else {
+			this.stock.put(newProd.getName(), new ArrayList<Products>());
+			this.stock.get(newProd.getName()).add(newProd);
+		}
+		
+	}
+	
+	public void removeProductStock(Products newProd){
+		boolean nameExist = this.stock.containsKey(newProd.getName());
+		if (nameExist) {
+			this.stock.get(newProd.getName()).remove(newProd);
+		}
+	}
+	
+	public void itemSold(Items item) {
+		HashMap<Products, BigDecimal> prodsItem = item.getComposition();
+		prodsItem.forEach((prod, quant) -> {
+			this.stock.get(prod.getName()).forEach(prods ->{
+			});
+		});
+	}
+	
+	public int prodQuantity(String prodName) {
+		this.totalQuantity = 0;
+		ArrayList<Products> prods = this.getStock().get(prodName);
+		prods.forEach(prod -> {
+			this.totalQuantity += prod.getQuantity();
+		});
+		return this.totalQuantity;
+	}
+	
+	
+	public HashMap<String, ArrayList<Products>> getStock() {
+		return stock;
+	}
+	
+	@Override
+	public void delete(String idEntities) {
+		this.removeProductStock((Products) this.searchEntities(idEntities));
+		this.delete(idEntities);
 	}
 }
