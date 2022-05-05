@@ -1,11 +1,15 @@
 package management_models;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+import modeling_models.Entities;
 import modeling_models.Items;
 import modeling_models.Sales;
+import modeling_models.Users;
 
 public class ManagementSales extends Management {
 
@@ -43,6 +47,27 @@ public class ManagementSales extends Management {
 		}
 	}
 
+	public float salesMade(ArrayList list) {
+		float priceTotal = 0;
+		BigDecimal priceTotalSales = new BigDecimal("0");
+		if (this.getList().size() == 0 ) {
+			System.out.println("Nenhuma venda registrada");
+		} else { 
+			ArrayList<Sales> listSales = list;
+		    for (Sales i : listSales) {
+				priceTotalSales = priceTotalSales.add(i.getPriceTotal());
+				
+			}
+			
+			priceTotal = priceTotalSales.setScale(2, RoundingMode.DOWN).floatValue();
+			
+			/*this.getList().forEach(sale -> {
+				Sales sales = (Sales) sale;
+			priceTotalSales = priceTotalSales.add(sales.getPriceTotal());
+		});*/
+		}
+		return priceTotal;
+	}
 
 	@Override
 	public void list() {
@@ -55,7 +80,7 @@ public class ManagementSales extends Management {
 							   "Modo de Pagamento: " + sale.getPaymentMethod()+ "\n" +
 							   "Itens vendidos: \n");
 			
-			sale.getItemsPurchased().forEach(item ->{
+			sale.getItemsPurchased().forEach(item -> {
 				System.out.println("\tID: " + item.getId() +
 								   "\n\tNome: " + item.getName() +
 								   "\n\tPreco: " + item.getPrice());

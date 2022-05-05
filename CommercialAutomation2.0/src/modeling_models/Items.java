@@ -1,7 +1,7 @@
 package modeling_models;
 
 import java.math.BigDecimal;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Items extends Entities {
@@ -24,7 +24,6 @@ public class Items extends Entities {
 		this.composition = composition;
 		generatorCode("I");
 	}
-	
 
 	public void addProduct(BigDecimal quantity, Products product) {
 		this.composition.put(product, quantity);

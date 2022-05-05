@@ -29,6 +29,13 @@ public class Sales extends Entities {
 		}
 	}
 	
+	/*public BigDecimal salesMade(ArrayList<Entities> list) {
+		this.priceTotal = new BigDecimal("0");
+		list.forEach(item -> priceTotal = priceTotal.add(this.getPriceTotal()));
+		return priceTotal;
+	}*/
+	
+	
 	public void addItem(Items item) {
 		this.itemsPurchased.add(item);
 		addPrice();

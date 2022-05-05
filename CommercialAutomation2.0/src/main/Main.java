@@ -18,9 +18,13 @@ import java.util.Scanner;
 import management_models.*;
 import modeling_models.*;
 
+import com.itextpdf.text.Chapter;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Section;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import exceptions.*;
@@ -119,7 +123,9 @@ public class Main {
 			System.out.println("\n");
 			} else if (option == 5) {
 				System.out.println("\nGerando relatorio\n");
-				generatePDF();
+				System.out.println("Vendas totais" + managementSales.salesMade(managementSales.getList()));
+				generatePDF(managementSales.getList());
+				
 			} else if (option != 6) {
 				System.out.println("Opcao invalida. Tente de novo.");
 			}
@@ -127,7 +133,8 @@ public class Main {
 		} while (option != 6);
 		System.out.println("Deslogando do sistema.");
 		}
-	
+
+
 	//SETTADO PRA TESTES
 	public static void login(Scanner input) {
 		String nick, password;
@@ -389,19 +396,23 @@ public class Main {
 			case 1:
 				
 				System.out.println("Insira o nome do produto: ");
-				name = inputProd.nextLine();
+				//name = inputProd.nextLine();
+				name = "batata";
 				
 				try {
 					System.out.println("Insira o preco do produto (Use '.' no lugar de ','): ");
-					price = inputProd.nextLine();
+					//price = inputProd.nextLine();
+					price = "15.10";
 					priceDecimal = new BigDecimal(price);
 					
 					System.out.println("Insira a quantidade de produtos comprados: ");
-					quantity = inputProd.nextInt();
+					//quantity = inputProd.nextInt();
 					inputProd.nextLine();
+					quantity = 15;
 					
 					System.out.println("Insira a validade do produto: ");
-					date = inputProd.nextLine();
+					//date = inputProd.nextLine();
+					date = "03/06/2022";
 				    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
 				    		.withResolverStyle(ResolverStyle.STRICT);
 				    
@@ -411,14 +422,14 @@ public class Main {
 					managementProvider.list();
 					
 					System.out.println("Digite o id do fornecedor desse produto: ");
-					String idForn = inputProd.next();
+					String idProv = inputProd.next();
 		
-					if (!idExist(idForn) || (idForn.charAt(0) != 'F')) {
+					if (!idExist(idProv) || (idProv.charAt(0) != 'F')) {
 						System.out.println("ID nï¿½o econtrado! Tente novamente");
 						break;
 					};
 					
-					Providers prodProv = (Providers) managementProvider.searchEntities(idForn);
+					Providers prodProv = (Providers) managementProvider.searchEntities(idProv);
 					String idNewProd = managProd.register(name, priceDecimal, validity, quantity, prodProv);
 					prodProv.addProduct((Products) managProd.searchEntities(idNewProd));
 					System.out.println("Produto cadastrado com sucesso.");
@@ -547,17 +558,18 @@ public class Main {
 				case 1:
 					
 					System.out.println("Insira o nome do item: ");
-					name = inputItem.nextLine();
-					
+					//name = inputItem.nextLine();
+					name = "batata";
 					System.out.println("Insira a descricao do item: ");
-					description = inputItem.nextLine();
-					
+					//description = inputItem.nextLine();
+					description = "batatinha";
 					System.out.println("Insira a categoria do item: ");
-					category = inputItem.nextLine();
-					
+					//category = inputItem.nextLine();
+					category = "acompanhamento";
 					try {
 						System.out.println("Insira o preco do item (Use '.' no lugar de ','): ");
-						price = inputItem.nextLine();
+						//price = inputItem.nextLine();
+						price = "20.15";
 						priceDecimal = new BigDecimal(price);
 						
 						String idNewItem = managMenu.register(name, description, priceDecimal, category, new HashMap<Products, BigDecimal>());
@@ -776,7 +788,7 @@ public class Main {
 			switch(operation) {
 				case 1:
 					
-					System.out.println("Insira o método de pagamento da venda: ");
+					System.out.println("Insira o mï¿½todo de pagamento da venda: ");
 					paymentMethod = inputSale.nextLine();
 					
 					try {
@@ -811,7 +823,7 @@ public class Main {
 						} while(!(idItem.equals("0")));
 						
 						if (newSale.getItemsPurchased().size() == 0) {
-							System.out.println("Vendas não podem estar vazios! Tente novamente!");
+							System.out.println("Vendas nï¿½o podem estar vazios! Tente novamente!");
 							managSales.delete(idNewSale);
 							break;
 						}
@@ -819,9 +831,9 @@ public class Main {
 						System.out.println("Venda cadastrado com sucesso.");
 	
 					} catch(NumberFormatException eNum) {
-						System.out.println("Formato inválido! Tente novamente.");
+						System.out.println("Formato invï¿½lido! Tente novamente.");
 					} catch(DateTimeParseException eDate) {
-						System.out.println("Formato inválido! Tente novamente.");
+						System.out.println("Formato invï¿½lido! Tente novamente.");
 					}
 					break;
 					
@@ -874,14 +886,14 @@ public class Main {
 								timeStr = inputSale.nextLine();
 								newDataSale = LocalTime.parse(timeStr, timeFormatter);
 								managSales.edit(id, option2, newDataSale);
-								System.out.println("Horário da venda alterado com sucesso.");
+								System.out.println("Horï¿½rio da venda alterado com sucesso.");
 								break;
 								
 							case "modoDePagamento":
-								System.out.println("Digite o novo método de pagamento desta venda:");
+								System.out.println("Digite o novo mï¿½todo de pagamento desta venda:");
 								newDataSale = inputSale.nextLine();
 								managSales.edit(id, option2, newDataSale);
-								System.out.println("Método de pagamento alterado com sucesso.");
+								System.out.println("Mï¿½todo de pagamento alterado com sucesso.");
 								break;
 
 							case "itens":
@@ -979,31 +991,95 @@ public class Main {
 		}			
 	}
 	
-	public static void generatePDF() {
+	public static void generatePDF(ArrayList<Entities> list) {
 		Document document = new Document();
         try {
-            PdfWriter.getInstance(document, new FileOutputStream("documents.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream("relatorio.pdf"));
             document.open();
 
-            // adicionando um parÃ¡grafo no documento
             Paragraph p = new Paragraph("RelatÃ³rio");
+            Chapter chapter = new Chapter(p, 1);
             p.setAlignment(1);
             document.add(p);
+            
             p = new Paragraph(" ");
             document.add(p);
             p = new Paragraph("Vendas:");
-            document.add(p);
+            Section section = chapter.addSection(p);
+            document.add(section);
             p = new Paragraph(" ");
             document.add(p);
+            
+            p = new Paragraph("Vendas realizadas: ");
+            Section section0 = chapter.addSection(p);
+            document.add(section0);
+            p = new Paragraph(" ");
+            document.add(p);
+        	ArrayList<Entities> listSales = list;
+        	int cont = 1;
+            for (Entities sale : listSales) {
+            	//String datas = "ID: " + sale.getId() + " Data: " + sale.getDay() + " Hora: " + sale.getHour();
+            	p = new Paragraph(cont++ + "-" +"ID: " + sale.getId());
+            	document.add(p);
+            }
+            
+            float saleTotal = managementSales.salesMade(managementSales.getList());
+            Phrase ph = new Phrase("Total das vendas realizadas: R$");
+            document.add(ph);
+            ph = new Phrase(saleTotal);
+            document.add(ph);
+            
+            p = new Paragraph("Vendas realizadas por perÃ­odo: ");
+            Section section1 = chapter.addSection(p);
+            document.add(section1);
+        	document.add(p);
+        	
+        	p = new Paragraph("Vendas realizadas por tipo de prato do cardÃ¡pio: ");
+            Section section2 = chapter.addSection(p);
+            document.add(section2);
+        	document.add(p);
+            
+            p = new Paragraph(" ");
+            document.add(p);
+            Chapter chapter0 = new Chapter(p, 2);
             p = new Paragraph("Estoque:");
-            document.add(p);
+            Section section3 = chapter0.addSection(p);
+            document.add(section3);
             p = new Paragraph(" ");
             document.add(p);
+            
+            p = new Paragraph("Quantidade total do estoque:");
+            Section section4 = chapter0.addSection(p);
+            document.add(section4);
+            
+            
+            p = new Paragraph("Quantidade por produto:");
+            Section section5 = chapter0.addSection(p);
+            document.add(section5);
+            
+            p = new Paragraph("Produtos a vencer:");
+            Section section6 = chapter0.addSection(p);
+            document.add(section6);
+            
+            p = new Paragraph(" ");
+            document.add(p);
+            Chapter chapter1 = new Chapter(p, 3);
             p = new Paragraph("Fornecedores:");
+            Section section7 = chapter1.addSection(p);
+            document.add(section7);
+            p = new Paragraph(" ");
             document.add(p);
         
+            p = new Paragraph("Fornecedores totais:");
+            Section section8 = chapter1.addSection(p);
+            document.add(section8);
+            
+            p = new Paragraph("Fornecedores por produto:");
+            Section section9 = chapter1.addSection(p);
+            document.add(section9);
+            
             document.close();
-            Desktop.getDesktop().open(new File("documents.pdf"));
+            Desktop.getDesktop().open(new File("relatorio.pdf"));
         }
         catch(DocumentException de) {
             System.err.println(de.getMessage());
