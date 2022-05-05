@@ -8,12 +8,12 @@ import java.time.format.ResolverStyle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
+import exceptions.*;
 import modeling_models.*;
+
 
 public class ManagementProducts extends Management {
 	private HashMap<String, ArrayList<Products>> stock = new HashMap<String, ArrayList<Products>>();
-	private int totalQuantity;
 	
 	public String register(String name, BigDecimal price, LocalDate validity, int quantity, Providers provider) {
 		Products newProduct = new Products (name, price, validity, quantity, provider);
@@ -57,7 +57,7 @@ public class ManagementProducts extends Management {
 							   "Nome: " + prod.getName()+ "\n" + 
 							   "Preco: R$ " + prod.getPrice()+ "\n" +
 							   "Validade: " + prod.getValidity().format(dateTimeFormatter)+ "\n" +
-							   "Quantidade: " + prod.getQuantity()+ "unidades \n" +
+							   "Quantidade: " + prod.getQuantity()+ " unidades \n" +
 							   "Fornecedor: \n" + 
 							   "\tID: " + prod.getProvider().getId() +
 							   "\tNome: "+ prod.getProvider().getName());
@@ -76,28 +76,79 @@ public class ManagementProducts extends Management {
 		
 	}
 	
-	public void removeProductStock(Products newProd){
-		boolean nameExist = this.stock.containsKey(newProd.getName());
+	public void deleteProductStock(Products prod){
+		boolean nameExist = this.stock.containsKey(prod.getName());
 		if (nameExist) {
-			this.stock.get(newProd.getName()).remove(newProd);
+			this.stock.get(prod.getName()).remove(prod);
 		}
 	}
 	
-	public void itemSold(Items item) {
-		HashMap<Products, BigDecimal> prodsItem = item.getComposition();
-		prodsItem.forEach((prod, quant) -> {
-			this.stock.get(prod.getName()).forEach(prods ->{
-			});
-		});
+	public void removeQuantProd(Products prod, int quant) throws NotEnoughProduct{
+		// Remove a quantidade passada da quantidade do produto. Se o produto for zerado ele é deletado.
+		int quantBefore = prod.getQuantity();
+		if (quantBefore <= quant) {
+			this.delete(prod);
+			throw new NotEnoughProduct(quant - quantBefore);
+		} else {
+			prod.setQuantity(quantBefore - quant);
+		}
 	}
 	
-	public int prodQuantity(String prodName) {
-		this.totalQuantity = 0;
-		ArrayList<Products> prods = this.getStock().get(prodName);
-		prods.forEach(prod -> {
-			this.totalQuantity += prod.getQuantity();
-		});
-		return this.totalQuantity;
+	public void removeQuantGroup(String nameGroup, int quant) throws NotEnoughStock{
+		// Remove a quantidade "quant" passada dos produtos do conjunto.
+		ArrayList<Products> prods = this.stock.get(nameGroup);
+		int left = quant;
+		int i = 0;
+		if (quant > this.getGroupQuantity(nameGroup)) {
+			throw new NotEnoughStock();
+		} else {
+			while (left > 0) {
+				//System.out.println(i++);
+				try {
+					this.removeQuantProd(prods.get(0), left);
+					left = 0;
+				} catch(NotEnoughProduct eProd) {
+					left = eProd.getQuantLeft();
+					//System.out.println(left);
+				}
+			}
+		}
+	}
+	
+	public int getGroupQuantity(String prodName) {
+		// Recebe o nome de um conjunto de produtos e retorna a 
+		//quantidade total (soma da quantidade de todos os produtos desse conjunto).
+		int totalQuantity = 0;
+		ArrayList<Products> prods = this.stock.get(prodName);
+		for(Products prod : prods) {
+			totalQuantity += prod.getQuantity();
+		};
+		return totalQuantity;
+	}
+	
+	public boolean checkAllProductsEnough(HashMap<String, Integer> groupsNeed){
+		for (HashMap.Entry<String,Integer> nameQuant : groupsNeed.entrySet()) {
+			if(this.getGroupQuantity(nameQuant.getKey()) < nameQuant.getValue()) {
+				return false;
+			}
+		};
+		return true;
+	}
+	
+	
+	public void updateStock(HashMap<String, Integer> groupsUsed) throws NotEnoughStock{
+		
+		if (!this.checkAllProductsEnough(groupsUsed)) {
+			throw new NotEnoughStock();
+		}
+		
+		for (HashMap.Entry<String,Integer> nameQuant : groupsUsed.entrySet()) {
+			try {
+				this.removeQuantGroup(nameQuant.getKey(), nameQuant.getValue());
+			} catch(NotEnoughStock e){
+				throw new NotEnoughStock();
+			}
+		};
 	}
 	
 	
@@ -105,9 +156,8 @@ public class ManagementProducts extends Management {
 		return stock;
 	}
 	
-	@Override
-	public void delete(String idEntities) {
-		this.removeProductStock((Products) this.searchEntities(idEntities));
-		this.delete(idEntities);
+	public void delete(Products prod) {
+		this.deleteProductStock(prod);
+		this.delete(prod.getId());
 	}
 }

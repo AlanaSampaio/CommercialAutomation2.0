@@ -11,7 +11,7 @@ import modeling_models.Products;
 public class ManagementMenu extends Management {
 
 
-	public String register(String name, String description, BigDecimal price, String category, HashMap<Products, BigDecimal> composition) {
+	public String register(String name, String description, BigDecimal price, String category, HashMap<String, Integer> composition) {
 		Items newItem = new Items(name, description, price, category, composition);
 		this.register((Items) newItem);
 		return newItem.getId();
@@ -37,15 +37,16 @@ public class ManagementMenu extends Management {
 	}
 	
 
-	public void addProductsItems(String idPEdit, Products productPAdd, BigDecimal quantity) {
+	public void addProductsItems(String idPEdit, Products productPAdd, int quantity) {
 		Items itemPEdit = (Items) this.searchEntities(idPEdit);
-		itemPEdit.addProduct(quantity, productPAdd);
+		itemPEdit.addProduct(quantity, productPAdd.getName());
 	}
 	
 	public void removeProductFromItem (String idPEdit, Products produtoPRemover) {
 
 		Items itemPEdit = (Items) this.searchEntities(idPEdit);
-		int size = itemPEdit.deleteProduct(produtoPRemover);
+		itemPEdit.deleteProduct(produtoPRemover.getName());
+		int size = itemPEdit.getCompositionSize();
 		if (size == 0) {
 			this.delete(idPEdit);
 		}
@@ -65,8 +66,7 @@ public class ManagementMenu extends Management {
 			
 			item.getComposition().forEach((prod, quantity) ->{
 				if (prod != null) {
-				System.out.println("\tID: " + prod.getId() +
-								   "\n\tNome: " + prod.getName()+ 
+				System.out.println("\tNome: " + prod +
 								   "\n\tQntd por item: " + quantity);
 				}
 			});

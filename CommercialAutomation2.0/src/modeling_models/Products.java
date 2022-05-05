@@ -46,7 +46,7 @@ public class Products extends Entities{
 		this.name = name;
 		this.price = price;
 		this.validity = validity;
-		this.setQuantity(quantity);
+		this.quantity = quantity;
 		this.provider = provider;
 		generatorCode("P");
 	}
@@ -55,7 +55,7 @@ public class Products extends Entities{
 		HashMap<String, String> attributes = new HashMap<String, String>();
 		attributes.put("id", this.getId());
 		attributes.put("nome", this.getName());
-		attributes.put("pre�o", String.valueOf(this.getPrice()));
+		attributes.put("preco", String.valueOf(this.getPrice()));
 		attributes.put("validade", String.valueOf(this.getValidity()));
 		attributes.put("fornecedor", String.valueOf(this.getProvider()));
 		return attributes;
@@ -79,7 +79,7 @@ public class Products extends Entities{
 
 
 	/**
-	 * @return o pre�o
+	 * @return o preco
 	 */
 	public BigDecimal getPrice() {
 		return price;
@@ -87,7 +87,7 @@ public class Products extends Entities{
 
 
 	/**
-	 * @param price: Novo pre�o
+	 * @param price: Novo preco
 	 */
 
 	public void setPrice(BigDecimal price) {

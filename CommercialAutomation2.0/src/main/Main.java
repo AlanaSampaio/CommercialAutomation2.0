@@ -456,7 +456,7 @@ public class Main {
 				
 				
 				String[] options = { "nome", "preco", "validade", "quantidade", "fornecedor"};
-				System.out.println("\nO que voc� deseja alterar?");
+				System.out.println("\nO que voce deseja alterar?");
 				System.out.println("OBS: Para remover o fornecedor de um produto, basta deletar aquele.");
 				
 				for (int i = 0; i < options.length; i++) {
@@ -465,7 +465,7 @@ public class Main {
 				option1 = inputProd.nextInt();
 				
 				while (!(option1 >= 1 && option1 <= options.length)) {
-					System.out.println("Op��o inv�lida. Tente novamente.");
+					System.out.println("Opcao invalida. Tente novamente.");
 					System.out.println("Escolha: ");
 					option1 = inputProd.nextInt();
 				}
@@ -546,8 +546,9 @@ public class Main {
 	}
 	
 	public static void datasItems(int operation, ManagementMenu managMenu, Scanner inputItem) {
-		String name, description, price, quantity, category, option2, id;
-		BigDecimal priceDecimal, quantityDecimal;
+		String name, description, price, category, option2, id;
+		int quantity;
+		BigDecimal priceDecimal;
 		int option1;
 		
 		if (operation != 1 && managMenu.getList().size() == 0) {
@@ -572,7 +573,7 @@ public class Main {
 						price = "20.15";
 						priceDecimal = new BigDecimal(price);
 						
-						String idNewItem = managMenu.register(name, description, priceDecimal, category, new HashMap<Products, BigDecimal>());
+						String idNewItem = managMenu.register(name, description, priceDecimal, category, new HashMap<String, Integer>());
 						Items newItem = (Items) managMenu.searchEntities(idNewItem);
 						
 						System.out.println("Lista dos produtos cadastrados: ");
@@ -588,10 +589,10 @@ public class Main {
 								System.out.println("ID nao econtrado! Tente novamente");
 							} else{
 								System.out.println("Insira a quantidade desse produto usada na preparacao do item (Em unidades): ");
-								quantity = inputItem.nextLine();
-								quantityDecimal = new BigDecimal(quantity);
+								quantity = inputItem.nextInt();
+								inputItem.nextLine();
 								Products prodAdd = (Products) managementProducts.searchEntities(idProd);
-								newItem.addProduct(quantityDecimal, prodAdd);
+								newItem.addProduct(quantity, prodAdd.getName());
 							};
 							System.out.println("Digite o id do proximo produto usado neste item: ");
 							idProd = inputItem.next();
@@ -607,7 +608,9 @@ public class Main {
 		
 					} catch(NumberFormatException eNum) {
 						System.out.println("Formato invalido! Tente novamente.");
-					} 
+					} catch(InputMismatchException eInp) {
+						System.out.println("Formato invalido! Tente novamente.");
+					}
 					break;
 					
 				case 2:
@@ -631,7 +634,7 @@ public class Main {
 					option1 = inputItem.nextInt();
 					
 					while (!(option1 >= 1 && option1 <= options.length)) {
-						System.out.println("Op��o inv�lida. Tente novamente.");
+						System.out.println("Opcao invalida. Tente novamente.");
 						System.out.println("Escolha: ");
 						option1 = inputItem.nextInt();
 					}
@@ -701,10 +704,9 @@ public class Main {
 											System.out.println("ID n�o econtrado! Tente novamente");
 										} else{
 											System.out.println("Insira a quantidade desse produto usada na prepara��o do item (Em unidades): ");
-											quantity = inputItem.nextLine();
-											quantityDecimal = new BigDecimal(quantity);
+											quantity = inputItem.nextInt();
 											Products prodAdd = (Products) managementProducts.searchEntities(idProd);
-											managMenu.addProductsItems(id, prodAdd, quantityDecimal);
+											managMenu.addProductsItems(id, prodAdd, quantity);
 										};
 										System.out.println("Produto adicionado com sucesso!");
 										System.out.println("Digite o id do pr�ximo produto: ");

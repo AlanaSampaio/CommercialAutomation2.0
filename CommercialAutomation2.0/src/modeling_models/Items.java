@@ -9,12 +9,11 @@ public class Items extends Entities {
 	private String description;
 	private BigDecimal price;
 	private String categoryItems;
+	private HashMap<String, Integer> composition = new HashMap<String, Integer>();
+
 	
-
-	private HashMap<Products, BigDecimal> composition = new HashMap<Products, BigDecimal>();
-
 	public Items(String name, String description, BigDecimal price, String categoryItems,
-			HashMap<Products, BigDecimal> composition) {
+			HashMap<String, Integer> composition) {
 
 		super();
 		this.name = name;
@@ -25,16 +24,18 @@ public class Items extends Entities {
 		generatorCode("I");
 	}
 
-	public void addProduct(BigDecimal quantity, Products product) {
+	public void addProduct(int quantity, String product) {
 		this.composition.put(product, quantity);
 	}
 	
-	public int deleteProduct(Products prod) {
+	public void deleteProduct(String prod) {
 		this.composition.remove(prod);
-
+	}
+	
+	public int getCompositionSize() {
 		return this.composition.size();
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -68,11 +69,11 @@ public class Items extends Entities {
 	}
 
 
-	public HashMap<Products, BigDecimal> getComposition() {
+	public HashMap<String, Integer> getComposition() {
 		return composition;
 	}
 
-	public void setComposition(HashMap<Products, BigDecimal> composition) {
+	public void setComposition(HashMap<String, Integer> composition) {
 		this.composition = composition;
 	}
 }
