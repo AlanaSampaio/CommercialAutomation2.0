@@ -182,15 +182,15 @@ public class Main {
 			//name = inputUsers.nextLine();
 			name = "nome";
 		
-			System.out.println("Qual o cargo do usu�rio?");
+			System.out.println("Qual o cargo do usuario?");
 			System.out.println("1 - P/ Gerente\n"
-							 + "2 - P/ Funcion�rio\n");
+							 + "2 - P/ Funcionario\n");
 			//choice = inputUsers.nextInt();
 			//inputUsers.nextLine();
 			
 			choice = 1;
 			while (choice != 1 && choice != 2) {
-				System.out.println("Resposta inv�lida. Tente novamente:");
+				System.out.println("Resposta invalida. Tente novamente:");
 				System.out.println("1 - P/ Gerente\n"
 						 		 + "2 - P/ Funcionario\n");
 				choice = inputUsers.nextInt();
@@ -202,7 +202,7 @@ public class Main {
 			
 			try {
 			managementUser.register(nick, password, name, category);
-			System.out.println("Usu�rio cadastrado com sucesso!");
+			System.out.println("Usuario cadastrado com sucesso!");
 			} catch(ExistentNicknameException eNick) {
 				System.out.println(eNick.getMessage());
 			}
@@ -216,15 +216,15 @@ public class Main {
 			//Mostrar todos para o usuario escolher
 			managUser.list();
 			
-			System.out.println("Insira o ID do usu�rio que deseja alterar: ");
+			System.out.println("Insira o ID do usuario que deseja alterar: ");
 			id = inputUsers.nextLine();
 			if (!idExist(id) || (id.charAt(0) != 'U')) {
-				System.out.println("ID n�o econtrado! Tente novamente");
+				System.out.println("ID nao econtrado! Tente novamente");
 				break;
 			};
 			
 			String[] options = { "nome", "nickname", "senha", "cargo"};
-			System.out.println("\nO que voc� deseja alterar?");
+			System.out.println("\nO que voce deseja alterar?");
 			
 			for (int i = 0; i < options.length; i++) {
 				System.out.println((i + 1) + " - P/ " + options[i]);
@@ -233,7 +233,7 @@ public class Main {
 			inputUsers.nextLine();
 			
 			while (!(option1 >= 1 && option1 <= options.length)) {
-				System.out.println("Op��o inv�lida. Tente novamente.");
+				System.out.println("Opcao invalida. Tente novamente.");
 				System.out.println("Escolha: ");
 				option1 = inputUsers.nextInt();
 				inputUsers.nextLine();
@@ -242,14 +242,14 @@ public class Main {
 			option2 = options[option1 - 1];
 			
 			if (option2 == "cargo") {
-				System.out.println("Qual o novo cargo do usu�rio?");
+				System.out.println("Qual o novo cargo do usuario?");
 				System.out.println("1 - P/ Gerente\n"
 								 + "2 - P/ Funcionario\n");
 				choice = inputUsers.nextInt();
 				inputUsers.nextLine();
 				
 				while (choice != 1 && choice != 2) {
-					System.out.println("Resposta inv�lida. Tente novamente:");
+					System.out.println("Resposta invalida. Tente novamente:");
 					System.out.println("1 - P/ Gerente\n"
 							 		 + "2 - P/ Funcionario\n");
 					choice = inputUsers.nextInt();
@@ -275,23 +275,23 @@ public class Main {
 			// Deletar usu�rio
 			int nUsers = managUser.getList().size();
 			if (nUsers <= 1) {
-				System.out.println("Voc� n�o pode excluir o �nico usu�rio cadastrado.");
+				System.out.println("Voce nao pode excluir o unico usuario cadastrado.");
 			} else {
 				managUser.list();
 				
-				System.out.println("Insira o ID do usu�rio que deseja deletar: ");
+				System.out.println("Insira o ID do usuario que deseja deletar: ");
 				id = inputUsers.next();
 				if (!idExist(id) || (id.charAt(0) != 'U')) {
-					System.out.println("ID n�o econtrado! Tente novamente");
+					System.out.println("ID nao econtrado! Tente novamente");
 					break;
 				};
 				
 				String idUser = managUser.getIdUserOn();
 				if (idUser.equals(id)) {
-					System.out.println("Voc� n�o pode excluir seu pr�prio usu�rio. Por favor, pe�a para outro usu�rio exclu�-lo.");
+					System.out.println("Voce nao pode excluir seu proprio usuario. Por favor, peca para outro usuario exclui-lo.");
 				} else {
 					managUser.delete(id);
-					System.out.println("Usu�rio deletado com sucesso!");
+					System.out.println("Usuario deletado com sucesso!");
 				}
 			}
 			break;
@@ -306,7 +306,7 @@ public class Main {
 		int option1;
 		
 		if (operation != 1 && managProv.getList().size() == 0) {
-			System.out.println("N�o h� fornecedores cadastrados!");
+			System.out.println("Nao ha fornecedores cadastrados!");
 		} else {
 		
 			switch(operation) {
@@ -333,13 +333,13 @@ public class Main {
 				id = inputProv.next();
 	
 				if (!idExist(id) || (id.charAt(0) != 'F')) {
-					System.out.println("ID n�o econtrado! Tente novamente");
+					System.out.println("ID nao econtrado! Tente novamente");
 					break;
 				};
 				
-				String[] options = { "nome", "endere�o", "cnpj"};
-				System.out.println("\nO que voc� deseja alterar?");
-				System.out.println("OBS: Para adicionar/remover produtos de um fornecedor, basta faz�-lo no menu do pr�prio produto");
+				String[] options = { "nome", "endereco", "cnpj"};
+				System.out.println("\nO que voce deseja alterar?");
+				System.out.println("OBS: Para adicionar/remover produtos de um fornecedor, basta faze-lo no menu do proprio produto");
 				
 				for (int i = 0; i < options.length; i++) {
 					System.out.println((i + 1) + " - P/ " + options[i]);
@@ -347,7 +347,7 @@ public class Main {
 				option1 = inputProv.nextInt();
 				
 				while (!(option1 >= 1 && option1 <= options.length)) {
-					System.out.println("Op��o inv�lida. Tente novamente.");
+					System.out.println("Opcao invalida. Tente novamente.");
 					System.out.println("Escolha: ");
 					option1 = inputProv.nextInt();
 				}
@@ -368,7 +368,7 @@ public class Main {
 				id = inputProv.next();
 				
 				if (!idExist(id) || (id.charAt(0) != 'F')) {
-					System.out.println("ID n�o econtrado! Tente novamente");
+					System.out.println("ID nao econtrado! Tente novamente");
 					break;
 				};
 				managProv.delete(id);
@@ -425,7 +425,7 @@ public class Main {
 					String idProv = inputProd.next();
 		
 					if (!idExist(idProv) || (idProv.charAt(0) != 'F')) {
-						System.out.println("ID n�o econtrado! Tente novamente");
+						System.out.println("ID nao econtrado! Tente novamente");
 						break;
 					};
 					
@@ -481,7 +481,7 @@ public class Main {
 							newDataProd = inputProd.nextLine();
 							break;
 						case "preco":
-							System.out.println("Insira o novo pre�o do produto (Use '.' no lugar de ','): ");
+							System.out.println("Insira o novo preco do produto (Use '.' no lugar de ','): ");
 							price = inputProd.nextLine();
 							newDataProd = new BigDecimal(price);
 							break;
@@ -505,7 +505,7 @@ public class Main {
 							String idForn = inputProd.next();
 			
 							if (!idExist(idForn) || (idForn.charAt(0) != 'F')) {
-							System.out.println("ID n�o econtrado! Tente novamente");
+							System.out.println("ID nao econtrado! Tente novamente");
 							};
 							newDataProd = (Providers) managementProvider.searchEntities(idForn);
 							break;
@@ -625,8 +625,8 @@ public class Main {
 					};
 					
 					
-					String[] options = { "nome", "descricao", "categoria", "pre�o", "composicao"};
-					System.out.println("\nO que voc� deseja alterar?");
+					String[] options = { "nome", "descricao", "categoria", "preco", "composicao"};
+					System.out.println("\nO que voce deseja alterar?");
 					
 					for (int i = 0; i < options.length; i++) {
 						System.out.println((i + 1) + " - P/ " + options[i]);
@@ -668,7 +668,7 @@ public class Main {
 								break;
 								
 							case "preco":
-								System.out.println("Insira o novo pre�o do produto (Use '.' no lugar de ','): ");
+								System.out.println("Insira o novo preco do produto (Use '.' no lugar de ','): ");
 								price = inputItem.nextLine();
 								newDataItem = new BigDecimal(price);
 								managMenu.edit(id, option2, newDataItem);
@@ -678,7 +678,7 @@ public class Main {
 
 							case "composicao":
 								String[] options2 = { "adicionar", "remover"};
-								System.out.println("\nO que voc� deseja fazer?");
+								System.out.println("\nO que voce deseja fazer?");
 								
 								for (int i = 0; i < options2.length; i++) {
 									System.out.println((i + 1) + " - P/ " + options2[i] + "produto");
@@ -686,13 +686,13 @@ public class Main {
 								option1 = inputItem.nextInt();
 								
 								while (!(option1 >= 1 && option1 <= options.length)) {
-									System.out.println("Op��o inv�lida. Tente novamente.");
+									System.out.println("Opcao invalida. Tente novamente.");
 									System.out.println("Escolha: ");
 									option1 = inputItem.nextInt();
 								}
 								
 								if (option1 == 1) {
-									System.out.println("ADI��O DE PRODUTOS:");
+									System.out.println("ADICAO DE PRODUTOS:");
 									System.out.println("Lista dos produtos cadastrados: ");
 									managementProducts.list();
 									System.out.println("Digite o id do primeiro produto: ");
@@ -701,19 +701,19 @@ public class Main {
 									
 									do {
 										if (!idExist(idProd) || (idProd.charAt(0) != 'P')) {
-											System.out.println("ID n�o econtrado! Tente novamente");
+											System.out.println("ID nao econtrado! Tente novamente");
 										} else{
-											System.out.println("Insira a quantidade desse produto usada na prepara��o do item (Em unidades): ");
+											System.out.println("Insira a quantidade desse produto usada na preparacao do item (Em unidades): ");
 											quantity = inputItem.nextInt();
 											Products prodAdd = (Products) managementProducts.searchEntities(idProd);
 											managMenu.addProductsItems(id, prodAdd, quantity);
 										};
 										System.out.println("Produto adicionado com sucesso!");
-										System.out.println("Digite o id do pr�ximo produto: ");
+										System.out.println("Digite o id do proximo produto: ");
 										idProd = inputItem.next();
 									} while(idProd != "0");
 								} else {
-									System.out.println("REMO��O DE PRODUTOS:");
+									System.out.println("REMOCAO DE PRODUTOS:");
 									System.out.println("Lista dos produtos cadastrados: ");
 									managementProducts.list();
 									System.out.println("Digite o id do primeiro produto a ser removido: ");
@@ -722,7 +722,7 @@ public class Main {
 									
 									do {
 										if (!idExist(idProd) || (idProd.charAt(0) != 'P')) {
-											System.out.println("ID n�o econtrado! Tente novamente");
+											System.out.println("ID nao econtrado! Tente novamente");
 										} else{
 											Products prodRem = (Products) managMenu.searchEntities(idProd);
 											managMenu.removeProductFromItem(id, prodRem);
@@ -733,9 +733,9 @@ public class Main {
 											idProd = "0";
 										} else {
 											if (item.getComposition().size() == 1) {
-												System.out.println("Remover o �ltimo produto deletar� o item.");
+												System.out.println("Remover o ultimo produto deletara o item.");
 											}
-											System.out.println("Digite o id do pr�ximo produto: ");
+											System.out.println("Digite o id do proximo produto: ");
 											idProd = inputItem.next();	
 										}
 									} while(idProd != "0");
@@ -746,9 +746,9 @@ public class Main {
 							}
 							break;
 						}catch(NumberFormatException eNum) {
-						System.out.println("Formato inv�lido! Tente novamente.");
+						System.out.println("Formato invalido! Tente novamente.");
 						} catch(DateTimeParseException eDate) {
-						System.out.println("Data inv�lida! Tente novamente.");
+						System.out.println("Data invalida! Tente novamente.");
 						}
 					break;
 					
@@ -759,7 +759,7 @@ public class Main {
 					id = inputItem.next();
 					
 					if (!idExist(id) || (id.charAt(0) != 'I')) {
-						System.out.println("ID n�o econtrado! Tente novamente");
+						System.out.println("ID nao econtrado! Tente novamente");
 					};
 					managMenu.delete(id);
 					System.out.println("Item deletado com sucesso.");
@@ -790,7 +790,7 @@ public class Main {
 			switch(operation) {
 				case 1:
 					
-					System.out.println("Insira o m�todo de pagamento da venda: ");
+					System.out.println("Insira o metodo de pagamento da venda: ");
 					paymentMethod = inputSale.nextLine();
 					
 					try {
@@ -825,7 +825,7 @@ public class Main {
 						} while(!(idItem.equals("0")));
 						
 						if (newSale.getItemsPurchased().size() == 0) {
-							System.out.println("Vendas n�o podem estar vazios! Tente novamente!");
+							System.out.println("Vendas nao podem estar vazios! Tente novamente!");
 							managSales.delete(idNewSale);
 							break;
 						}
@@ -833,9 +833,9 @@ public class Main {
 						System.out.println("Venda cadastrado com sucesso.");
 	
 					} catch(NumberFormatException eNum) {
-						System.out.println("Formato inv�lido! Tente novamente.");
+						System.out.println("Formato invalido! Tente novamente.");
 					} catch(DateTimeParseException eDate) {
-						System.out.println("Formato inv�lido! Tente novamente.");
+						System.out.println("Formato invalido! Tente novamente.");
 					}
 					break;
 					
@@ -888,14 +888,14 @@ public class Main {
 								timeStr = inputSale.nextLine();
 								newDataSale = LocalTime.parse(timeStr, timeFormatter);
 								managSales.edit(id, option2, newDataSale);
-								System.out.println("Hor�rio da venda alterado com sucesso.");
+								System.out.println("Horario da venda alterado com sucesso.");
 								break;
 								
 							case "modoDePagamento":
-								System.out.println("Digite o novo m�todo de pagamento desta venda:");
+								System.out.println("Digite o novo metodo de pagamento desta venda:");
 								newDataSale = inputSale.nextLine();
 								managSales.edit(id, option2, newDataSale);
-								System.out.println("M�todo de pagamento alterado com sucesso.");
+								System.out.println("Metodo de pagamento alterado com sucesso.");
 								break;
 
 							case "itens":
@@ -999,7 +999,7 @@ public class Main {
             PdfWriter.getInstance(document, new FileOutputStream("relatorio.pdf"));
             document.open();
 
-            Paragraph p = new Paragraph("Relatório");
+            Paragraph p = new Paragraph("Relatorio");
             Chapter chapter = new Chapter(p, 1);
             p.setAlignment(1);
             document.add(p);
@@ -1031,12 +1031,12 @@ public class Main {
             ph = new Phrase(saleTotal);
             document.add(ph);
             
-            p = new Paragraph("Vendas realizadas por período: ");
+            p = new Paragraph("Vendas realizadas por periodo: ");
             Section section1 = chapter.addSection(p);
             document.add(section1);
         	document.add(p);
         	
-        	p = new Paragraph("Vendas realizadas por tipo de prato do cardápio: ");
+        	p = new Paragraph("Vendas realizadas por tipo de prato do cardapio: ");
             Section section2 = chapter.addSection(p);
             document.add(section2);
         	document.add(p);
