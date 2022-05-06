@@ -47,8 +47,8 @@ public class ManagementSales extends Management {
 		}
 	}
 
-	public float salesMade(ArrayList list) {
-		float priceTotal = 0;
+	public String salesMade(ArrayList list) {
+		String priceTotal = "";
 		BigDecimal priceTotalSales = new BigDecimal("0");
 		if (this.getList().size() == 0 ) {
 			System.out.println("Nenhuma venda registrada");
@@ -59,7 +59,7 @@ public class ManagementSales extends Management {
 				
 			}
 			
-			priceTotal = priceTotalSales.setScale(2, RoundingMode.DOWN).floatValue();
+			priceTotal = priceTotalSales.toPlainString();
 			
 			/*this.getList().forEach(sale -> {
 				Sales sales = (Sales) sale;

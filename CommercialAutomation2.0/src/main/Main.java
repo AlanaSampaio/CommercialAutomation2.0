@@ -37,6 +37,7 @@ public class Main {
 	static ManagementProducts managementProducts = new ManagementProducts();
 	static ManagementMenu managementMenu = new ManagementMenu();
 	static ManagementSales managementSales = new ManagementSales();
+	static Reports report = new Reports();
 	
 	//SETTADO PRA TESTES
 	public static void main(String args[]) {
@@ -124,7 +125,7 @@ public class Main {
 			} else if (option == 5) {
 				System.out.println("\nGerando relatorio\n");
 				System.out.println("Vendas totais" + managementSales.salesMade(managementSales.getList()));
-				generatePDF(managementSales.getList());
+				report.generatePDF(managementSales);
 				
 			} else if (option != 6) {
 				System.out.println("Opcao invalida. Tente de novo.");
@@ -993,104 +994,7 @@ public class Main {
 		}			
 	}
 	
-	public static void generatePDF(ArrayList<Entities> list) {
-		Document document = new Document();
-        try {
-            PdfWriter.getInstance(document, new FileOutputStream("relatorio.pdf"));
-            document.open();
-
-            Paragraph p = new Paragraph("Relatorio");
-            Chapter chapter = new Chapter(p, 1);
-            p.setAlignment(1);
-            document.add(p);
-            
-            p = new Paragraph(" ");
-            document.add(p);
-            p = new Paragraph("Vendas:");
-            Section section = chapter.addSection(p);
-            document.add(section);
-            p = new Paragraph(" ");
-            document.add(p);
-            
-            p = new Paragraph("Vendas realizadas: ");
-            Section section0 = chapter.addSection(p);
-            document.add(section0);
-            p = new Paragraph(" ");
-            document.add(p);
-        	ArrayList<Entities> listSales = list;
-        	int cont = 1;
-            for (Entities sale : listSales) {
-            	//String datas = "ID: " + sale.getId() + " Data: " + sale.getDay() + " Hora: " + sale.getHour();
-            	p = new Paragraph(cont++ + "-" +"ID: " + sale.getId());
-            	document.add(p);
-            }
-            
-            float saleTotal = managementSales.salesMade(managementSales.getList());
-            Phrase ph = new Phrase("Total das vendas realizadas: R$");
-            document.add(ph);
-            ph = new Phrase(saleTotal);
-            document.add(ph);
-            
-            p = new Paragraph("Vendas realizadas por periodo: ");
-            Section section1 = chapter.addSection(p);
-            document.add(section1);
-        	document.add(p);
-        	
-        	p = new Paragraph("Vendas realizadas por tipo de prato do cardapio: ");
-            Section section2 = chapter.addSection(p);
-            document.add(section2);
-        	document.add(p);
-            
-            p = new Paragraph(" ");
-            document.add(p);
-            Chapter chapter0 = new Chapter(p, 2);
-            p = new Paragraph("Estoque:");
-            Section section3 = chapter0.addSection(p);
-            document.add(section3);
-            p = new Paragraph(" ");
-            document.add(p);
-            
-            p = new Paragraph("Quantidade total do estoque:");
-            Section section4 = chapter0.addSection(p);
-            document.add(section4);
-            
-            
-            p = new Paragraph("Quantidade por produto:");
-            Section section5 = chapter0.addSection(p);
-            document.add(section5);
-            
-            p = new Paragraph("Produtos a vencer:");
-            Section section6 = chapter0.addSection(p);
-            document.add(section6);
-            
-            p = new Paragraph(" ");
-            document.add(p);
-            Chapter chapter1 = new Chapter(p, 3);
-            p = new Paragraph("Fornecedores:");
-            Section section7 = chapter1.addSection(p);
-            document.add(section7);
-            p = new Paragraph(" ");
-            document.add(p);
-        
-            p = new Paragraph("Fornecedores totais:");
-            Section section8 = chapter1.addSection(p);
-            document.add(section8);
-            
-            p = new Paragraph("Fornecedores por produto:");
-            Section section9 = chapter1.addSection(p);
-            document.add(section9);
-            
-            document.close();
-            Desktop.getDesktop().open(new File("relatorio.pdf"));
-        }
-        catch(DocumentException de) {
-            System.err.println(de.getMessage());
-        }
-        catch(IOException ioe) {
-            System.err.println(ioe.getMessage());
-        }
-        
-	}
+	
 	
 	public static boolean idExist(String idCheck) {
 		return ids.contains(idCheck);
