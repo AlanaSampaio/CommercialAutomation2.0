@@ -1,6 +1,8 @@
 package management_models;
 
 import java.util.ArrayList;
+
+import exceptions.*;
 import modeling_models.Entities;
 import modeling_models.Users;
 
@@ -12,14 +14,19 @@ private ArrayList<Entities> listManagement = new ArrayList<>();
 		listManagement.add(element);
 	}
 	
-	public Entities searchEntities(String id) {
+	public Entities searchEntities(String id) throws IdDoesntExist, EntitiesNotRegistred{
+		
+		if (listManagement.size() == 0) {
+			throw new EntitiesNotRegistred();
+		}
+		
 		for (int i = 0; i < listManagement.size(); i++) {
 			String currentEntities = ((Entities) listManagement.get(i)).getId();
 			if (id.equals(currentEntities)) {
 				return listManagement.get(i);
 			}
 		}
-		return null;
+		throw new IdDoesntExist();
 	}
 	
 	public Users searchEntitiesNick(String nick) {
@@ -52,11 +59,15 @@ private ArrayList<Entities> listManagement = new ArrayList<>();
 		return listManagement.size();
 	}
 	
-	public abstract void list();
+	public abstract void list(boolean allInformations) throws EntitiesNotRegistred;
 	
-	public void delete(String idEntities) {
-		Entities element = searchEntities(idEntities);
-		listManagement.remove(element);
+	public void delete(String idEntities) throws IdDoesntExist, EntitiesNotRegistred {
+		try {
+			Entities element = searchEntities(idEntities);
+			listManagement.remove(element);
+		} catch(IdDoesntExist eId) {
+			throw new IdDoesntExist();
+		}
 	}
 }
 

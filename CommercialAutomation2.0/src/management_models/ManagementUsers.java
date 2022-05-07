@@ -38,7 +38,7 @@ public class ManagementUsers extends Management{
 		}
 	}
 	
-	public void edit(String idPEdit, String changedValue, Object newValue) throws ExistentNicknameException {
+	public void edit(String idPEdit, String changedValue, Object newValue) throws ExistentNicknameException, IdDoesntExist, EntitiesNotRegistred {
 		Users userPEdit = (Users) this.searchEntities(idPEdit);
 		String newString = (String) newValue;
 		switch(changedValue) {
@@ -63,7 +63,7 @@ public class ManagementUsers extends Management{
 	}
 	
 	@Override
-	public void list() {
+	public void list(boolean allInformations) {
 		this.getList().forEach(element -> {
 			Users prov = (Users) element;
 			System.out.println("ID: " + prov.getId() + "\n" + 

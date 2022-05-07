@@ -18,11 +18,11 @@ public class Sales extends Entities {
 		this.hour = hour;
 		this.itemsPurchased = itemsPurchased;
 		this.paymentMethod = paymentMethod;
-		addPrice();
+		updatePrice();
 		generatorCode("V");
 	}
 
-	public void addPrice() {
+	public void updatePrice() {
 		this.priceTotal = new BigDecimal("0");
 		if (this.itemsPurchased.size() > 0) {
 			itemsPurchased.forEach(item -> priceTotal = priceTotal.add(item.getPrice()));
@@ -38,12 +38,12 @@ public class Sales extends Entities {
 	
 	public void addItem(Items item) {
 		this.itemsPurchased.add(item);
-		addPrice();
+		updatePrice();
 	}
 	
 	public int deleteItem(Items item) {
 		this.itemsPurchased.remove(item);
-		addPrice();
+		updatePrice();
 		return this.itemsPurchased.size();
 	}
 

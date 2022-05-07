@@ -15,12 +15,14 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Section;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import exceptions.EntitiesNotRegistred;
+import exceptions.IdDoesntExist;
 import management_models.*;
 import modeling_models.*;
 
 public class Reports {
 	
-	public void generatePDF(ManagementSales sales, LocalDate dateBefore, LocalDate dateAfter, String idPlate, String idProvider) {
+	public void generatePDF(ManagementSales sales, LocalDate dateBefore, LocalDate dateAfter, String idPlate, String idProvider) throws IdDoesntExist, EntitiesNotRegistred {
 		Document document = new Document();
         try {
             PdfWriter.getInstance(document, new FileOutputStream("relatorio.pdf"));
@@ -174,7 +176,7 @@ public class Reports {
         }
 	}
 	
-	public void saleByPlate(ManagementSales sales, Paragraph p, Document document, String idPlate) throws DocumentException {
+	public void saleByPlate(ManagementSales sales, Paragraph p, Document document, String idPlate) throws DocumentException, IdDoesntExist, EntitiesNotRegistred {
 		
 		p = new Paragraph(" ");
         document.add(p);
