@@ -2,7 +2,6 @@ package management_models;
 
 import java.util.ArrayList;
 import modeling_models.Entities;
-import modeling_models.Sales;
 import modeling_models.Users;
 
 public abstract class Management {

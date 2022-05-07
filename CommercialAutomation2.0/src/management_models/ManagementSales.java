@@ -1,15 +1,15 @@
 package management_models;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import modeling_models.Entities;
 import modeling_models.Items;
+import modeling_models.Products;
 import modeling_models.Sales;
-import modeling_models.Users;
 
 public class ManagementSales extends Management {
 
@@ -46,29 +46,7 @@ public class ManagementSales extends Management {
 			this.delete(idPEditar);
 		}
 	}
-
-	public String salesMade(ArrayList list) {
-		String priceTotal = "";
-		BigDecimal priceTotalSales = new BigDecimal("0");
-		if (this.getList().size() == 0 ) {
-			System.out.println("Nenhuma venda registrada");
-		} else { 
-			ArrayList<Sales> listSales = list;
-		    for (Sales i : listSales) {
-				priceTotalSales = priceTotalSales.add(i.getPriceTotal());
-				
-			}
-			
-			priceTotal = priceTotalSales.toPlainString();
-			
-			/*this.getList().forEach(sale -> {
-				Sales sales = (Sales) sale;
-			priceTotalSales = priceTotalSales.add(sales.getPriceTotal());
-		});*/
-		}
-		return priceTotal;
-	}
-
+	
 	@Override
 	public void list() {
 		this.getList().forEach(element -> {

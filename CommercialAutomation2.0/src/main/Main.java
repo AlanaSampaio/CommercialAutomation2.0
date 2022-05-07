@@ -1,9 +1,5 @@
 package main;
 
-import java.awt.Desktop;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -17,15 +13,6 @@ import java.util.Scanner;
 
 import management_models.*;
 import modeling_models.*;
-
-import com.itextpdf.text.Chapter;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Section;
-import com.itextpdf.text.pdf.PdfWriter;
 
 import exceptions.*;
 
@@ -123,9 +110,23 @@ public class Main {
 				}
 			System.out.println("\n");
 			} else if (option == 5) {
-				System.out.println("\nGerando relatorio\n");
-				System.out.println("Vendas totais" + managementSales.salesMade(managementSales.getList()));
-				report.generatePDF(managementSales);
+				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
+				    		.withResolverStyle(ResolverStyle.STRICT);
+				
+				System.out.println("Insira a data de INÍCIO do período de vendas que deseja ver no relatório: ");
+				String opt1 = inputOpt.nextLine();
+				LocalDate date1 = LocalDate.parse(opt1, dateFormatter);
+				System.out.println("Insira a data e do FIM do período de vendas que deseja ver no relatório: ");
+				String opt2 = inputOpt.nextLine();
+				LocalDate date2 = LocalDate.parse(opt2, dateFormatter);
+				
+				System.out.println("Insira o ID do prato que deseja ver no relatório: ");
+				String idPlate = inputOpt.nextLine();
+				
+				System.out.println("Insira o ID do fornecedor que deseja ver no relatório: ");
+				String idProvider = inputOpt.nextLine();
+				
+				report.generatePDF(managementSales, date1, date2, idPlate, idProvider);
 				
 			} else if (option != 6) {
 				System.out.println("Opcao invalida. Tente de novo.");
@@ -993,8 +994,6 @@ public class Main {
 			}
 		}			
 	}
-	
-	
 	
 	public static boolean idExist(String idCheck) {
 		return ids.contains(idCheck);
