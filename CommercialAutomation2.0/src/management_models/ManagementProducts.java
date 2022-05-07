@@ -22,7 +22,7 @@ public class ManagementProducts extends Management {
 		return newProduct.getId();
 	}
 
-	public void edit(String idPEdit, String changedValue, Object newValue) {
+	public void edit(String idPEdit, String changedValue, Object newValue) throws IdDoesntExist, EntitiesNotRegistred {
 		Products productPEdit = (Products) this.searchEntities(idPEdit);
 		switch(changedValue) {
 			case "nome":
@@ -45,25 +45,6 @@ public class ManagementProducts extends Management {
 		}
 		
 	}
-
-	
-	@Override
-	public void list() {
-		this.getList().forEach(element -> {
-			Products prod = (Products) element;
-		    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
-		    		.withResolverStyle(ResolverStyle.STRICT);    
-			System.out.println("ID: " + prod.getId() + "\n" + 
-							   "Nome: " + prod.getName()+ "\n" + 
-							   "Preco: R$ " + prod.getPrice()+ "\n" +
-							   "Validade: " + prod.getValidity().format(dateTimeFormatter)+ "\n" +
-							   "Quantidade: " + prod.getQuantity()+ " unidades \n" +
-							   "Fornecedor: \n" + 
-							   "\tID: " + prod.getProvider().getId() +
-							   "\tNome: "+ prod.getProvider().getName());
-			System.out.println("\n");
-		});
-	}
 	
 	public void addProductStock(Products newProd) {
 		boolean nameExist = this.stock.containsKey(newProd.getName());
@@ -83,7 +64,7 @@ public class ManagementProducts extends Management {
 		}
 	}
 	
-	public void removeQuantProd(Products prod, int quant) throws NotEnoughProduct{
+	public void removeQuantProd(Products prod, int quant) throws NotEnoughProduct, IdDoesntExist, EntitiesNotRegistred{
 		// Remove a quantidade passada da quantidade do produto. Se o produto for zerado ele é deletado.
 		int quantBefore = prod.getQuantity();
 		if (quantBefore <= quant) {
@@ -94,11 +75,10 @@ public class ManagementProducts extends Management {
 		}
 	}
 	
-	public void removeQuantGroup(String nameGroup, int quant) throws NotEnoughStock{
+	public void removeQuantGroup(String nameGroup, int quant) throws NotEnoughStock, IdDoesntExist, EntitiesNotRegistred{
 		// Remove a quantidade "quant" passada dos produtos do conjunto.
 		ArrayList<Products> prods = this.stock.get(nameGroup);
 		int left = quant;
-		int i = 0;
 		if (quant > this.getGroupQuantity(nameGroup)) {
 			throw new NotEnoughStock();
 		} else {
@@ -136,7 +116,7 @@ public class ManagementProducts extends Management {
 	}
 	
 	
-	public void updateStock(HashMap<String, Integer> groupsUsed) throws NotEnoughStock{
+	public void updateStock(HashMap<String, Integer> groupsUsed) throws NotEnoughStock, IdDoesntExist, EntitiesNotRegistred{
 		
 		if (!this.checkAllProductsEnough(groupsUsed)) {
 			throw new NotEnoughStock();
@@ -156,8 +136,31 @@ public class ManagementProducts extends Management {
 		return stock;
 	}
 	
-	public void delete(Products prod) {
+	public void delete(Products prod) throws IdDoesntExist, EntitiesNotRegistred {
 		this.deleteProductStock(prod);
 		this.delete(prod.getId());
+	}
+	
+	@Override
+	public void list(boolean allInformations) {
+		this.getList().forEach(element -> {
+			Products prod = (Products) element;
+		    DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
+		    		.withResolverStyle(ResolverStyle.STRICT);    
+			System.out.println("ID: " + prod.getId() + "\n" + 
+							   "Nome: " + prod.getName()+ "\n" + 
+							   "Preco: R$ " + prod.getPrice());
+			
+			if (allInformations) {
+			System.out.println("Validade: " + prod.getValidity().format(dateTimeFormatter)+ "\n" +
+							   "Quantidade: " + prod.getQuantity()+ " unidades \n");
+			}
+			
+			System.out.println("Fornecedor: \n" + 
+							   "\tID: " + prod.getProvider().getId() +
+							   "\tNome: "+ prod.getProvider().getName());
+			
+			System.out.println("\n");
+		});
 	}
 }

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import java.util.HashMap;
 
-
+import exceptions.*;
 import modeling_models.Items;
 import modeling_models.Products;
 
@@ -17,7 +17,7 @@ public class ManagementMenu extends Management {
 		return newItem.getId();
 	}
 
-	public void edit(String idPEdit, String changedValue, Object newValue) {
+	public void edit(String idPEdit, String changedValue, Object newValue) throws IdDoesntExist, EntitiesNotRegistred {
 		Items itemPEdit = (Items) this.searchEntities(idPEdit);
 		switch(changedValue) {
 		case "nome":
@@ -37,12 +37,13 @@ public class ManagementMenu extends Management {
 	}
 	
 
-	public void addProductsItems(String idPEdit, Products productPAdd, int quantity) {
-		Items itemPEdit = (Items) this.searchEntities(idPEdit);
+	public void addProductsItems(String idPEdit, Products productPAdd, int quantity) throws IdDoesntExist, EntitiesNotRegistred{
+		Items itemPEdit;
+		itemPEdit = (Items) this.searchEntities(idPEdit);
 		itemPEdit.addProduct(quantity, productPAdd.getName());
 	}
 	
-	public void removeProductFromItem (String idPEdit, Products produtoPRemover) {
+	public void removeProductFromItem (String idPEdit, Products produtoPRemover) throws IdDoesntExist, EntitiesNotRegistred {
 
 		Items itemPEdit = (Items) this.searchEntities(idPEdit);
 		itemPEdit.deleteProduct(produtoPRemover.getName());
@@ -54,22 +55,28 @@ public class ManagementMenu extends Management {
 
 
 	@Override
-	public void list() {
+	public void list(boolean allInformations) throws EntitiesNotRegistred{
+		if (this.getList().size() == 0) {
+			throw new EntitiesNotRegistred();
+		}
 		this.getList().forEach(element -> {
 			Items item = (Items) element; 
 			System.out.println("ID: " + item.getId() + "\n" + 
 							   "Nome: " + item.getName()+ "\n" + 
-							   "Preco: R$ " + item.getPrice()+ "\n" +
-							   "Descricao: " + item.getDescription()+ "\n" +
-							   "Categoria: " + item.getCategoryItems()+ "\n" +
-							   "Composto de: \n");
+							   "Preco: R$ " + item.getPrice());
 			
-			item.getComposition().forEach((prod, quantity) ->{
-				if (prod != null) {
-				System.out.println("\tNome: " + prod +
-								   "\n\tQntd por item: " + quantity);
-				}
-			});
+			if (allInformations) {
+				System.out.println("Descricao: " + item.getDescription()+ "\n" +
+								   "Categoria: " + item.getCategoryItems()+ "\n" +
+							       "Composto de: \n");
+			
+				item.getComposition().forEach((prod, quantity) ->{
+					if (prod != null) {
+					System.out.println("\tNome: " + prod +
+								   	   "\n\tQntd por item: " + quantity);
+					}
+				});
+			}
 			System.out.println("\n");
 		});
 	}

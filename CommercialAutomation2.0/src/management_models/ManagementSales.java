@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+import exceptions.EntitiesNotRegistred;
+import exceptions.IdDoesntExist;
 import modeling_models.Entities;
 import modeling_models.Items;
 import modeling_models.Sales;
@@ -19,7 +21,7 @@ public class ManagementSales extends Management {
 		return newSale.getId();
 	}
 
-	public void edit(String idPEdit, String changedValue, Object newValue) {
+	public void edit(String idPEdit, String changedValue, Object newValue) throws IdDoesntExist, EntitiesNotRegistred {
 		Sales salesPEdit = (Sales) this.searchEntities(idPEdit);
 		switch(changedValue) {
 			case "dia":
@@ -34,12 +36,12 @@ public class ManagementSales extends Management {
 		}
 	}
 	
-	public void addItem(String idPEdit, Items itemPAdd) {
+	public void addItem(String idPEdit, Items itemPAdd) throws IdDoesntExist, EntitiesNotRegistred {
 		Sales salesPEdit = (Sales) this.searchEntities(idPEdit);
 		salesPEdit.addItem(itemPAdd);
 	}
 	
-	public void deleteItem(String idPEditar, Items itemPDeletar) {
+	public void deleteItem(String idPEditar, Items itemPDeletar) throws IdDoesntExist, EntitiesNotRegistred {
 		Sales salesPEdit = (Sales) this.searchEntities(idPEditar);
 		int size = salesPEdit.deleteItem(itemPDeletar);
 		if (size == 0) {
@@ -70,7 +72,7 @@ public class ManagementSales extends Management {
 	}
 
 	@Override
-	public void list() {
+	public void list(boolean allInformations) {
 		this.getList().forEach(element -> {
 			Sales sale = (Sales) element; 
 			System.out.println("ID: " + sale.getId() + "\n" + 
