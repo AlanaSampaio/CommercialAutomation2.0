@@ -25,7 +25,7 @@ public class Main {
 	static ManagementProducts managementProducts = new ManagementProducts();
 	static ManagementMenu managementMenu = new ManagementMenu();
 	static ManagementSales managementSales = new ManagementSales();
-	static Reports report = new Reports();
+	//static Reports report = new Reports();
 	
 	
 	/**
@@ -100,35 +100,73 @@ public class Main {
 						salesMainMenu(option, managementSales, inputOpt);
 						break;
 				
-				} 
+					} 
 			} else if (option == 5) {
-				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
-				    		.withResolverStyle(ResolverStyle.STRICT);
-				
-				System.out.println("Insira a data de INÃ�CIO do perÃ­odo de vendas que deseja ver no relatÃ³rio: ");
-				String opt1 = inputOpt.nextLine();
-				LocalDate date1 = LocalDate.parse(opt1, dateFormatter);
-				System.out.println("Insira a data e do FIM do perÃ­odo de vendas que deseja ver no relatÃ³rio: ");
-				String opt2 = inputOpt.nextLine();
-				LocalDate date2 = LocalDate.parse(opt2, dateFormatter);
-				
-				System.out.println("Insira o ID do prato que deseja ver no relatÃ³rio: ");
-				String idPlate = inputOpt.nextLine();
-				
-				System.out.println("Insira o ID do fornecedor que deseja ver no relatÃ³rio: ");
-				String idProvider = inputOpt.nextLine();
-				
-				report.generatePDF(managementSales, managementProducts, date1, date2, idPlate, idProvider);
-
-				System.out.println("\nGerando relatorio\n");
-				
-
-				
-			} 
+				reportsMenu(inputOpt);
+			}
 		} while (option != 6);
 		
 		System.out.println("Deslogando do sistema.");
 		
+	}
+	
+	public static void reportsMenu(Scanner input) {
+		ReportsProvider provReport = new ReportsProvider(managementProvider);
+		ReportsSale saleReport = new ReportsSale(managementSales);
+		ReportsStock stockReport = new ReportsStock();
+		
+		String [] possibleReports = {"Vendas: no geral", "Vendas: por periodo", "Vendas: por tipo de prato",
+				 "Estoque: quantidade total","Estoque: quantidade por produto", "Estoque: produtos a vencer",
+				 "Fornecedores: por produto","Fornecedores: por fornecedor"}; 
+		
+		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
+				.withResolverStyle(ResolverStyle.STRICT);
+		
+		int reportChoosed = optionMenuGenerator(possibleReports, "Qual relatorio voce quer gerar?", input);
+		
+		switch(reportChoosed) {
+			case 1:
+				saleReport.generalReport();
+			case 2:
+				System.out.println("Insira a data do INICIO do periodo: ");
+				String date = input.nextLine();
+			    
+			    LocalDate validity = LocalDate.parse(date, dateFormatter);
+			    
+				System.out.println("Insira a data do FIM do periodo: ");
+				date = input.nextLine();
+				
+				
+				saleReport.byPeriod(validity, validity);
+			case 3:
+				saleReport.byPlate();
+			case 4:
+				//stockReport.
+			case 5:
+				//stockReport
+			case 6:
+				//stockReport
+			case 7:
+				provReport.byProduct();
+			case 8:
+				provReport.byProvider();
+		}
+		System.out.println("Insira a data de INICIO do periodo de vendas que deseja ver no relatorio: ");
+		String opt1 = input.nextLine();
+		LocalDate date1 = LocalDate.parse(opt1, dateFormatter);
+		System.out.println("Insira a data e do FIM do periodo de vendas que deseja ver no relatorio: ");
+		String opt2 = input.nextLine();
+		LocalDate date2 = LocalDate.parse(opt2, dateFormatter);
+		
+		System.out.println("Insira o ID do prato que deseja ver no relatorio: ");
+		String idPlate = input.nextLine();
+		
+		System.out.println("Insira o ID do fornecedor que deseja ver no relatorio: ");
+		String idProvider = input.nextLine();
+		
+		//report.generatePDF(managementSales, managementProducts, date1, date2, idPlate, idProvider);
+		
+		System.out.println("\nGerando relatorio\n");
 	}
 
 	public static int optionMenuGenerator(String[] options, String msg1, Scanner input) {

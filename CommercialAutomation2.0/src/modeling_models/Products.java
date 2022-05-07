@@ -19,12 +19,12 @@ public class Products extends Entities{
 	 */
 	private String name;
 	/**
-	 * Pre�o do produto.
+	 * Preco do produto.
 	 */
 	private BigDecimal price;
 	/**
 	 * Validade do produto. 
-	 * Por n�o haver manipula��o da data, ela � armazenada em String
+	 * Por nao haver manipulacao da data, ela e armazenada em String
 	 */
 	private LocalDate validity;
 	
