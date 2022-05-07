@@ -626,8 +626,7 @@ public class Main {
 		category = inputItem.nextLine();
 		try {
 			System.out.println("Insira o preco do item (Use '.' no lugar de ','): ");
-			//price = inputItem.nextLine();
-			price = "20.15";
+			price = inputItem.nextLine();
 			priceDecimal = new BigDecimal(price);
 			
 			String idNewItem = managMenu.register(name, description, priceDecimal, category, new HashMap<String, Integer>());
@@ -838,7 +837,7 @@ public class Main {
 	}
 	
 	public static void salesRegistMenu(int operation, ManagementSales managSales, Scanner inputSale) throws EntitiesNotRegistred {
-		String dateStr, timeStr, paymentMethod;
+		String dateStr, timeStr, paymentMethod, idItem;
 		LocalDate date;
 		LocalTime time;
 		
@@ -859,38 +858,51 @@ public class Main {
 			System.out.println("Insira a hora que a venda foi realizada: ");
 			timeStr = inputSale.nextLine();
 			time = LocalTime.parse(timeStr, timeFormatter);
+			
+			ArrayList<Items> itemsPurchased = new ArrayList<Items>();
 
-			String idNewSale = managSales.register(date, time, new ArrayList<Items>(), paymentMethod);
-			Sales newSale = (Sales) managSales.searchEntities(idNewSale);
 		
 			System.out.println("Lista dos itens cadastrados: ");
 			managementMenu.list(false);
 		
 			System.out.println("ADICAO DOS ITENS QUE COMPOEM ESTA VENDA:");
-			System.out.println("Digite o id do primeiro item comprado: ");
 			System.out.println("OBS: Digite 0 para parar de inserir itens.");
-			String idItem = inputSale.nextLine();
+
 			
 			do {
-				Items itemAdd = (Items) managementMenu.searchEntities(idItem);
-				newSale.addItem(itemAdd);
-				System.out.println("Digite o id do proximo item comprado: ");
-				idItem = inputSale.next();
+				System.out.println("Digite o id do item comprado: ");
+				idItem = inputSale.nextLine();
+				
+				if(!(idItem.equals("0"))) {
+					Items itemAdd = (Items) managementMenu.searchEntities(idItem);
+					managementProducts.checkAllProductsEnough(itemAdd.getComposition());
+					
+					itemsPurchased.add(itemAdd);
+				}
 			} while(!(idItem.equals("0")));
 			
-			if (newSale.getItemsPurchased().size() == 0) {
-				System.out.println("Vendas nao podem estar vazios! Tente novamente!");
-				managSales.delete(idNewSale);
+			if (itemsPurchased.size() == 0) {
+				System.out.println("Vendas nao podem estar vazias! Tente novamente!");
 			} else {
-				System.out.println("Venda cadastrado com sucesso.");
+				System.out.println("Venda cadastrada com sucesso.");
+				String idNewSale = managSales.register(date, time, itemsPurchased, paymentMethod);
+				
+				Sales newSale = (Sales) managSales.searchEntities(idNewSale);
+				
+				for(Items item: newSale.getItemsPurchased()) {
+					managementProducts.updateStock(item.getComposition());
+				}
+				System.out.println("Estoque atualizado com sucesso.");
 			}
 			
 		} catch(NumberFormatException eNum) {
 			System.out.println("Formato invalido! Tente novamente.");
 		} catch(DateTimeParseException eDate) {
 			System.out.println("Formato invalido! Tente novamente.");
-		} catch (IdDoesntExist e) {
-			System.out.println(e.getMessage());
+		} catch (IdDoesntExist eId) {
+			System.out.println(eId.getMessage());
+		} catch (NotEnoughStock eStc) {
+			System.out.println(eStc.getMessage());
 		}
 	}
 	

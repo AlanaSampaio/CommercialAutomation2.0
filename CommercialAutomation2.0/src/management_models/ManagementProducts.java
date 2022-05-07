@@ -106,21 +106,18 @@ public class ManagementProducts extends Management {
 		return totalQuantity;
 	}
 	
-	public boolean checkAllProductsEnough(HashMap<String, Integer> groupsNeed){
+	public void checkAllProductsEnough(HashMap<String, Integer> groupsNeed)throws NotEnoughStock{
 		for (HashMap.Entry<String,Integer> nameQuant : groupsNeed.entrySet()) {
 			if(this.getGroupQuantity(nameQuant.getKey()) < nameQuant.getValue()) {
-				return false;
+				throw new NotEnoughStock();
 			}
 		};
-		return true;
 	}
 	
 	
 	public void updateStock(HashMap<String, Integer> groupsUsed) throws NotEnoughStock, IdDoesntExist, EntitiesNotRegistred{
 		
-		if (!this.checkAllProductsEnough(groupsUsed)) {
-			throw new NotEnoughStock();
-		}
+		this.checkAllProductsEnough(groupsUsed);
 		
 		for (HashMap.Entry<String,Integer> nameQuant : groupsUsed.entrySet()) {
 			try {
