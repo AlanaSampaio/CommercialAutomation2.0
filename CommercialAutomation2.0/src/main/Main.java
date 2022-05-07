@@ -25,8 +25,8 @@ public class Main {
 	static ManagementProducts managementProducts = new ManagementProducts();
 	static ManagementMenu managementMenu = new ManagementMenu();
 	static ManagementSales managementSales = new ManagementSales();
-	static Reports report = new Reports();
-	
+	static ReportsSale rSale = new ReportsSale();
+	static ReportsProvider rProvider = new ReportsProvider();
 	
 	/**
 	 * Menu inicial do sistema. Leva o usuï¿½rio para as opï¿½ï¿½es possï¿½veis, ou encerra o sistema.
@@ -105,20 +105,36 @@ public class Main {
 				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
 				    		.withResolverStyle(ResolverStyle.STRICT);
 				
-				System.out.println("Insira a data de INÃ�CIO do perÃ­odo de vendas que deseja ver no relatÃ³rio: ");
-				String opt1 = inputOpt.nextLine();
-				LocalDate date1 = LocalDate.parse(opt1, dateFormatter);
-				System.out.println("Insira a data e do FIM do perÃ­odo de vendas que deseja ver no relatÃ³rio: ");
-				String opt2 = inputOpt.nextLine();
-				LocalDate date2 = LocalDate.parse(opt2, dateFormatter);
+				System.out.println("Deseja ver o relatório de: \n1- estoque \n2- vendas \n3- fornecedor ");
+				int opt = inputOpt.nextInt();
 				
-				System.out.println("Insira o ID do prato que deseja ver no relatÃ³rio: ");
-				String idPlate = inputOpt.nextLine();
+				if (opt == 1) {
+					
+				} else if (opt == 2) {
+					
+					System.out.println("Insira a data de INICIO do periodo de vendas que deseja ver no relatÃ³rio: ");
+					String opt1 = inputOpt.next();
+					LocalDate date1 = LocalDate.parse(opt1, dateFormatter);
+					System.out.println("Insira a data e do FIM do periodo de vendas que deseja ver no relatÃ³rio: ");
+					String opt2 = inputOpt.next();
+					LocalDate date2 = LocalDate.parse(opt2, dateFormatter);
+					
+					System.out.println("Insira o ID do prato que deseja ver no relatÃ³rio: ");
+					String idPlate = inputOpt.next();
+					
+					rSale.generatePDF(managementSales, date1, date2, idPlate);
+				} else if (opt == 3) {
+					rProvider.generatePDF(managementProvider, managementProducts);
+				} else {
+					System.out.println("Opção inválida");
+				}
+				
+				
 				
 				System.out.println("Insira o ID do fornecedor que deseja ver no relatÃ³rio: ");
 				String idProvider = inputOpt.nextLine();
 				
-				report.generatePDF(managementSales, managementProducts, date1, date2, idPlate, idProvider);
+				//report.generatePDF(managementSales, managementProducts, date1, date2, idPlate, idProvider);
 
 				System.out.println("\nGerando relatorio\n");
 				
