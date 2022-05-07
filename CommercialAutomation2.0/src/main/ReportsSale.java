@@ -169,3 +169,4 @@ public class ReportsSale {
 		return formattedDate;
 	}
 }
+

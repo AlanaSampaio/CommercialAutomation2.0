@@ -120,5 +120,8 @@ public class ReportsProvider {
 		String formattedDate = simpleDateFormat.format(d) ;
 		
 		return formattedDate;
+		
 	}
+
+
 }
