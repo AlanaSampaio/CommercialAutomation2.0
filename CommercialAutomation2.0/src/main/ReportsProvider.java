@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -34,7 +33,6 @@ public class ReportsProvider {
             document.open();
 
             Paragraph p = new Paragraph("Relatorio de Fornecedores");
-            Chapter chapter = new Chapter(p, 1);
             p.setAlignment(1);
             document.add(p);
             
@@ -82,15 +80,21 @@ public class ReportsProvider {
 					   "Nome: " + prov.getName()+ "\n" + 
 					   "CNPJ: " + prov.getCnpj()+ "\n" +
 					   "Endere�o: " + prov.getAddress() + "\n\n" +
-					   "Produtos fornecidos:" + "\n" +
-					   prov.getProductsProvided()
-        	);
-        	document.add(p);
-        	
-        	p = new Paragraph(" ");
-            document.add(p);
+					   "Produtos fornecidos:" + "\n" );
+        	//document.add(p);
+            	prov.getProductsProvided().forEach(prod -> {
+            	p = new Paragraph("ID: " + prod.getId() + "\n" +
+            				"Nome: " + prod.getName() + "\n");
+            	document.add(p);
+            	});
         }
         
+        p = new Paragraph(" ");
+        document.add(p);
+        
+        //provider.getProductsProvided().forEach( product -> {
+			//System.out.println("ID: " + product.getId() +
+		   //"Nome: " + product.getName())}
 	}
 	
 	public void providerProduct(ManagementProducts products, Paragraph p, Document document) throws DocumentException {

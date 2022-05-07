@@ -27,94 +27,45 @@ public class ReportsStock {
 	
 	public void generatePDF(ManagementSales sales, ManagementProducts products, LocalDate dateBefore, LocalDate dateAfter, String idPlate, String idProvider) throws IdDoesntExist, EntitiesNotRegistred {
 		Document document = new Document();
+		String name = "stock_" + dateHour() + ".pdf";
+		
         try {
-            PdfWriter.getInstance(document, new FileOutputStream("relatorio.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream(name));
             document.open();
 
-            Paragraph p = new Paragraph("Relatorio");
-            Chapter chapter = new Chapter(p, 1);
+            Paragraph p = new Paragraph("Relatorio de Estoque");
             p.setAlignment(1);
             document.add(p);
             
             p = new Paragraph(" ");
             document.add(p);
-            p = new Paragraph("Vendas:");
-            Section section = chapter.addSection(p);
-            document.add(section);
-            p = new Paragraph(" ");
-            document.add(p);
-            
-            p = new Paragraph("Vendas realizadas: ");
-            Section section0 = chapter.addSection(p);
-            document.add(section0);
-            
-            salesTotal(sales, p, document);
-            
-            p = new Paragraph(" ");
-            document.add(p);
-            
-            p = new Paragraph("Vendas realizadas por periodo: ");
-            Section section1 = chapter.addSection(p);
-            document.add(section1);
-            
-            saleByPeriod(sales, p, document, dateBefore, dateAfter);
-            
-            p = new Paragraph(" ");
-            document.add(p);
-            
-        	p = new Paragraph("Vendas realizadas por tipo de prato do cardapio: ");
-            Section section2 = chapter.addSection(p);
-            document.add(section2);
-            
-            
-            
-            p = new Paragraph(" ");
-            document.add(p);
-            
-            saleByPlate(sales, p, document, idPlate);
-            
-            p = new Paragraph(" ");
-            document.add(p);
-            Chapter chapter0 = new Chapter(p, 2);
-            p = new Paragraph("Estoque:");
-            Section section3 = chapter0.addSection(p);
-            document.add(section3);
-            p = new Paragraph(" ");
-            document.add(p);
             
             p = new Paragraph("Quantidade total do estoque:");
-            Section section4 = chapter0.addSection(p);
-            document.add(section4);
+            document.add(p);
+            
+            p = new Paragraph(" ");
+            document.add(p);
             
             totalAmountOfStock(products, p, document);
             
             p = new Paragraph("Quantidade por produto:");
-            Section section5 = chapter0.addSection(p);
-            document.add(section5);
+            document.add(p);
+            
+            p = new Paragraph(" ");
+            document.add(p);
+            
+            quantityPerProduct(products, p, document);
             
             p = new Paragraph("Produtos a vencer:");
-            Section section6 = chapter0.addSection(p);
-            document.add(section6);
+            document.add(p);
             
             p = new Paragraph(" ");
             document.add(p);
-            Chapter chapter1 = new Chapter(p, 3);
-            p = new Paragraph("Fornecedores:");
-            Section section7 = chapter1.addSection(p);
-            document.add(section7);
-            p = new Paragraph(" ");
-            document.add(p);
-        
-            p = new Paragraph("Fornecedores totais:");
-            Section section8 = chapter1.addSection(p);
-            document.add(section8);
             
-            p = new Paragraph("Fornecedores por produto:");
-            Section section9 = chapter1.addSection(p);
-            document.add(section9);
+            productsToWin(products, p, document);
             
             document.close();
-            Desktop.getDesktop().open(new File("relatorio.pdf"));
+            Desktop.getDesktop().open(new File(name));
         }
         catch(DocumentException de) {
             System.err.println(de.getMessage());
@@ -123,9 +74,7 @@ public class ReportsStock {
             System.err.println(ioe.getMessage());
         }
 	}
-	
 
-	
 	public void totalAmountOfStock(ManagementProducts products, Paragraph p, Document document) throws DocumentException {
 		String groupName;
 		ArrayList<Products> group;
@@ -157,7 +106,17 @@ public class ReportsStock {
     	}
 	}
 	
-
+	public void quantityPerProduct(ManagementProducts products, Paragraph p, Document document) throws DocumentException {
+		
+		p = new Paragraph(" ");
+        document.add(p);
+	}
+	
+	public void productsToWin(ManagementProducts products, Paragraph p, Document document) throws DocumentException {
+		
+		p = new Paragraph(" ");
+        document.add(p);
+	}
 	
 	
 	public String dateHour() {
