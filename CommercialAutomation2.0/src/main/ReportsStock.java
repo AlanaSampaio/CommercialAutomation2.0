@@ -20,7 +20,7 @@ import exceptions.IdDoesntExist;
 import management_models.*;
 import modeling_models.*;
 
-public class Reports {
+public class ReportsStock {
 	
 	public void generatePDF(ManagementSales sales, ManagementProducts products, LocalDate dateBefore, LocalDate dateAfter, String idPlate, String idProvider) throws IdDoesntExist, EntitiesNotRegistred {
 		Document document = new Document();
