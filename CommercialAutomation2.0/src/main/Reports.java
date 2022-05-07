@@ -22,13 +22,13 @@ import modeling_models.*;
 
 public class Reports {
 	
-	public void generatePDF(ManagementSales sales, LocalDate dateBefore, LocalDate dateAfter, String idPlate, String idProvider) throws IdDoesntExist, EntitiesNotRegistred {
+	public void generatePDF(ManagementSales sales, ManagementProducts products, LocalDate dateBefore, LocalDate dateAfter, String idPlate, String idProvider) throws IdDoesntExist, EntitiesNotRegistred {
 		Document document = new Document();
         try {
             PdfWriter.getInstance(document, new FileOutputStream("relatorio.pdf"));
             document.open();
 
-            Paragraph p = new Paragraph("Relatório");
+            Paragraph p = new Paragraph("Relatorio");
             Chapter chapter = new Chapter(p, 1);
             p.setAlignment(1);
             document.add(p);
@@ -50,7 +50,7 @@ public class Reports {
             p = new Paragraph(" ");
             document.add(p);
             
-            p = new Paragraph("Vendas realizadas por período: ");
+            p = new Paragraph("Vendas realizadas por periodo: ");
             Section section1 = chapter.addSection(p);
             document.add(section1);
             
@@ -59,9 +59,11 @@ public class Reports {
             p = new Paragraph(" ");
             document.add(p);
             
-        	p = new Paragraph("Vendas realizadas por tipo de prato do cardápio: ");
+        	p = new Paragraph("Vendas realizadas por tipo de prato do cardapio: ");
             Section section2 = chapter.addSection(p);
             document.add(section2);
+            
+            
             
             p = new Paragraph(" ");
             document.add(p);
@@ -81,6 +83,7 @@ public class Reports {
             Section section4 = chapter0.addSection(p);
             document.add(section4);
             
+            totalAmountOfStock(products, p, document);
             
             p = new Paragraph("Quantidade por produto:");
             Section section5 = chapter0.addSection(p);
@@ -144,7 +147,7 @@ public class Reports {
 		p = new Paragraph(" ");
         document.add(p);
         
-        p = new Paragraph("Período de " + 
+        p = new Paragraph("Periodo de " + 
         			dateBefore.getDayOfMonth() + "/" + 
         			dateBefore.getMonthValue() + "/" + 
         			dateBefore.getYear() + " à " + 
@@ -201,25 +204,36 @@ public class Reports {
         }
 	}
 	
-	/*public void totalAmountOfStock(ManagementProducts products, Paragraph p, Document document) throws DocumentException {
+	public void totalAmountOfStock(ManagementProducts products, Paragraph p, Document document) throws DocumentException {
+		String groupName;
+		ArrayList<Products> group;
+		
 		p = new Paragraph(" ");
         document.add(p);
         
-    	HashMap<String, ArrayList<Products>> listProducts = products.getStock();
+    	HashMap<String, ArrayList<Products>> groupProducts = products.getStock();
     	int cont = 1;
-    	for (Entities product : listProducts) {
-    		Products prod = (Products) product; 
-    		p = new Paragraph(cont++ + "- ID: " + prod.getId() + "\n" + 
-					   "Dia: " + sales1.getDay()+ "\n" + 
-					   "Horario: " + sales1.getHour()+ "\n" +
-					   "Preco total: R$" + sales1.getPriceTotal() + "\n" +
-					   "Modo de Pagamento: " + sales1.getPaymentMethod() + "\n");
-        	document.add(p);
+    	for (HashMap.Entry<String, ArrayList<Products>> groupProds : groupProducts.entrySet()){
+    		groupName = groupProds.getKey();
+    		group = groupProds.getValue();
+   
+    		p = new Paragraph(cont++ + "- " + "Produtos de nome: " + groupName +
+    				   "   |   Total no estoque: " + products.getGroupQuantity(groupName) + "\n");
+    		document.add(p);
+    		p = new Paragraph(" ");
+    		for (Products prod : group) {
+    			p = new Paragraph("\nID: " + prod.getId() + "\n" + 
+					   "Fornecedor: " + prod.getProvider().getName()+ "\n" + 
+					   "Preco: R$" + prod.getPrice()+ "\n" +
+					   "Quantidade: " + prod.getQuantity() + " unidades\n" +
+					   "Validade: " + prod.getValidity() + "\n");
+    			document.add(p);
+    		}
         	
         	p = new Paragraph(" ");
             document.add(p);
     	}
-	}*/
+	}
 	
 	public void providerRelationship(ManagementProviders provider, Paragraph p, Document document) throws DocumentException {
 		p = new Paragraph(" ");

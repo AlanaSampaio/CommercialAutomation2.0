@@ -29,7 +29,7 @@ public class Main {
 	
 	
 	/**
-	 * Menu inicial do sistema. Leva o usu�rio para as op��es poss�veis, ou encerra o sistema.
+	 * Menu inicial do sistema. Leva o usuï¿½rio para as opï¿½ï¿½es possï¿½veis, ou encerra o sistema.
 	 * @param args
 	 * @throws EntitiesNotRegistred 
 	 * @throws IdDoesntExist 
@@ -50,7 +50,7 @@ public class Main {
 				}
 				
 				login(input); // So passa para a proxima linha se o login for efetuado.
-				optionsMenu(input); // Menu com as op�pes principais.
+				optionsMenu(input); // Menu com as opï¿½pes principais.
 				
 			} else if (answer == 2) {
 				System.out.println("SISTEMA ENCERRADO");
@@ -105,20 +105,20 @@ public class Main {
 				DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
 				    		.withResolverStyle(ResolverStyle.STRICT);
 				
-				System.out.println("Insira a data de INÍCIO do período de vendas que deseja ver no relatório: ");
+				System.out.println("Insira a data de INÃ�CIO do perÃ­odo de vendas que deseja ver no relatÃ³rio: ");
 				String opt1 = inputOpt.nextLine();
 				LocalDate date1 = LocalDate.parse(opt1, dateFormatter);
-				System.out.println("Insira a data e do FIM do período de vendas que deseja ver no relatório: ");
+				System.out.println("Insira a data e do FIM do perÃ­odo de vendas que deseja ver no relatÃ³rio: ");
 				String opt2 = inputOpt.nextLine();
 				LocalDate date2 = LocalDate.parse(opt2, dateFormatter);
 				
-				System.out.println("Insira o ID do prato que deseja ver no relatório: ");
+				System.out.println("Insira o ID do prato que deseja ver no relatÃ³rio: ");
 				String idPlate = inputOpt.nextLine();
 				
-				System.out.println("Insira o ID do fornecedor que deseja ver no relatório: ");
+				System.out.println("Insira o ID do fornecedor que deseja ver no relatÃ³rio: ");
 				String idProvider = inputOpt.nextLine();
 				
-				report.generatePDF(managementSales, date1, date2, idPlate, idProvider);
+				report.generatePDF(managementSales, managementProducts, date1, date2, idPlate, idProvider);
 
 				System.out.println("\nGerando relatorio\n");
 				
@@ -166,7 +166,7 @@ public class Main {
 	
 	
 	/**
-	 * Recebe as informa��es de login do usuario e certifica
+	 * Recebe as informaï¿½ï¿½es de login do usuario e certifica
 	 * que estejam certas.
 	 * @param input: Objeto scanner para receber entradas do usuario.
 	 */

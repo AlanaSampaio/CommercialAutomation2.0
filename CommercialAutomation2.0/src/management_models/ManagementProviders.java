@@ -49,8 +49,8 @@ public class ManagementProviders extends Management {
 				System.out.println("Endereço: " + prov.getAddress());
 							   System.out.println("Produtos fornecidos:");
 							   prov.listProdProvided();
-							   System.out.println("\n");
 			}
+			System.out.println();
 		});
 	}
 	
