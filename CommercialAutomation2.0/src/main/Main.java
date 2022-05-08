@@ -27,7 +27,7 @@ public class Main {
 	static ManagementSales managementSales = new ManagementSales();
 	
 	/**
-	 * Menu inicial do sistema. Leva o usuï¿½rio para as opï¿½ï¿½es possï¿½veis, ou encerra o sistema.
+	 * Menu inicial do sistema. Leva o usuario para as opcoes possiveis, ou encerra o sistema.
 	 * @param args
 	 * @throws EntitiesNotRegistred 
 	 * @throws IdDoesntExist 
@@ -53,7 +53,7 @@ public class Main {
 			} else if (answer == 2) {
 				System.out.println("SISTEMA ENCERRADO");
 			} else {
-				System.out.println("Opcao invalida.");
+				System.out.println("Opcao invalida. Tente novamente.");
 			}
 		}
 		input.close();
