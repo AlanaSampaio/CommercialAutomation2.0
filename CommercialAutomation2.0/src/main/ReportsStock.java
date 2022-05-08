@@ -25,29 +25,41 @@ import modeling_models.*;
 
 public class ReportsStock {
 	
-	public void generatePDF(ManagementSales sales, ManagementProducts products, LocalDate dateBefore, LocalDate dateAfter, String idPlate, String idProvider) throws IdDoesntExist, EntitiesNotRegistred {
+	public void generatePDF(ManagementProducts products, String idProd) throws IdDoesntExist, EntitiesNotRegistred {
 		Document document = new Document();
+
 		String name = "stock_" + dateHour() + ".pdf";
+
+		String name = "product_" + dateHour() + ".pdf";
+
 		
         try {
             PdfWriter.getInstance(document, new FileOutputStream(name));
             document.open();
 
+
             Paragraph p = new Paragraph("Relatorio de Estoque");
+
+            Paragraph p = new Paragraph("Relatorio de Produtos");
+
             p.setAlignment(1);
             document.add(p);
             
             p = new Paragraph(" ");
             document.add(p);
             
+
             p = new Paragraph("Quantidade total do estoque:");
             document.add(p);
             
             p = new Paragraph(" ");
+
+            p = new Paragraph("Todos os produtos no estoque: ");
+
             document.add(p);
             
             totalAmountOfStock(products, p, document);
-            
+
             p = new Paragraph("Quantidade por produto:");
             document.add(p);
             
@@ -63,6 +75,24 @@ public class ReportsStock {
             document.add(p);
             
             productsToWin(products, p, document);
+
+            p = new Paragraph(" ");
+            document.add(p);
+   
+            p = new Paragraph("Informacoes do produto selecionado: ");
+            document.add(p);
+            
+            byProduct(products, idProd, p, document);
+            
+            p = new Paragraph(" ");
+            document.add(p);
+            
+            p = new Paragraph("Produtos que vencem no proximo mes: ");
+            document.add(p);
+            
+            p = new Paragraph(" ");
+            document.add(p);
+
             
             document.close();
             Desktop.getDesktop().open(new File(name));
@@ -105,7 +135,7 @@ public class ReportsStock {
             document.add(p);
     	}
 	}
-	
+
 	public void quantityPerProduct(ManagementProducts products, Paragraph p, Document document) throws DocumentException {
 		
 		p = new Paragraph(" ");
@@ -117,6 +147,63 @@ public class ReportsStock {
 		p = new Paragraph(" ");
         document.add(p);
 	}
+	
+	public void byProduct(ManagementProducts products, String idProd, Paragraph p, Document document) throws DocumentException, IdDoesntExist, EntitiesNotRegistred {
+		Products prod = (Products) products.searchEntities(idProd);
+		
+		p = new Paragraph(" ");
+        document.add(p);
+    		
+    	p = new Paragraph("\nID: " + prod.getId() + "\n" + 
+    					  "Nome: " + prod.getName() + "\n" +
+					   	  "Fornecedor: " + prod.getProvider().getName()+ "\n" + 
+					      "Preco: R$" + prod.getPrice()+ "\n" +
+					      "Quantidade: " + prod.getQuantity() + " unidades\n" +
+					      "Validade: " + prod.getValidity() + "\n");
+    	document.add(p);   
+    	
+        p = new Paragraph(" ");
+        document.add(p);
+	}
+	
+	
+	public void productsToExpire(ManagementProducts products, Paragraph p, Document document) throws DocumentException {
+		LocalDate currentDay = LocalDate.now();
+		LocalDate nextMonth = currentDay.plusMonths(1);
+		
+		p = new Paragraph(" ");
+        document.add(p);
+        
+		for (Entities enti : products.getList()) {
+			Products prod = (Products) enti;
+			if (nextMonth.isAfter(prod.getValidity()) && currentDay.isBefore(prod.getValidity())) {		    		
+		    	p = new Paragraph("\nID: " + prod.getId() + "\n" + 
+		    					  "Validade: " + prod.getValidity() + "\n" +
+		    					  "Nome: " + prod.getName() + "\n" +
+							   	  "Fornecedor: " + prod.getProvider().getName()+ "\n" + 
+							      "Preco: R$" + prod.getPrice()+ "\n" +
+							      "Quantidade: " + prod.getQuantity() + " unidades\n");
+		    	document.add(p);   
+			}
+		}
+		
+		p = new Paragraph("\nProdutos ja vencidos:\n");
+		document.add(p);  
+		
+		for (Entities enti : products.getList()) {
+			Products prod = (Products) enti;
+			if (currentDay.isAfter(prod.getValidity())) {		    		
+		    	p = new Paragraph("\nID: " + prod.getId() + "\n" + 
+		    					  "Validade: " + prod.getValidity() + "\n" +
+		    					  "Nome: " + prod.getName() + "\n" +
+							   	  "Fornecedor: " + prod.getProvider().getName()+ "\n" + 
+							      "Preco: R$" + prod.getPrice()+ "\n" +
+							      "Quantidade: " + prod.getQuantity() + " unidades\n");
+		    	document.add(p);   
+			}
+		}		
+	}
+
 	
 	
 	public String dateHour() {

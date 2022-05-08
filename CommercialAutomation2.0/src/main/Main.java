@@ -100,13 +100,8 @@ public class Main {
 				
 					} 
 			} else if (option == 5) {
-				
-				
-
-				
-			} 
 				reportsMenu(inputOpt);
-			
+			} 
 		} while (option != 6);
 		
 		System.out.println("Deslogando do sistema.");
@@ -116,40 +111,36 @@ public class Main {
 	public static void reportsMenu(Scanner input) throws IdDoesntExist, EntitiesNotRegistred {
 		ReportsSale rSale = new ReportsSale();
 		ReportsProvider rProvider = new ReportsProvider();
+		ReportsStock rStock = new ReportsStock();
 		
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
 	    		.withResolverStyle(ResolverStyle.STRICT);
-	
-		System.out.println("Deseja ver o relatório de: \n1- estoque \n2- vendas \n3- fornecedor ");
-		int opt = input.nextInt();
+		
+		String[] options = {"estoque", "vendas", "fornecedor"};
+		int opt = optionMenuGenerator(options, "Deseja ver o relatório de:", input);
 	
 		if (opt == 1) {
-		
+			managementProducts.list(false);
+			System.out.println("Insira o ID do produto que deseja ver no relatorio: ");
+			String idProd = input.next();
+			
+			rStock.generatePDF(managementProducts, idProd);
 		} else if (opt == 2) {
 		
-			System.out.println("Insira a data de INICIO do periodo de vendas que deseja ver no relatÃ³rio: ");
+			System.out.println("Insira a data de INICIO do periodo de vendas que deseja ver no relatorio: ");
 			String opt1 = input.next();
 			LocalDate date1 = LocalDate.parse(opt1, dateFormatter);
-			System.out.println("Insira a data e do FIM do periodo de vendas que deseja ver no relatÃ³rio: ");
+			System.out.println("Insira a data e do FIM do periodo de vendas que deseja ver no relatorio: ");
 			String opt2 = input.next();
 			LocalDate date2 = LocalDate.parse(opt2, dateFormatter);
 		
-			System.out.println("Insira o ID do prato que deseja ver no relatÃ³rio: ");
+			System.out.println("Insira o ID do prato que deseja ver no relatorio: ");
 			String idPlate = input.next();
 		
-			rSale.generatePDF(managementSales, date1, date2, idPlate);
+			rSale.generatePDF(managementSales, managementMenu, date1, date2, idPlate);
 		} else if (opt == 3) {
 			rProvider.generatePDF(managementProvider, managementProducts);
-		} else {
-			System.out.println("Opção inválida");
 		}
-	
-	
-	
-		System.out.println("Insira o ID do fornecedor que deseja ver no relatÃ³rio: ");
-		String idProvider = input.nextLine();
-	
-		//report.generatePDF(managementSales, managementProducts, date1, date2, idPlate, idProvider);
 
 		System.out.println("\nGerando relatorio\n");
 		}
@@ -189,7 +180,7 @@ public class Main {
 	
 	
 	/**
-	 * Recebe as informaï¿½ï¿½es de login do usuario e certifica
+	 * Recebe as informacoes de login do usuario e certifica
 	 * que estejam certas.
 	 * @param input: Objeto scanner para receber entradas do usuario.
 	 */
@@ -253,28 +244,16 @@ public class Main {
 		
 		System.out.println("Insira o seu nome: ");
 		name = inputUsers.nextLine();
-	
-		System.out.println("Qual o cargo do usuario?");
-		System.out.println("1 - P/ Gerente\n"
-						 + "2 - P/ Funcionario\n");
-		choice = inputUsers.nextInt();
-		inputUsers.nextLine();
 		
-		choice = 1;
-		while (choice != 1 && choice != 2) {
-			System.out.println("Resposta invalida. Tente novamente:");
-			System.out.println("1 - P/ Gerente\n"
-					 		 + "2 - P/ Funcionario\n");
-			choice = inputUsers.nextInt();
-			inputUsers.nextLine();
-		}
+		String[] roles = {"Gerente", "Funcionario"};
+		choice = optionMenuGenerator(roles, "Qual o cargo do usuario?", inputUsers);
 		
 		category = (choice == 1)? "Gerente": "Funcionario";
 		System.out.println("\n");
 		
 		try {
-		managementUser.register(nick, password, name, category);
-		System.out.println("Usuario cadastrado com sucesso!");
+			managementUser.register(nick, password, name, category);
+			System.out.println("Usuario cadastrado com sucesso!");
 		} catch(ExistentNicknameException eNick) {
 			System.out.println(eNick.getMessage());
 		}
@@ -291,37 +270,14 @@ public class Main {
 		id = inputUsers.nextLine();
 		
 		String[] options = { "nome", "nickname", "senha", "cargo"};
-		System.out.println("\nO que voce deseja alterar?");
-		
-		for (int i = 0; i < options.length; i++) {
-			System.out.println((i + 1) + " - P/ " + options[i]);
-		}
-		option1 = inputUsers.nextInt();
-		inputUsers.nextLine();
-		
-		while (!(option1 >= 1 && option1 <= options.length)) {
-			System.out.println("Opcao invalida. Tente novamente.");
-			System.out.println("Escolha: ");
-			option1 = inputUsers.nextInt();
-			inputUsers.nextLine();
-		}
+
+		option1 = optionMenuGenerator(options, "O que voce deseja alterar?", inputUsers);
 		
 		option2 = options[option1 - 1];
 		
 		if (option2 == "cargo") {
-			System.out.println("Qual o novo cargo do usuario?");
-			System.out.println("1 - P/ Gerente\n"
-							 + "2 - P/ Funcionario\n");
-			choice = inputUsers.nextInt();
-			inputUsers.nextLine();
-			
-			while (choice != 1 && choice != 2) {
-				System.out.println("Resposta invalida. Tente novamente:");
-				System.out.println("1 - P/ Gerente\n"
-						 		 + "2 - P/ Funcionario\n");
-				choice = inputUsers.nextInt();
-				inputUsers.nextLine();
-			}
+			String[] roles = {"Gerente", "Funcionario"};
+			choice = optionMenuGenerator(roles, "Qual o cargo do usuario?", inputUsers);
 			
 			category = (choice == 1)? "Gerente": "Funcionario";
 			System.out.println("\n");

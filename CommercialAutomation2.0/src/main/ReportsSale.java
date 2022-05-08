@@ -17,13 +17,15 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import exceptions.EntitiesNotRegistred;
 import exceptions.IdDoesntExist;
+import management_models.ManagementMenu;
 import management_models.ManagementSales;
 import modeling_models.Entities;
+import modeling_models.Items;
 import modeling_models.Sales;
 
 public class ReportsSale {
 
-	public void generatePDF(ManagementSales sales, LocalDate dateBefore, LocalDate dateAfter, String idPlate) throws IdDoesntExist, EntitiesNotRegistred {
+	public void generatePDF(ManagementSales sales, ManagementMenu itemsMenu, LocalDate dateBefore, LocalDate dateAfter, String idPlate) throws IdDoesntExist, EntitiesNotRegistred {
 		Document document = new Document();
 		String name = "sale_" + dateHour() + ".pdf";
         
@@ -54,13 +56,13 @@ public class ReportsSale {
             p = new Paragraph(" ");
             document.add(p);
             
-            p = new Paragraph("Vendas realizadas por tipo de prato do cardápio: ");
+            p = new Paragraph("Vendas realizadas por tipo de prato do cardapio: ");
             document.add(p);
             
             p = new Paragraph(" ");
             document.add(p);
             
-            //saleByPlate(sales, p, document, idPlate);
+            saleByPlate(sales, itemsMenu, p, document, idPlate);
             
             document.close();
             Desktop.getDesktop().open(new File(name));
@@ -102,7 +104,7 @@ public class ReportsSale {
         p = new Paragraph("Periodo de " + 
         			dateBefore.getDayOfMonth() + "/" + 
         			dateBefore.getMonthValue() + "/" + 
-        			dateBefore.getYear() + " à " + 
+        			dateBefore.getYear() + " a� " + 
         			dateAfter.getDayOfMonth() + "/" + 
         			dateAfter.getMonthValue() + "/" + 
         			dateAfter.getYear() );
@@ -131,12 +133,13 @@ public class ReportsSale {
         }
 	}
 	
-	public void saleByPlate(ManagementSales sales, Paragraph p, Document document, String idPlate) throws DocumentException, IdDoesntExist, EntitiesNotRegistred {
+	public void saleByPlate(ManagementSales sales, ManagementMenu itemsMenu, Paragraph p, Document document, String idPlate) throws DocumentException, IdDoesntExist, EntitiesNotRegistred {
 		
+		Items itemChoosed = (Items) itemsMenu.searchEntities(idPlate);
 		p = new Paragraph(" ");
         document.add(p);
         
-        p = new Paragraph("Prato: " + idPlate );
+        p = new Paragraph("Prato: " + itemChoosed.getName());
         document.add(p);
         
         p = new Paragraph(" ");
@@ -144,16 +147,14 @@ public class ReportsSale {
         
         int cont = 1;
         for (Entities i : sales.getList()) {
-			Sales sales1 = (Sales) i;
-			Entities plate = sales.searchEntities(idPlate);
-			if (plate != null) {
-				p = new Paragraph(cont++ + "- ID: " + sales1.getId() + "\n" +
-									"Dia: " + sales1.getDay() + "\n" +
-									"Hora: " + sales1.getHour() + "\n" +
-									"Preço: " + sales1.getPriceTotal() + "\n" +
-									"Método de pagamento: " + sales1.getPaymentMethod());
+			Sales sale = (Sales) i;
+			if (sale.getItemsPurchased().contains(itemChoosed)) {
+				p = new Paragraph(cont++ + "- ID: " + sale.getId() + "\n" +
+									"Dia: " + sale.getDay() + "\n" +
+									"Hora: " + sale.getHour() + "\n" +
+									"Preco: R$" + sale.getPriceTotal() + "\n" +
+									"Metodo de pagamento: " + sale.getPaymentMethod());
 				document.add(p);
-				
 				p = new Paragraph(" ");
 		        document.add(p);
 			} 
