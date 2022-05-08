@@ -104,7 +104,7 @@ public class ReportsSale {
         p = new Paragraph("Periodo de " + 
         			dateBefore.getDayOfMonth() + "/" + 
         			dateBefore.getMonthValue() + "/" + 
-        			dateBefore.getYear() + " aï¿½ " + 
+        			dateBefore.getYear() + " a  " + 
         			dateAfter.getDayOfMonth() + "/" + 
         			dateAfter.getMonthValue() + "/" + 
         			dateAfter.getYear() );

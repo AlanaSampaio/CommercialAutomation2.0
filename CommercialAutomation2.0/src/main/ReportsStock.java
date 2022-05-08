@@ -27,55 +27,24 @@ public class ReportsStock {
 	
 	public void generatePDF(ManagementProducts products, String idProd) throws IdDoesntExist, EntitiesNotRegistred {
 		Document document = new Document();
-
-		String name = "stock_" + dateHour() + ".pdf";
-
 		String name = "product_" + dateHour() + ".pdf";
-
 		
         try {
             PdfWriter.getInstance(document, new FileOutputStream(name));
             document.open();
 
-
-            Paragraph p = new Paragraph("Relatorio de Estoque");
-
             Paragraph p = new Paragraph("Relatorio de Produtos");
-
             p.setAlignment(1);
             document.add(p);
             
             p = new Paragraph(" ");
             document.add(p);
             
-
-            p = new Paragraph("Quantidade total do estoque:");
-            document.add(p);
-            
-            p = new Paragraph(" ");
-
             p = new Paragraph("Todos os produtos no estoque: ");
-
             document.add(p);
             
             totalAmountOfStock(products, p, document);
-
-            p = new Paragraph("Quantidade por produto:");
-            document.add(p);
             
-            p = new Paragraph(" ");
-            document.add(p);
-            
-            quantityPerProduct(products, p, document);
-            
-            p = new Paragraph("Produtos a vencer:");
-            document.add(p);
-            
-            p = new Paragraph(" ");
-            document.add(p);
-            
-            productsToWin(products, p, document);
-
             p = new Paragraph(" ");
             document.add(p);
    
@@ -92,7 +61,8 @@ public class ReportsStock {
             
             p = new Paragraph(" ");
             document.add(p);
-
+            
+            productsToExpire(products, p, document);
             
             document.close();
             Desktop.getDesktop().open(new File(name));
@@ -104,7 +74,7 @@ public class ReportsStock {
             System.err.println(ioe.getMessage());
         }
 	}
-
+	
 	public void totalAmountOfStock(ManagementProducts products, Paragraph p, Document document) throws DocumentException {
 		String groupName;
 		ArrayList<Products> group;
@@ -135,18 +105,7 @@ public class ReportsStock {
             document.add(p);
     	}
 	}
-
-	public void quantityPerProduct(ManagementProducts products, Paragraph p, Document document) throws DocumentException {
-		
-		p = new Paragraph(" ");
-        document.add(p);
-	}
 	
-	public void productsToWin(ManagementProducts products, Paragraph p, Document document) throws DocumentException {
-		
-		p = new Paragraph(" ");
-        document.add(p);
-	}
 	
 	public void byProduct(ManagementProducts products, String idProd, Paragraph p, Document document) throws DocumentException, IdDoesntExist, EntitiesNotRegistred {
 		Products prod = (Products) products.searchEntities(idProd);
@@ -203,12 +162,13 @@ public class ReportsStock {
 			}
 		}		
 	}
-
+	
+	
 	
 	
 	public String dateHour() {
 		Date d = Calendar.getInstance().getTime();
-		String formatString = "dd.MM.yyyy_hh.mm.ss" ;
+		String formatString = "dd.MM.yyyy" ;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat (formatString);
 		String formattedDate = simpleDateFormat.format(d) ;
 		

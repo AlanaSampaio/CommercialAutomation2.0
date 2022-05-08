@@ -214,14 +214,15 @@ public class Main {
 				case 1:
 					usersRegistMenu(operation, managUser, inputUsers);
 					break;
-				case 2:
-				
+					
+				case 2:		
 					usersEditMenu(operation, managUser, inputUsers);
-				
 					break;
+					
 				case 3:
 					usersDelMenu(operation, managUser, inputUsers);
 					break;
+					
 				case 4:
 					managUser.list(true);
 					break;
