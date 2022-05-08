@@ -34,7 +34,6 @@ public class ReportsProvider {
             document.open();
 
             Paragraph p = new Paragraph("Relatorio de Fornecedores");
-            Chapter chapter = new Chapter(p, 1);
             p.setAlignment(1);
             document.add(p);
             
@@ -78,14 +77,18 @@ public class ReportsProvider {
         int cont = 1;
         for (Entities provider1 : provider.getList()) {
         	Providers prov = (Providers) provider1;
-        	p = new Paragraph(cont++ + "ID: " + prov.getId() + "\n" + 
+        	p = new Paragraph(cont++ + " - ID: " + prov.getId() + "\n" + 
 					   "Nome: " + prov.getName()+ "\n" + 
 					   "CNPJ: " + prov.getCnpj()+ "\n" +
-					   "Endere�o: " + prov.getAddress() + "\n\n" +
-					   "Produtos fornecidos:" + "\n" +
-					   prov.getProductsProvided()
-        	);
+					   "Endereco: " + prov.getAddress() + "\n\n" +
+					   "Produtos fornecidos:" + "\n");
         	document.add(p);
+        	
+        	for (Products prod : prov.getProductsProvided()) {
+        		p = new Paragraph("     ID: " + prod.getId() + "\n" +
+        						  "     Nome: " + prod.getName() + "\n\n");
+        		document.add(p);
+        	}
         	
         	p = new Paragraph(" ");
             document.add(p);
@@ -100,12 +103,12 @@ public class ReportsProvider {
         int cont = 1;
         for (Entities prod1 : products.getList()) {
         	Products prod = (Products) prod1;
-        	p = new Paragraph(cont++ + "ID: " + prod.getId() + "\n" + 
+        	p = new Paragraph(cont++ + " - ID: " + prod.getId() + "\n" + 
 							   "Nome: " + prod.getName() + "\n" + 
 							   "Preco: R$ " + prod.getPrice() + "\n" +
 							   "Fornecedor: \n" + 
-							   "\tID: " + prod.getProvider().getId() +
-							   "\tNome: "+ prod.getProvider().getName());
+							   "     ID: " + prod.getProvider().getId() + "\n" +
+							   "     Nome: "+ prod.getProvider().getName());
         	document.add(p);
         	
         	p = new Paragraph(" ");

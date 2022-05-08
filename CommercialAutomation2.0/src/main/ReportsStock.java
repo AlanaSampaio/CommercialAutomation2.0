@@ -25,96 +25,47 @@ import modeling_models.*;
 
 public class ReportsStock {
 	
-	public void generatePDF(ManagementSales sales, ManagementProducts products, LocalDate dateBefore, LocalDate dateAfter, String idPlate, String idProvider) throws IdDoesntExist, EntitiesNotRegistred {
+	public void generatePDF(ManagementProducts products, String idProd) throws IdDoesntExist, EntitiesNotRegistred {
 		Document document = new Document();
+		String name = "product_" + dateHour() + ".pdf";
+		
         try {
-            PdfWriter.getInstance(document, new FileOutputStream("relatorio.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream(name));
             document.open();
 
-            Paragraph p = new Paragraph("Relatorio");
-            Chapter chapter = new Chapter(p, 1);
+            Paragraph p = new Paragraph("Relatorio de Produtos");
             p.setAlignment(1);
             document.add(p);
             
             p = new Paragraph(" ");
             document.add(p);
-            p = new Paragraph("Vendas:");
-            Section section = chapter.addSection(p);
-            document.add(section);
-            p = new Paragraph(" ");
+            
+            p = new Paragraph("Todos os produtos no estoque: ");
             document.add(p);
-            
-            p = new Paragraph("Vendas realizadas: ");
-            Section section0 = chapter.addSection(p);
-            document.add(section0);
-            
-            salesTotal(sales, p, document);
-            
-            p = new Paragraph(" ");
-            document.add(p);
-            
-            p = new Paragraph("Vendas realizadas por periodo: ");
-            Section section1 = chapter.addSection(p);
-            document.add(section1);
-            
-            saleByPeriod(sales, p, document, dateBefore, dateAfter);
-            
-            p = new Paragraph(" ");
-            document.add(p);
-            
-        	p = new Paragraph("Vendas realizadas por tipo de prato do cardapio: ");
-            Section section2 = chapter.addSection(p);
-            document.add(section2);
-            
-            
-            
-            p = new Paragraph(" ");
-            document.add(p);
-            
-            saleByPlate(sales, p, document, idPlate);
-            
-            p = new Paragraph(" ");
-            document.add(p);
-            Chapter chapter0 = new Chapter(p, 2);
-            p = new Paragraph("Estoque:");
-            Section section3 = chapter0.addSection(p);
-            document.add(section3);
-            p = new Paragraph(" ");
-            document.add(p);
-            
-            p = new Paragraph("Quantidade total do estoque:");
-            Section section4 = chapter0.addSection(p);
-            document.add(section4);
             
             totalAmountOfStock(products, p, document);
             
-            p = new Paragraph("Quantidade por produto:");
-            Section section5 = chapter0.addSection(p);
-            document.add(section5);
+            p = new Paragraph(" ");
+            document.add(p);
+   
+            p = new Paragraph("Informacoes do produto selecionado: ");
+            document.add(p);
             
-            p = new Paragraph("Produtos a vencer:");
-            Section section6 = chapter0.addSection(p);
-            document.add(section6);
+            byProduct(products, idProd, p, document);
             
             p = new Paragraph(" ");
             document.add(p);
-            Chapter chapter1 = new Chapter(p, 3);
-            p = new Paragraph("Fornecedores:");
-            Section section7 = chapter1.addSection(p);
-            document.add(section7);
+            
+            p = new Paragraph("Produtos que vencem no proximo mes: ");
+            document.add(p);
+            
             p = new Paragraph(" ");
             document.add(p);
-        
-            p = new Paragraph("Fornecedores totais:");
-            Section section8 = chapter1.addSection(p);
-            document.add(section8);
             
-            p = new Paragraph("Fornecedores por produto:");
-            Section section9 = chapter1.addSection(p);
-            document.add(section9);
+            productsToExpire(products, p, document);
             
             document.close();
-            Desktop.getDesktop().open(new File("relatorio.pdf"));
+            Desktop.getDesktop().open(new File(name));
         }
         catch(DocumentException de) {
             System.err.println(de.getMessage());
@@ -123,8 +74,6 @@ public class ReportsStock {
             System.err.println(ioe.getMessage());
         }
 	}
-	
-
 	
 	public void totalAmountOfStock(ManagementProducts products, Paragraph p, Document document) throws DocumentException {
 		String groupName;
@@ -157,12 +106,69 @@ public class ReportsStock {
     	}
 	}
 	
-
+	
+	public void byProduct(ManagementProducts products, String idProd, Paragraph p, Document document) throws DocumentException, IdDoesntExist, EntitiesNotRegistred {
+		Products prod = (Products) products.searchEntities(idProd);
+		
+		p = new Paragraph(" ");
+        document.add(p);
+    		
+    	p = new Paragraph("\nID: " + prod.getId() + "\n" + 
+    					  "Nome: " + prod.getName() + "\n" +
+					   	  "Fornecedor: " + prod.getProvider().getName()+ "\n" + 
+					      "Preco: R$" + prod.getPrice()+ "\n" +
+					      "Quantidade: " + prod.getQuantity() + " unidades\n" +
+					      "Validade: " + prod.getValidity() + "\n");
+    	document.add(p);   
+    	
+        p = new Paragraph(" ");
+        document.add(p);
+	}
+	
+	
+	public void productsToExpire(ManagementProducts products, Paragraph p, Document document) throws DocumentException {
+		LocalDate currentDay = LocalDate.now();
+		LocalDate nextMonth = currentDay.plusMonths(1);
+		
+		p = new Paragraph(" ");
+        document.add(p);
+        
+		for (Entities enti : products.getList()) {
+			Products prod = (Products) enti;
+			if (nextMonth.isAfter(prod.getValidity()) && currentDay.isBefore(prod.getValidity())) {		    		
+		    	p = new Paragraph("\nID: " + prod.getId() + "\n" + 
+		    					  "Validade: " + prod.getValidity() + "\n" +
+		    					  "Nome: " + prod.getName() + "\n" +
+							   	  "Fornecedor: " + prod.getProvider().getName()+ "\n" + 
+							      "Preco: R$" + prod.getPrice()+ "\n" +
+							      "Quantidade: " + prod.getQuantity() + " unidades\n");
+		    	document.add(p);   
+			}
+		}
+		
+		p = new Paragraph("\nProdutos ja vencidos:\n");
+		document.add(p);  
+		
+		for (Entities enti : products.getList()) {
+			Products prod = (Products) enti;
+			if (currentDay.isAfter(prod.getValidity())) {		    		
+		    	p = new Paragraph("\nID: " + prod.getId() + "\n" + 
+		    					  "Validade: " + prod.getValidity() + "\n" +
+		    					  "Nome: " + prod.getName() + "\n" +
+							   	  "Fornecedor: " + prod.getProvider().getName()+ "\n" + 
+							      "Preco: R$" + prod.getPrice()+ "\n" +
+							      "Quantidade: " + prod.getQuantity() + " unidades\n");
+		    	document.add(p);   
+			}
+		}		
+	}
+	
+	
 	
 	
 	public String dateHour() {
 		Date d = Calendar.getInstance().getTime();
-		String formatString = "dd.MM.yyyy_hh.mm.ss" ;
+		String formatString = "dd.MM.yyyy" ;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat (formatString);
 		String formattedDate = simpleDateFormat.format(d) ;
 		
