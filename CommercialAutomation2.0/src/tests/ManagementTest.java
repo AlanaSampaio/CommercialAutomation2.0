@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import exceptions.EntitiesNotRegistred;
@@ -29,8 +30,8 @@ class ManagementTest {
 	private static ManagementProducts managProd;
 	private static Products prod;
 	
-	@BeforeAll
-	static void createManagementAndEntities() {
+	@BeforeEach
+	void createManagementAndEntities() {
 		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
 	    		.withResolverStyle(ResolverStyle.STRICT);
 		
@@ -44,15 +45,6 @@ class ManagementTest {
 		
 		managProd = new ManagementProducts();
 		prod = new Products("produto", new BigDecimal("15.25"), time, 20, prov);
-	}
-	
-	@Test
-	void testToVerifyThatExceptionsAreWorkingCorrectly() throws ExistentNicknameException, IdDoesntExist, EntitiesNotRegistred {
-		Users userTest = new Users("carlinhos21", "caca123", "Carlos", "Funcionario");
-		managUser.register(userTest); 
-		assertThrows(IdDoesntExist.class, () -> {
-			managUser.delete("U-123456987");
-			}, "Verificando se o nickname 'carlinhos21' existe.");
 	}
 
 	@Test
@@ -97,5 +89,13 @@ class ManagementTest {
 		assertEquals(0, managUser.getList().size(), "Tamanho da lista depois das remocoes.");
 	}
 	
+	@Test
+	void testToVerifyThatExceptionsAreWorkingCorrectly() throws ExistentNicknameException, IdDoesntExist, EntitiesNotRegistred {
+		Users userTest = new Users("carlinhos21", "caca123", "Carlos", "Funcionario");
+		managUser.register(userTest); 
+		assertThrows(IdDoesntExist.class, () -> {
+			managUser.delete("U-123456987");
+			}, "Verificando se o nickname 'carlinhos21' existe.");
+	}
 	
 }
