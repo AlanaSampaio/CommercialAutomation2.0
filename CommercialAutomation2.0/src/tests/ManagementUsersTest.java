@@ -22,16 +22,16 @@ class ManagementUsersTest {
 	
 	@Test
 	void testExistNicknameException() throws ExistentNicknameException, IdDoesntExist, EntitiesNotRegistred {
-		managUser.register("josee", "abcdefgh", "Jose Souza", "Gerente");
+		managUser.register("josee", "abcdefgh", "Jose Souza", "Gerente"); //inserindo dados do usuario
 		assertThrows(ExistentNicknameException.class, () -> managUser.register("josee", "abcdef", "Jose", "Gerente"), "Verificando se o nickname 'josee' existe.");
 		
-		managUser.register("carlinhos21", "caca123", "Carlos", "Funcionario");
+		managUser.register("carlinhos21", "caca123", "Carlos", "Funcionario"); 
 		assertThrows(ExistentNicknameException.class, () -> managUser.register("carlinhos21", "qwer123", "Carlos Almeida", "Gerente"), "Verificando se o nickname 'carlinhos21' existe.");
 	}
 	
 	@Test
 	void nicknameAndPasswordCheckForLogin() throws ExistentNicknameException {
-		managUser.register("carlinhos21", "caca1243", "Carlos", "Funcionario");
+		managUser.register("carlinhos21", "caca1243", "Carlos", "Funcionario");//inserindo dados do usuario
 		assertThrows(LoginDoesntMatch.class, () -> managUser.checkLogin("carlinhos21", "caca123"), "Verificando se as informacoes do login 'senha' são verdadeiras.");
 		
 		managUser.register("melissazinha", "abcd1234", "Melissa", "Gerente");
@@ -40,10 +40,10 @@ class ManagementUsersTest {
 	
 	@Test
 	void testRegistrationOfANewUser() throws ExistentNicknameException, IdDoesntExist, EntitiesNotRegistred {
-		managUser.register("joao12", "abc123", "Joao Silva", "Funcionario");
+		managUser.register("joao12", "abc123", "Joao Silva", "Funcionario"); //inserindo dados do usuario
 		assertEquals(1, managUser.getList().size(),"Tamanho da lista de usuarios apos uma adicao." );
 	
-		String idTest1 = managUser.getList().get(0).getId();
+		String idTest1 = managUser.getList().get(0).getId(); //encontrando o id do usuario a ser utilizado no teste
 		
 		Users userTest1 = (Users) managUser.searchEntities(idTest1);
 		assertNotNull(userTest1, "Certifica que o id existe.");
@@ -69,10 +69,10 @@ class ManagementUsersTest {
 	
 	@Test
 	void testEditingAUserInformation() throws ExistentNicknameException, IdDoesntExist, EntitiesNotRegistred {
-		managUser.register("melissazinha", "abcd1234", "Melissa", "Gerente");
-		String idTest1 = managUser.getList().get(0).getId();
-		Users userTest1 = (Users) managUser.searchEntities(idTest1);
-		managUser.edit(idTest1, "nome", "Mel Marinho");
+		managUser.register("melissazinha", "abcd1234", "Melissa", "Gerente"); //inserindo dados do usuario
+		String idTest1 = managUser.getList().get(0).getId(); //recebendo o id do usuario a ser editado
+		Users userTest1 = (Users) managUser.searchEntities(idTest1); // verifica se o id existe
+		managUser.edit(idTest1, "nome", "Mel Marinho"); //editando nome
 		assertEquals("Mel Marinho", userTest1.getName(), "Mudanca de nome do usuario para 'Mel Marinho'.");
 		
 		managUser.register("nando", "nandinho", "Fernando", "Gerente");
@@ -98,7 +98,7 @@ class ManagementUsersTest {
 	void testIfTheListIsEmptyOrNot() throws ExistentNicknameException {
 		assertFalse(managUser.checkSizeList(), "Verifica se a lista esta vazia");
 		
-		managUser.register("nando", "nandinho", "Fernando", "Gerente");
+		managUser.register("nando", "nandinho", "Fernando", "Gerente"); //registrando usuario
 		assertTrue(managUser.checkSizeList(), "Verifica se a lista não esta vazia");
 	}
 }
