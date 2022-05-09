@@ -209,5 +209,13 @@ class ManagementProductsTest {
 		    groupsUsed.put("batata", 30);
 		    managProdTest.updateStock(groupsUsed);
 		}, "Tentar retirar mais produtos do que disponível geral erro.");
+		
+		assertDoesNotThrow(() -> {
+			managProdTest.list(true);
+		}, "Listar todas as informações dos produtos.");
+		
+		assertDoesNotThrow(() -> {
+			managProdTest.list(false);
+		}, "Listar as informações relevantes dos produtos.");
 	}
 }
