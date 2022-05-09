@@ -1,5 +1,7 @@
 package tests;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
@@ -90,11 +92,34 @@ class ManagementTest {
 	}
 	
 	@Test
+	void testToVerifyThatTheLoginEntitiesAreWorkingProperly( ) throws ExistentNicknameException {
+		managUser.register("nome1", "1234", "nome", "funcionario");
+		assertEquals("nome1", managUser.searchEntitiesNick("nome1").getNickname()); //Verifica se o gerenciamento encontra o nickname do usuario
+		assertEquals("1234", managUser.searchEntitiesPassword("1234").getPassword()); //Verifica se o gerenciamento encontra a senha do usuario
+		
+		assertNull(managUser.searchEntitiesNick("nome")); //Verifica se o gerenciamento não encontra o nickname do usuario
+		assertNull(managUser.searchEntitiesPassword("123")); //Verifica se o gerenciamento não encontra a senha do usuario
+		
+	}
+	
+	@Test
+	void testToVerifyThatThelistIsNotEmpty() throws ExistentNicknameException {
+		managUser.register("nome1", "1234", "nome", "funcionario");
+		assertTrue(managUser.checkSizeList(), "Verifica se a lista não está vazia");
+		
+	}
+	
+	@Test
 	void testToVerifyThatExceptionsAreWorkingCorrectly() throws ExistentNicknameException, IdDoesntExist, EntitiesNotRegistred {
 		Users userTest = new Users("carlinhos21", "caca123", "Carlos", "Funcionario");
 		managUser.register(userTest); 
 		assertThrows(IdDoesntExist.class, () -> {
 			managUser.delete("U-123456987");
+			}, "Verificando se o nickname 'carlinhos21' existe.");
+		
+		managUser.delete(userTest.getId());
+		assertThrows(EntitiesNotRegistred.class, () -> {
+			managUser.edit(userTest.getId(), "nome", "Carlinhos");
 			}, "Verificando se o nickname 'carlinhos21' existe.");
 	}
 	
