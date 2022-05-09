@@ -6,6 +6,7 @@ package modeling_models;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashMap;
 
 /**
@@ -50,7 +51,7 @@ public class Products extends Entities{
 		this.provider = provider;
 		generatorCode("P");
 	}
-	
+
 	public HashMap<String, String> getAttributes() {
 		HashMap<String, String> attributes = new HashMap<String, String>();
 		attributes.put("id", this.getId());
