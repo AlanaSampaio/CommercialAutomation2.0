@@ -122,6 +122,7 @@ class SalesTest {
 		
 		assertFalse(saleTest.getItemsPurchased().contains(cart), "Verifica se a lista esta correta");
 		
+	
 	}
 	
 }
