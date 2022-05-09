@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import exceptions.EntitiesNotRegistred;
+import exceptions.ExistentNicknameException;
 import exceptions.IdDoesntExist;
 import management_models.ManagementProducts;
 import management_models.ManagementProviders;
@@ -44,6 +45,15 @@ class ManagementTest {
 		managProd = new ManagementProducts();
 		prod = new Products("produto", new BigDecimal("15.25"), time, 20, prov);
 	}
+	
+	@Test
+	void testToVerifyThatExceptionsAreWorkingCorrectly() throws ExistentNicknameException, IdDoesntExist, EntitiesNotRegistred {
+		Users userTest = new Users("carlinhos21", "caca123", "Carlos", "Funcionario");
+		managUser.register(userTest); 
+		assertThrows(IdDoesntExist.class, () -> {
+			managUser.delete("U-123456987");
+			}, "Verificando se o nickname 'carlinhos21' existe.");
+	}
 
 	@Test
 	void testsRegistrationOfAnEntityInTheManagementList() {
@@ -67,22 +77,25 @@ class ManagementTest {
 	void testsRemovingAnEntityFromTheManagementList() throws IdDoesntExist, EntitiesNotRegistred {
 		Users userTest2 = new Users("n0m5", "123456", "nome", "gerente");
 		Users userTest3 = new Users("n0m512", "654321", "nome12", "gerente");
+		Users userTest1 = new Users("n0m2", "abc21", "nome5", "funcionario");
 		
-		managUser.register(user);
+		managUser.register(userTest1);
 		managUser.register(userTest2);
 		managUser.register(userTest3);
 		
-		assertEquals(3, managUser.getList().size(), "Tamanho da lista antes das remocoes");
+		assertEquals(3, managUser.getList().size(), "Tamanho da lista antes das remocoes de usuario");
 		
 		managUser.delete(userTest2.getId());
-		assertFalse(managUser.getList().contains(userTest2));
+		assertFalse(managUser.getList().contains(userTest2), "Verifica se o usuario 'nome' esta na lista");
 		
-		managUser.delete(user.getId());
-		assertFalse(managUser.getList().contains(user));
+		managUser.delete(userTest1.getId());
+		assertFalse(managUser.getList().contains(userTest1), "Verifica se o usuario 'Joao' esta na lista");
 		
 		managUser.delete(userTest3.getId());
-		assertFalse(managUser.getList().contains(userTest3));
+		assertFalse(managUser.getList().contains(userTest3), "Verifica se o usuario 'nome12' esta na lista");
 		
 		assertEquals(0, managUser.getList().size(), "Tamanho da lista depois das remocoes.");
 	}
+	
+	
 }

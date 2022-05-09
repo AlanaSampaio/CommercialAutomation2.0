@@ -35,7 +35,6 @@ public class Main {
 	public static void main(String args[]) throws IdDoesntExist, EntitiesNotRegistred {
 		Scanner input = new Scanner(System.in);
 
-
 		int answer = 1;
 		while (answer != 2) {
 			System.out.println("AUTOMACAO COMERCIAL \n1 - Logar no sistema \n2 - Sair do sistema");
