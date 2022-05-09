@@ -101,4 +101,13 @@ class ManagementUsersTest {
 		managUser.register("nando", "nandinho", "Fernando", "Gerente"); //registrando usuario
 		assertTrue(managUser.checkSizeList(), "Verifica se a lista não esta vazia");
 	}
+	
+	@Test
+	void testChecksListForErrors() throws ExistentNicknameException {
+		managUser.register("josee", "abcdefgh", "Jose Souza", "Gerente");
+		
+		assertDoesNotThrow(() -> { 
+			managUser.list(true);
+		}, "Verifica se lista de usuarios possui erros");
+	}
 }

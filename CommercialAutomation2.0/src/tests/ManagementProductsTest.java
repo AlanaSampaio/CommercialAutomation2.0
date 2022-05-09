@@ -36,7 +36,7 @@ class ManagementProductsTest {
 	@BeforeEach
 	void createManageAndProviderForTest() {
 		managProdTest = new ManagementProducts();
-		providerTest1 = new Providers("Frutas ltda", "23456789", "Praça");
+		providerTest1 = new Providers("Frutas ltda", "23456789", "Praï¿½a");
 		providerTest2 = new Providers("Empresa ltda", "12345678", "Centro");
 	}
 	
@@ -44,25 +44,25 @@ class ManagementProductsTest {
 	void testRegisterNewProduct() throws IdDoesntExist, EntitiesNotRegistred {
 	    LocalDate date1 = LocalDate.parse("12/03/2022", dateTimeFormatter);
 	    LocalDate date2 = LocalDate.parse("13/01/2023", dateTimeFormatter);
-	    String idTest1 = managProdTest.register("maçã", new BigDecimal("1.23"), date1, 10, providerTest1);
-		assertEquals(1, managProdTest.getList().size(), "Tamanho da lista de produtos após um cadastro.");
+	    String idTest1 = managProdTest.register("maï¿½ï¿½", new BigDecimal("1.23"), date1, 10, providerTest1);
+		assertEquals(1, managProdTest.getList().size(), "Tamanho da lista de produtos apï¿½s um cadastro.");
 		
 		
 		Products productTest1 = (Products) managProdTest.searchEntities(idTest1);
 		
-		assertEquals("maçã", productTest1.getName(), "Certificar que o nome foi cadastrado certo.");
-		assertEquals(new BigDecimal("1.23"), productTest1.getPrice(), "Certificar que o preço foi cadastrado certo.");
+		assertEquals("maï¿½ï¿½", productTest1.getName(), "Certificar que o nome foi cadastrado certo.");
+		assertEquals(new BigDecimal("1.23"), productTest1.getPrice(), "Certificar que o preï¿½o foi cadastrado certo.");
 		assertEquals(date1, productTest1.getValidity(), "Certificar que a validade foi cadastrado certo.");
 		assertEquals(providerTest1, productTest1.getProvider(), "Certificar que o fornecedor foi cadastrado certo.");
 		
 		
 		String idTest2 = managProdTest.register("abacate", new BigDecimal("0.13"), date2, 20, providerTest1);
-		assertEquals(2, managProdTest.getList().size(), "Tamanho da lista de produtos após um cadastro.");
+		assertEquals(2, managProdTest.getList().size(), "Tamanho da lista de produtos apï¿½s um cadastro.");
 		
 		Products productTest2 = (Products) managProdTest.searchEntities(idTest2);
 		
 		assertEquals("abacate", productTest2.getName(), "Certificar que o nome foi cadastrado certo.");
-		assertEquals(new BigDecimal("0.13"), productTest2.getPrice(), "Certificar que o preço foi cadastrado certo.");
+		assertEquals(new BigDecimal("0.13"), productTest2.getPrice(), "Certificar que o preï¿½o foi cadastrado certo.");
 		assertEquals(date2, productTest2.getValidity(), "Certificar que a validade foi cadastrada certo.");
 		assertEquals(providerTest1, productTest2.getProvider(), "Certificar que o fornecedor foi cadastrado certo.");
 	}
@@ -77,29 +77,29 @@ class ManagementProductsTest {
 		
 		Products productTest1 = (Products) managProdTest.searchEntities(idTest1);
 		
-		managProdTest.edit(idTest1, "nome", "maçã");
-		assertEquals("maçã", productTest1.getName(), "Mudança no nome do produto.");
+		managProdTest.edit(idTest1, "nome", "maï¿½ï¿½");
+		assertEquals("maï¿½ï¿½", productTest1.getName(), "Mudanï¿½a no nome do produto.");
 		
 		managProdTest.edit(idTest1, "preco", new BigDecimal("0.13"));
-		assertEquals(new BigDecimal("0.13"), productTest1.getPrice(), "Mudança no preço do produto.");
+		assertEquals(new BigDecimal("0.13"), productTest1.getPrice(), "Mudanï¿½a no preï¿½o do produto.");
 		
 		managProdTest.edit(idTest1, "validade", date2);
-		assertEquals(date2, productTest1.getValidity(), "Mudança no validade do produto.");
+		assertEquals(date2, productTest1.getValidity(), "Mudanï¿½a no validade do produto.");
 		
 		managProdTest.edit(idTest1, "fornecedor", providerTest2);
-		assertEquals(providerTest2, productTest1.getProvider(), "Mudança no fornecedor do produto.");
+		assertEquals(providerTest2, productTest1.getProvider(), "Mudanï¿½a no fornecedor do produto.");
 		
 		managProdTest.edit(idTest1, "quantidade", 20);
-		assertEquals(20, productTest1.getQuantity(), "Mudança na quantidade do produto.");
+		assertEquals(20, productTest1.getQuantity(), "Mudanï¿½a na quantidade do produto.");
 	}
 	
 	@Test
 	void testNewProductInStock() throws IdDoesntExist, EntitiesNotRegistred {
 	    LocalDate date1 = LocalDate.parse("12/03/2022", dateTimeFormatter);
-	    String idTeste1 = managProdTest.register("maçã", new BigDecimal("1.23"), date1, 10, providerTest1);
+	    String idTeste1 = managProdTest.register("maï¿½ï¿½", new BigDecimal("1.23"), date1, 10, providerTest1);
 	    Products productTest1 = (Products) managProdTest.searchEntities(idTeste1);
 	    
-	    ArrayList<Products> group1 = managProdTest.getStock().get("maçã");
+	    ArrayList<Products> group1 = managProdTest.getStock().get("maï¿½ï¿½");
 	    assertTrue(group1.contains(productTest1), "Primeiro produto foi inserido no grupo do seu nome");
 	    
 	    String idTeste2 = managProdTest.register("batata", new BigDecimal("2.34"), date1, 12, providerTest2);
@@ -118,17 +118,17 @@ class ManagementProductsTest {
 	@Test
 	void addedProductsAddQuantityGroup() throws IdDoesntExist, EntitiesNotRegistred {
 	    LocalDate date1 = LocalDate.parse("12/03/2022", dateTimeFormatter);
-	    String idTeste1 = managProdTest.register("maçã", new BigDecimal("1.23"), date1, 10, providerTest1);
+	    String idTeste1 = managProdTest.register("maï¿½ï¿½", new BigDecimal("1.23"), date1, 10, providerTest1);
 	    Products productTest1 = (Products) managProdTest.searchEntities(idTeste1);
 	    
-	    assertEquals(10, managProdTest.getGroupQuantity(productTest1.getName()), "Quantidade do estoque do novo grupo é igual ao do produto recém adicionado.");
+	    assertEquals(10, managProdTest.getGroupQuantity(productTest1.getName()), "Quantidade do estoque do novo grupo ï¿½ igual ao do produto recï¿½m adicionado.");
 	    
-	    String idTeste2 = managProdTest.register("maçã", new BigDecimal("2.34"), date1, 12, providerTest2);
+	    String idTeste2 = managProdTest.register("maï¿½ï¿½", new BigDecimal("2.34"), date1, 12, providerTest2);
 	    Products productTest2 = (Products) managProdTest.searchEntities(idTeste2);
 	    
 	    assertEquals(22, managProdTest.getGroupQuantity(productTest2.getName()), "Nova quantidade do grupo igual a soma da quantidade dos produtos dele.");
 	    
-	    String idTeste3 = managProdTest.register("maçã", new BigDecimal("3.45"), date1, 52, providerTest1);
+	    String idTeste3 = managProdTest.register("maï¿½ï¿½", new BigDecimal("3.45"), date1, 52, providerTest1);
 	    Products productTest3 = (Products) managProdTest.searchEntities(idTeste3);
 	    
 	    assertEquals(74, managProdTest.getGroupQuantity(productTest3.getName()), "Nova quantidade do grupo igual a soma da quantidade dos produtos dele.");
@@ -137,19 +137,19 @@ class ManagementProductsTest {
 	@Test
 	void deletedProductremovedFromStock() throws IdDoesntExist, EntitiesNotRegistred {
 	    LocalDate date1 = LocalDate.parse("12/03/2022", dateTimeFormatter);
-	    String idTeste1 = managProdTest.register("maçã", new BigDecimal("1.23"), date1, 10, providerTest1);
+	    String idTeste1 = managProdTest.register("maï¿½ï¿½", new BigDecimal("1.23"), date1, 10, providerTest1);
 	    String idTeste2 = managProdTest.register("batata", new BigDecimal("2.34"), date1, 12, providerTest2);
-	    String idTeste3 = managProdTest.register("maçã", new BigDecimal("3.45"), date1, 52, providerTest1);
+	    String idTeste3 = managProdTest.register("maï¿½ï¿½", new BigDecimal("3.45"), date1, 52, providerTest1);
 	   
 	    Products productTest1 = (Products) managProdTest.searchEntities(idTeste1);
 	    Products productTest2 = (Products) managProdTest.searchEntities(idTeste2);
 	    Products productTest3 = (Products) managProdTest.searchEntities(idTeste3);
 	    
-	    ArrayList<Products> group1 = managProdTest.getStock().get("maçã");
+	    ArrayList<Products> group1 = managProdTest.getStock().get("maï¿½ï¿½");
 	    ArrayList<Products> group2 = managProdTest.getStock().get("batata");
-	    assertTrue(group1.contains(productTest1), "Produto 1 está presente no estoque.");
-	    assertTrue(group2.contains(productTest2), "Produto 2 está presente no estoque.");
-	    assertTrue(group1.contains(productTest3), "Produto 3 está presente no estoque.");
+	    assertTrue(group1.contains(productTest1), "Produto 1 estï¿½ presente no estoque.");
+	    assertTrue(group2.contains(productTest2), "Produto 2 estï¿½ presente no estoque.");
+	    assertTrue(group1.contains(productTest3), "Produto 3 estï¿½ presente no estoque.");
 	    
 	    managProdTest.delete(productTest1);
 	    assertFalse(group1.contains(productTest1), "Produto 1 foi deletado do estoque");
@@ -163,20 +163,20 @@ class ManagementProductsTest {
 	@Test
 	void testsUpdateStock() throws IdDoesntExist, EntitiesNotRegistred, NotEnoughStock {
 	    LocalDate date1 = LocalDate.parse("12/03/2022", dateTimeFormatter);
-	    String idTeste1 = managProdTest.register("maçã", new BigDecimal("1.23"), date1, 10, providerTest1);
+	    String idTeste1 = managProdTest.register("maï¿½ï¿½", new BigDecimal("1.23"), date1, 10, providerTest1);
 	    String idTeste2 = managProdTest.register("batata", new BigDecimal("2.34"), date1, 12, providerTest2);
-	    String idTeste3 = managProdTest.register("maçã", new BigDecimal("3.45"), date1, 52, providerTest1);
+	    String idTeste3 = managProdTest.register("maï¿½ï¿½", new BigDecimal("3.45"), date1, 52, providerTest1);
 	   
 	    Products productTest1 = (Products) managProdTest.searchEntities(idTeste1);
 	    Products productTest2 = (Products) managProdTest.searchEntities(idTeste2);
 	    Products productTest3 = (Products) managProdTest.searchEntities(idTeste3);
 	    
-	    ArrayList<Products> group1 = managProdTest.getStock().get("maçã");
+	    ArrayList<Products> group1 = managProdTest.getStock().get("maï¿½ï¿½");
 	    ArrayList<Products> group2 = managProdTest.getStock().get("batata");
 	    
 	    HashMap<String, Integer> groupsUsed = new HashMap<String, Integer>();
 	    
-	    groupsUsed.put("maçã", 30);
+	    groupsUsed.put("maï¿½ï¿½", 30);
 	    groupsUsed.put("batata", 6);
 	    managProdTest.updateStock(groupsUsed);
 	    
@@ -191,11 +191,11 @@ class ManagementProductsTest {
 	}
 	
 	@Test
-	void testeExceptions() throws IdDoesntExist, EntitiesNotRegistred, NotEnoughStock{
+	void testExceptions() throws IdDoesntExist, EntitiesNotRegistred, NotEnoughStock{
 		LocalDate date1 = LocalDate.parse("12/03/2022", dateTimeFormatter);
 		assertThrows(IdDoesntExist.class, () -> {
-			managProdTest.register("maçã", new BigDecimal("1.23"), date1, 10, providerTest1);
-			managProdTest.searchEntities("Nao é um ID");
+			managProdTest.register("maï¿½ï¿½", new BigDecimal("1.23"), date1, 10, providerTest1);
+			managProdTest.searchEntities("Nao ï¿½ um ID");
 		}, "String nada parecida com ID gera erro.");
 		
 		assertThrows(IdDoesntExist.class, () -> {
@@ -208,14 +208,14 @@ class ManagementProductsTest {
 		    HashMap<String, Integer> groupsUsed = new HashMap<String, Integer>();
 		    groupsUsed.put("batata", 30);
 		    managProdTest.updateStock(groupsUsed);
-		}, "Tentar retirar mais produtos do que disponível geral erro.");
+		}, "Tentar retirar mais produtos do que disponï¿½vel geral erro.");
 		
 		assertDoesNotThrow(() -> {
 			managProdTest.list(true);
-		}, "Listar todas as informações dos produtos.");
+		}, "Listar todas as informaï¿½ï¿½es dos produtos.");
 		
 		assertDoesNotThrow(() -> {
 			managProdTest.list(false);
-		}, "Listar as informações relevantes dos produtos.");
+		}, "Listar as informaï¿½ï¿½es relevantes dos produtos.");
 	}
 }

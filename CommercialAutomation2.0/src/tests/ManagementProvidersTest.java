@@ -54,5 +54,16 @@ class ManagementProvidersTest {
 		managProv.edit(idTest1, "endereco", "Rua C");
 		assertEquals("Rua C", provTest1.getAddress(), "Verifica se mudanca para 'Rua C' foi feita corretamente");
 	}
+	
+	@Test
+	void testListWithoutErrors() {
+		managProv.register("Empresa 1 ltda", "123456789", "Rua A");
+		managProv.register("Empresa 2 ltda", "987654321", "Rua B");
+		
+		assertDoesNotThrow(() -> { 
+			managProv.list(true);
+		}, "Verifica se lista de fornecedores está correta");
+		
+	}
 
 }
