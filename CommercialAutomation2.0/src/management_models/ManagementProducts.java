@@ -79,18 +79,12 @@ public class ManagementProducts extends Management {
 		// Remove a quantidade "quant" passada dos produtos do conjunto.
 		ArrayList<Products> prods = this.stock.get(nameGroup);
 		int left = quant;
-		if (quant > this.getGroupQuantity(nameGroup)) {
-			throw new NotEnoughStock();
-		} else {
-			while (left > 0) {
-				//System.out.println(i++);
-				try {
-					this.removeQuantProd(prods.get(0), left);
-					left = 0;
-				} catch(NotEnoughProduct eProd) {
-					left = eProd.getQuantLeft();
-					//System.out.println(left);
-				}
+		while (left > 0) {
+			try {
+				this.removeQuantProd(prods.get(0), left);
+				left = 0;
+			} catch(NotEnoughProduct eProd) {
+				left = eProd.getQuantLeft();
 			}
 		}
 	}
@@ -116,21 +110,15 @@ public class ManagementProducts extends Management {
 	
 	
 	public void updateStock(HashMap<String, Integer> groupsUsed) throws NotEnoughStock, IdDoesntExist, EntitiesNotRegistred{
+		try {
+			this.checkAllProductsEnough(groupsUsed);
 		
-		this.checkAllProductsEnough(groupsUsed);
-		
-		for (HashMap.Entry<String,Integer> nameQuant : groupsUsed.entrySet()) {
-			try {
+			for (HashMap.Entry<String,Integer> nameQuant : groupsUsed.entrySet()) {
 				this.removeQuantGroup(nameQuant.getKey(), nameQuant.getValue());
-			} catch(NotEnoughStock e){
+			};
+		} catch(NotEnoughStock e){
 				throw new NotEnoughStock();
-			}
-		};
-	}
-	
-	
-	public HashMap<String, ArrayList<Products>> getStock() {
-		return stock;
+		}
 	}
 	
 	public void delete(Products prod) throws IdDoesntExist, EntitiesNotRegistred {
@@ -159,5 +147,9 @@ public class ManagementProducts extends Management {
 			
 			System.out.println("\n");
 		});
+	}
+	
+	public HashMap<String, ArrayList<Products>> getStock() {
+		return stock;
 	}
 }

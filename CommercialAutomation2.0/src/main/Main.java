@@ -48,7 +48,7 @@ public class Main {
 				}
 				
 				login(input); // So passa para a proxima linha se o login for efetuado.
-				optionsMenu(input); // Menu com as opï¿½pes principais.
+				optionsMenu(input); // Menu com as opcoes principais.
 				
 			} else if (answer == 2) {
 				System.out.println("SISTEMA ENCERRADO");
