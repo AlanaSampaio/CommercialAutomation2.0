@@ -43,7 +43,7 @@ public class ManagementMenu extends Management {
 		itemPEdit.addProduct(quantity, productPAdd.getName());
 	}
 	
-	public void removeProductFromItem (String idPEdit, Products produtoPRemover) throws IdDoesntExist, EntitiesNotRegistred {
+	public void removeProductFromItem(String idPEdit, Products produtoPRemover) throws IdDoesntExist, EntitiesNotRegistred {
 
 		Items itemPEdit = (Items) this.searchEntities(idPEdit);
 		itemPEdit.deleteProduct(produtoPRemover.getName());

@@ -7,24 +7,25 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import exceptions.EntitiesNotRegistred;
+import exceptions.IdDoesntExist;
 import management_models.ManagementMenu;
-import modelagem.gerenciamento.GerenciaCardapio;
-import modelagem.modelos.Fornecedores;
-import modelagem.modelos.Itens;
-import modelagem.modelos.Produtos;
+import modeling_models.Items;
 import modeling_models.Products;
 import modeling_models.Providers;
 
 class ManagementMenuTest {
-	private ArrayList<Products> compositionTest1;
-	private ArrayList<Products> compositionTest2;
+	private HashMap<String, Integer> compositionTest1;
+	private HashMap<String, Integer>  compositionTest2;
 	private ManagementMenu managMenuTest;
 	private Products prodTest1;
 	private Products prodTest2;
+	private Products prodTest3;
 	private Providers providerTest;
     private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
     		.withResolverStyle(ResolverStyle.STRICT);
@@ -39,108 +40,117 @@ class ManagementMenuTest {
 		
 		prodTest1 = new Products("batata", new BigDecimal("1.50"), date1, 10, providerTest);
 		prodTest2 = new Products("sal", new BigDecimal("0.50"), date2, 20, providerTest);
+		prodTest3 = new Products("tomate", new BigDecimal("5.50"), date1, 15, providerTest);
 		
-		compositionTest1 = new ArrayList<Products>();
-		compositionTest1 = new ArrayList<Products>();
+		compositionTest1 = new HashMap<String, Integer> ();
+		compositionTest2 = new HashMap<String, Integer> ();
+		
+		compositionTest1.put("batata", 5);
+		compositionTest1.put("sal", 10);
+		
+		compositionTest2.put("tomate", 5);
+		compositionTest2.put("sal", 5);
 	}
 
 	@Test
-	void testaCadastroDeNovoItemNoCardapio() {
-		gerenCardTeste.cadastrar("porção de batata", "batatas fritas", "13.99", "entrada", composicaoTeste1);
+	void testRegisterNewItem() throws IdDoesntExist, EntitiesNotRegistred {
+		String idTest1 = managMenuTest.register("porção de batata", "batatas fritas", new BigDecimal("13.99"), "entrada", compositionTest1);
 		
-		String idTeste1 = gerenCardTeste.listar().get(0).getId();
-		Itens item1 = (Itens) gerenCardTeste.buscaEntidade(idTeste1);
+		Items item1 = (Items) managMenuTest.searchEntities(idTest1);
 		
-		assertEquals(1, gerenCardTeste.listar().size(), "Tamanho com uma adição.");
-		assertEquals("porção de batata", item1.getNome(), "Certifica que é o objeto inserido.");
+		assertEquals(1, managMenuTest.getList().size(), "Tamanho com uma adição.");
+		assertEquals("porção de batata", item1.getName(), "Certifica que é o nome do objeto inserido.");
+		assertEquals(idTest1, item1.getId(), "Certifica que é o id do objeto inserido.");
 		
-		gerenCardTeste.cadastrar("molho de tomate", "porção com molho de tomare", "3.50", "molho", composicaoTeste2);
+		String idTest2 = managMenuTest.register("molho de tomate", "porção com molho de tomare", new BigDecimal("3.50"), "molho", compositionTest2);
+		Items item2 = (Items) managMenuTest.searchEntities(idTest2);
 		
-		String idTeste2 = gerenCardTeste.listar().get(1).getId();
-		Itens item2 = (Itens) gerenCardTeste.buscaEntidade(idTeste2);
-		
-		assertEquals(2, gerenCardTeste.listar().size(), "Tamanho com duas adições.");
-		assertEquals("molho de tomate", item2.getNome(), "Certifica que é o objeto inserido.");
+		assertEquals(2, managMenuTest.getList().size(), "Tamanho com duas adições.");
+		assertEquals("molho de tomate", item2.getName(), "Certifica que é o nome do objeto inserido.");
+		assertEquals(idTest2, item2.getId(), "Certifica que é o id do objeto inserido.");
 	}
 	
 	@Test
-	void testaDeletarUmItemDoCardapio() {
-		gerenCardTeste.cadastrar("porção de batata", "batatas fritas", "13.99", "entrada", composicaoTeste1);
-		gerenCardTeste.cadastrar("molho de tomate", "porção com molho de tomare", "3.50", "molho", composicaoTeste2);
+	void testDeleteAItem() throws IdDoesntExist, EntitiesNotRegistred {
+		String idTest1 = managMenuTest.register("porção de batata", "batatas fritas", new BigDecimal("13.99"), "entrada", compositionTest1);
+		String idTest2 = managMenuTest.register("molho de tomate", "porção com molho de tomare", new BigDecimal("3.50"), "molho", compositionTest2);
 		
-		String idTeste1 = gerenCardTeste.listar().get(0).getId();
-		String idTeste2 = gerenCardTeste.listar().get(1).getId();
+		Items item1 = (Items) managMenuTest.searchEntities(idTest1);
+		Items item2 = (Items) managMenuTest.searchEntities(idTest2);
+	
+		assertTrue(managMenuTest.getList().contains(item2), "Item 2 está presente na lista.");
+		managMenuTest.delete(idTest2);
+		assertFalse(managMenuTest.getList().contains(item2), "Item 2 foi removido da lista.");
 		
-		Itens item1 = (Itens) gerenCardTeste.buscaEntidade(idTeste1);
-		Itens item2 = (Itens) gerenCardTeste.buscaEntidade(idTeste2);
-		
-		assertTrue(gerenCardTeste.listar().contains(item2), "Item 2 está presente na lista.");
-		gerenCardTeste.deletar(idTeste2);
-		assertFalse(gerenCardTeste.listar().contains(item2), "Item 2 foi removido da lista.");
-		
-		assertTrue(gerenCardTeste.listar().contains(item1), "Item 1 está presente na lista.");
-		gerenCardTeste.deletar(idTeste1);
-		assertFalse(gerenCardTeste.listar().contains(item1), "Item 1 foi removido da lista.");
+		assertTrue(managMenuTest.getList().contains(item1), "Item 1 está presente na lista.");
+		managMenuTest.delete(idTest1);
+		assertFalse(managMenuTest.getList().contains(item1), "Item 1 foi removido da lista.");
 	}
 	
 	@Test
-	void testaAEdicaoDasInformacoesDeUmItem() {
-		gerenCardTeste.cadastrar("porção de batata", "batatas fritas", "13.99", "entrada", composicaoTeste1);
+	void testItemDataEditing() throws IdDoesntExist, EntitiesNotRegistred {
+		String idTest1 = managMenuTest.register("porção de batata", "batatas fritas", new BigDecimal("13.99"), "entrada", compositionTest1);
+		Items item1 = (Items) managMenuTest.searchEntities(idTest1);
 		
-		String idTeste1 = gerenCardTeste.listar().get(0).getId();
+		managMenuTest.edit(idTest1, "nome", "french fries");
+		assertEquals("french fries", item1.getName(), "Mudança no nome do item.");
 		
-		Itens item1 = (Itens) gerenCardTeste.listar().get(0);
+		managMenuTest.edit(idTest1, "descricao", "potatos");
+		assertEquals("potatos", item1.getDescription(), "Mudança na descrição do item.");
 		
-		gerenCardTeste.editar(idTeste1, "nome", "french fries");
-		assertEquals("french fries", item1.getNome(), "Mudança no nome do item.");
+		managMenuTest.edit(idTest1, "preco", new BigDecimal("14.00"));
+		assertEquals(new BigDecimal("14.00"), item1.getPrice(), "Mudança no preço do item.");
 		
-		gerenCardTeste.editar(idTeste1, "descricao", "potatos");
-		assertEquals("potatos", item1.getDescricao(), "Mudança na descrição do item.");
-		
-		gerenCardTeste.editar(idTeste1, "preco", "14.00");
-		assertEquals(new BigDecimal("14.00"), item1.getPreco(), "Mudança no preço do item.");
-		
-		gerenCardTeste.editar(idTeste1, "categoria", "petisco");
-		assertEquals("petisco", item1.getCategoria(), "Mudança na descrição do item.");
+		managMenuTest.edit(idTest1, "categoria", "petisco");
+		assertEquals("petisco", item1.getCategoryItems(), "Mudança na categoria do item.");
 	}
 	
 	@Test
-	void testaAdicaoDeProdutoEmUmItem() {
-		gerenCardTeste.cadastrar("porção de batata", "batatas fritas", "13.99", "entrada", composicaoTeste1);
-		gerenCardTeste.cadastrar("molho de tomate", "porção com molho de tomare", "3.50", "molho", composicaoTeste2);
+	void testAddAProductToItem() throws IdDoesntExist, EntitiesNotRegistred {
+		String idTest1 = managMenuTest.register("porção de batata", "batatas fritas", new BigDecimal("13.99"), "entrada", compositionTest1);
+		Items item1 = (Items) managMenuTest.searchEntities(idTest1);
 		
-		String idTeste1 = gerenCardTeste.listar().get(0).getId();
+		managMenuTest.addProductsItems(idTest1, prodTest1, 5);
+		assertTrue(item1.getComposition().containsKey(prodTest1.getName()), "1º produto adicionado ao item.");
 		
+		managMenuTest.addProductsItems(idTest1, prodTest2, 5);
+		assertTrue(item1.getComposition().containsKey(prodTest2.getName()), "2º produto adicionado ao item.");
 		
-		Itens item1 = (Itens) gerenCardTeste.listar().get(0);
-		
-		
-		gerenCardTeste.addProdutoDeItem(idTeste1, produtosTeste1);
-		assertTrue(item1.getComposicao().contains(produtosTeste1), "1º produto adicionado ao item.");
-		
-		gerenCardTeste.addProdutoDeItem(idTeste1, produtosTeste2);
-		assertTrue(item1.getComposicao().contains(produtosTeste2), "2º produto adicionado ao item.");
-		
-		assertEquals(2, item1.getComposicao().size(), "Tamanho da composição do item");
+		assertEquals(2, item1.getComposition().size(), "Tamanho da composição do item");
 	}
 	
 	@Test
-	void testaRemocaoDeProdutoEmUmItem() {
-		gerenCardTeste.cadastrar("porção de batata", "batatas fritas", "13.99", "entrada", composicaoTeste1);
-		gerenCardTeste.cadastrar("molho de tomate", "porção com molho de tomare", "3.50", "molho", composicaoTeste2);
+	void testRemovingProductFromItem() throws IdDoesntExist, EntitiesNotRegistred {
+		String idTest1 = managMenuTest.register("porção de batata", "batatas fritas", new BigDecimal("13.99"), "entrada", compositionTest1);
+		Items item1 = (Items) managMenuTest.searchEntities(idTest1);
 		
-		String idTeste1 = gerenCardTeste.listar().get(0).getId();
+		managMenuTest.addProductsItems(idTest1, prodTest1, 5);
+		managMenuTest.addProductsItems(idTest1, prodTest2, 10);
 		
-		Itens item1 = (Itens) gerenCardTeste.buscaEntidade(idTeste1);
+		managMenuTest.removeProductFromItem(idTest1, prodTest1);
+		assertFalse(item1.getComposition().containsKey(prodTest1.getName()), "1º produto removido do item.");
 		
-		gerenCardTeste.addProdutoDeItem(idTeste1, produtosTeste1);
-		gerenCardTeste.addProdutoDeItem(idTeste1, produtosTeste2);
-		
-		gerenCardTeste.removerProdutoDeItem(idTeste1, produtosTeste1);
-		assertFalse(item1.getComposicao().contains(produtosTeste1), "1º produto removido do item.");
-		
-		gerenCardTeste.removerProdutoDeItem(idTeste1, produtosTeste2);
-		assertFalse(gerenCardTeste.listar().contains(item1), "Item removido do cardápio por não ter mais produtos");
+		managMenuTest.removeProductFromItem(idTest1, prodTest2);
+		assertFalse(managMenuTest.getList().contains(item1), "Item removido do cardápio por não ter mais produtos");
 	}
-
+	
+	@Test
+	void testExceptions() throws IdDoesntExist, EntitiesNotRegistred {
+		assertThrows(EntitiesNotRegistred.class, () ->{
+			managMenuTest.list(true);
+		});
+		
+		assertThrows(IdDoesntExist.class, () -> {
+			managMenuTest.register("porção de batata", "batatas fritas", new BigDecimal("13.99"), "entrada", compositionTest1);
+			managMenuTest.searchEntities("P-111111111111");
+		}, "String parecida com ID gera erro por não existir.");
+		
+		assertDoesNotThrow(() -> {
+			managMenuTest.list(false);
+		}, "Listar parte das informações não gera nenhum erro");
+		
+		assertDoesNotThrow(() -> {
+			managMenuTest.list(true);
+		}, "Listar todas as informações não gera nenhum erro");
+	}
 }
