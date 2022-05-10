@@ -17,6 +17,9 @@ import org.junit.platform.suite.api.Suite;
 	ProvidersTest.class,
 	SalesTest.class,
 	UsersTest.class,
+	ReportsProviderTest.class,
+	ReportsStockTest.class,
+	ReportsSaleTest.class,
 	
 })
 class TestSuite {
