@@ -1,15 +1,22 @@
-
-/**
- * 
- */
+/***************************
+Autores: Alana Sampaio e Vanderleicio Junior
+Componente Curricular: Programação II
+Concluido em: 09/05/2022
+Declaro que este código foi elaborado por mim de forma individual e não contém nenhum
+trecho de código de outro colega ou de outro autor, tais como provindos de livros e
+apostilas, e páginas ou documentos eletrônicos da Internet. Qualquer trecho de código
+de outra autoria que não a minha está destacado com uma citação para o autor e a fonte
+do código, e estou ciente que estes trechos não serão considerados para fins de avaliação.
+******************************/
 package modeling_models;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * Classe dos produtos do estabelecimento. Se relaciona com a classe Fornecedores, por um 
+ * Classe dos produtos . Se relaciona com a classe Fornecedores, por um 
  * dos atributos ser o fornecedor do item.
+ * @author Alana Sampaio
  * @author Vanderleicio Junior
  */
 public class Products extends Entities{
@@ -23,7 +30,6 @@ public class Products extends Entities{
 	private BigDecimal price;
 	/**
 	 * Validade do produto. 
-	 * Por nao haver manipulacao da data, ela e armazenada em String
 	 */
 	private LocalDate validity;
 	
@@ -35,9 +41,9 @@ public class Products extends Entities{
 	private int quantity;
 	
 	/**
-	 * Construtor do produto com a declaraï¿½ï¿½o de seus atributos
+	 * Construtor do produto com a declaracao de seus atributos
 	 * @param name: Nome do produto.
-	 * @param price: Preï¿½o do produto.
+	 * @param price: Preco do produto.
 	 * @param validity: Validade do produto.
 	 * @param provider: Fornecedor do produto.
 	 */
@@ -59,7 +65,7 @@ public class Products extends Entities{
 
 
 	/**
-	 * @param nome: Novo nome
+	 * @param name: Novo nome
 	 */
 
 	public void setName(String name) {
@@ -108,21 +114,21 @@ public class Products extends Entities{
 
 
 	/**
-	 * @param fornecedor: Novo fornecedor.
+	 * @param provider: Novo fornecedor.
 	 */
 	public void setProvider(Providers provider) {
 		this.provider = provider;
 	}
 
 	/**
-	 * @return the quantity
+	 * @return a quantidade
 	 */
 	public int getQuantity() {
 		return quantity;
 	}
 
 	/**
-	 * @param quantity the quantity to set
+	 * @param quantity: Nova quantidade.
 	 */
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
