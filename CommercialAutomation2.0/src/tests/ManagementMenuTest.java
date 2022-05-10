@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +24,6 @@ class ManagementMenuTest {
 	private ManagementMenu managMenuTest;
 	private Products prodTest1;
 	private Products prodTest2;
-	private Products prodTest3;
 	private Providers providerTest;
     private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/uuuu")
     		.withResolverStyle(ResolverStyle.STRICT);
@@ -40,7 +38,6 @@ class ManagementMenuTest {
 		
 		prodTest1 = new Products("batata", new BigDecimal("1.50"), date1, 10, providerTest);
 		prodTest2 = new Products("sal", new BigDecimal("0.50"), date2, 20, providerTest);
-		prodTest3 = new Products("tomate", new BigDecimal("5.50"), date1, 15, providerTest);
 		
 		compositionTest1 = new HashMap<String, Integer> ();
 		compositionTest2 = new HashMap<String, Integer> ();

@@ -6,8 +6,6 @@ package modeling_models;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.HashMap;
 
 /**
  * Classe dos produtos do estabelecimento. Se relaciona com a classe Fornecedores, por um 
