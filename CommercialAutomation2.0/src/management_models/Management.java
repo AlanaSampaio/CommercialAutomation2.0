@@ -89,7 +89,6 @@ private ArrayList<Entities> listManagement = new ArrayList<>();
 		return null;
 	}
 	
-	//public abstract void edit(String idEntities, String changedValue, Object newValue);
 
 	/**
 	 * Responsavel por mostrar a lista
