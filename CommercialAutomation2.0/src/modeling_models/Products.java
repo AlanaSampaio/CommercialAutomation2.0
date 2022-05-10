@@ -51,16 +51,6 @@ public class Products extends Entities{
 		this.provider = provider;
 		generatorCode("P");
 	}
-
-	public HashMap<String, String> getAttributes() {
-		HashMap<String, String> attributes = new HashMap<String, String>();
-		attributes.put("id", this.getId());
-		attributes.put("nome", this.getName());
-		attributes.put("preco", String.valueOf(this.getPrice()));
-		attributes.put("validade", String.valueOf(this.getValidity()));
-		attributes.put("fornecedor", String.valueOf(this.getProvider()));
-		return attributes;
-	}
 	
 	/**
 	 * @return o nome
