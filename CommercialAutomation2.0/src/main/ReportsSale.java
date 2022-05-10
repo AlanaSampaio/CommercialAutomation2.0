@@ -1,3 +1,14 @@
+/***************************
+Autores: Alana Sampaio e Vanderleicio Junior
+Componente Curricular: Programação II
+Concluido em: 09/05/2022
+Declaro que este código foi elaborado por mim de forma individual e não contém nenhum
+trecho de código de outro colega ou de outro autor, tais como provindos de livros e
+apostilas, e páginas ou documentos eletrônicos da Internet. Qualquer trecho de código
+de outra autoria que não a minha está destacado com uma citação para o autor e a fonte
+do código, e estou ciente que estes trechos não serão considerados para fins de avaliação.
+******************************/
+
 package main;
 
 import java.awt.Desktop;
@@ -23,8 +34,23 @@ import modeling_models.Entities;
 import modeling_models.Items;
 import modeling_models.Sales;
 
+/**
+ * Classe que gera os relatorios relacionados as vendas
+ * @author Alana Sampaio
+ * @author Vanderleicio Junior
+ */
 public class ReportsSale {
 
+	/**
+	 * Gera o pdf com o relatorio
+	 * @param sales: Gerenciamento das vendas
+	 * @param itemsMenu: Gerenciamento do cardapio
+	 * @param dateBefore: Primeira data do periodo
+	 * @param dateAfter: Segunda data do periodo
+	 * @param idPlate: Id do prato a ser exibido
+	 * @throws IdDoesntExist
+	 * @throws EntitiesNotRegistred
+	 */
 	public void generatePDF(ManagementSales sales, ManagementMenu itemsMenu, LocalDate dateBefore, LocalDate dateAfter, String idPlate) throws IdDoesntExist, EntitiesNotRegistred {
 		Document document = new Document();
 		String name = "sale_" + dateHour() + ".pdf";
@@ -75,6 +101,13 @@ public class ReportsSale {
         }
 	}
 	
+	/**
+	 * Adiciona as informacoes de todas as vendas
+	 * @param sales
+	 * @param p
+	 * @param document
+	 * @throws DocumentException
+	 */
 	public void salesTotal(ManagementSales sales, Paragraph p, Document document) throws DocumentException {
         
         p = new Paragraph(" ");
@@ -96,6 +129,15 @@ public class ReportsSale {
     	}
 	}
 	 
+	/**
+	 * Adiciona as informacoes das vendas dentro do periodo pedido
+	 * @param sales
+	 * @param p
+	 * @param document
+	 * @param dateBefore
+	 * @param dateAfter
+	 * @throws DocumentException
+	 */
 	public void saleByPeriod(ManagementSales sales, Paragraph p, Document document, LocalDate dateBefore, LocalDate dateAfter) throws DocumentException {
 		
 		p = new Paragraph(" ");
@@ -133,6 +175,17 @@ public class ReportsSale {
         }
 	}
 	
+	/**
+	 * Adiciona as informacoes das vendas do prato pedido
+	 * @param sales
+	 * @param itemsMenu
+	 * @param p
+	 * @param document
+	 * @param idPlate
+	 * @throws DocumentException
+	 * @throws IdDoesntExist
+	 * @throws EntitiesNotRegistred
+	 */
 	public void saleByPlate(ManagementSales sales, ManagementMenu itemsMenu, Paragraph p, Document document, String idPlate) throws DocumentException, IdDoesntExist, EntitiesNotRegistred {
 		
 		Items itemChoosed = (Items) itemsMenu.searchEntities(idPlate);
@@ -161,6 +214,9 @@ public class ReportsSale {
         }
 	}
 	
+	/**
+	 * @return Retorna a data e o dia atual formatados para o nome do arquivo
+	 */
 	public String dateHour() {
 		Date d = Calendar.getInstance().getTime();
 		String formatString = "dd.MM.yyyy_hh.mm.ss" ;

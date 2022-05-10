@@ -1,3 +1,14 @@
+/***************************
+Autores: Alana Sampaio e Vanderleicio Junior
+Componente Curricular: Programação II
+Concluido em: 09/05/2022
+Declaro que este código foi elaborado por mim de forma individual e não contém nenhum
+trecho de código de outro colega ou de outro autor, tais como provindos de livros e
+apostilas, e páginas ou documentos eletrônicos da Internet. Qualquer trecho de código
+de outra autoria que não a minha está destacado com uma citação para o autor e a fonte
+do código, e estou ciente que estes trechos não serão considerados para fins de avaliação.
+******************************/
+
 package main;
 
 import java.math.BigDecimal;
@@ -17,20 +28,43 @@ import modeling_models.*;
 
 import exceptions.*;
 
+/**
+ * Classe principal que reune os menus do sistema e chama os metodos responsaveis pelas acoes.
+ * @author Alana Sampaio
+ * @author Vanderleicio Junior
+ */
 public class Main {
+	/**
+	 * Todos os IDs do sistema
+	 */
 	private static ArrayList<String> ids = new ArrayList<String>();
 	
+	/**
+	 * Gerenciador dos usuarios do sistema
+	 */
 	static ManagementUsers managementUser = new ManagementUsers();
+	/**
+	 * Gerenciador dos fornecedores do sistema
+	 */
 	static ManagementProviders managementProvider = new ManagementProviders();
+	/**
+	 * Gerenciador dos produtos do sistema
+	 */
 	static ManagementProducts managementProducts = new ManagementProducts();
+	/**
+	 * Gerenciador dos itens do cardapio do sistema
+	 */
 	static ManagementMenu managementMenu = new ManagementMenu();
+	/**
+	 * Gerenciador das vendas do sistema
+	 */
 	static ManagementSales managementSales = new ManagementSales();
 	
 	/**
 	 * Menu inicial do sistema. Leva o usuario para as opcoes possiveis, ou encerra o sistema.
 	 * @param args
-	 * @throws EntitiesNotRegistred 
-	 * @throws IdDoesntExist 
+	 * @throws EntitiesNotRegistred: Gerado quando as entidades não estão registradas
+	 * @throws IdDoesntExist: Gerado quando o ID não existe
 	 */
 	public static void main(String args[]) throws IdDoesntExist, EntitiesNotRegistred {
 		Scanner input = new Scanner(System.in);
@@ -62,7 +96,7 @@ public class Main {
 	/**
 	 * Menu com as principais opcoes de operacoes.
 	 * @param inputOpt: Objeto scanner para receber entradas do usuario.
-	 * @throws EntitiesNotRegistred 
+	 * @throws EntitiesNotRegistred
 	 * @throws IdDoesntExist 
 	 */
 	public static void optionsMenu(Scanner inputOpt) throws IdDoesntExist, EntitiesNotRegistred {
@@ -108,6 +142,12 @@ public class Main {
 		
 	}
 	
+	/**
+	 * Menu para escolher do relatorio desejado
+	 * @param input
+	 * @throws IdDoesntExist
+	 * @throws EntitiesNotRegistred
+	 */
 	public static void reportsMenu(Scanner input) throws IdDoesntExist, EntitiesNotRegistred {
 		ReportsSale rSale = new ReportsSale();
 		ReportsProvider rProvider = new ReportsProvider();
@@ -145,6 +185,13 @@ public class Main {
 		System.out.println("\nGerando relatorio\n");
 		}
 
+	/**
+	 * Gera um menu de opcoes
+	 * @param options: opcoes a serem exibidas
+	 * @param msg1: mensagem a ser mostrada
+	 * @param input
+	 * @return Opcao escolhida pelo usuario
+	 */
 	public static int optionMenuGenerator(String[] options, String msg1, Scanner input) {
 		boolean optChoosed;
 		int maxOpt = options.length;
@@ -178,7 +225,6 @@ public class Main {
 		return optChoice;
 	}
 	
-	
 	/**
 	 * Recebe as informacoes de login do usuario e certifica
 	 * que estejam certas.
@@ -208,6 +254,12 @@ public class Main {
 		} while(!option);
 	}
 	
+	/**
+	 * Chama o metodo responsavel pela operacao escolhida pelo usuario
+	 * @param operation: Operacao escolhida
+	 * @param managUser: Gerenciador
+	 * @param inputUsers: Scanner para input.
+	 */
 	public static void usersMainMenu(int operation, ManagementUsers managUser, Scanner inputUsers) {
 		try {
 			switch(operation) {
@@ -232,6 +284,12 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Registra o novo usuario
+	 * @param operation
+	 * @param managUser
+	 * @param inputUsers
+	 */
 	public static void usersRegistMenu(int operation, ManagementUsers managUser, Scanner inputUsers) {
 		// Recebe os dados do usuario e faz o cadastro a partir deles.
 		String nick, password, name, category;
@@ -260,6 +318,13 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Menu para edicao de um usuario
+	 * @param operation
+	 * @param managUser
+	 * @param inputUsers
+	 * @throws EntitiesNotRegistred
+	 */
 	public static void usersEditMenu(int operation, ManagementUsers managUser, Scanner inputUsers) throws EntitiesNotRegistred {
 		// Edicao dos dados dos usuarios.
 		int option1, choice;
@@ -299,6 +364,13 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Menu para a delecao de um usuario
+	 * @param operation
+	 * @param managUser
+	 * @param inputUsers
+	 * @throws EntitiesNotRegistred
+	 */
 	public static void usersDelMenu(int operation, ManagementUsers managUser, Scanner inputUsers) throws EntitiesNotRegistred {
 		// Deletar usuario
 		String id;
@@ -326,6 +398,12 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Chama o metodo responsavel pela operacao escolhida pelo usuario para os fornecedores
+	 * @param operation
+	 * @param managProv
+	 * @param inputProv
+	 */
 	public static void providersMainMenu(int operation, ManagementProviders managProv, Scanner inputProv) {
 		try {
 			switch(operation) {
@@ -347,6 +425,12 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Registra o novo fornecedor
+	 * @param operation
+	 * @param managProv
+	 * @param inputProv
+	 */
 	public static void providersRegistMenu(int operation, ManagementProviders managProv, Scanner inputProv) {
 		String name, cnpj, address;
 		
@@ -368,6 +452,13 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Menu para edicao de um fornecedor
+	 * @param operation
+	 * @param managProv
+	 * @param inputProv
+	 * @throws EntitiesNotRegistred
+	 */
 	public static void providersEditMenu(int operation, ManagementProviders managProv, Scanner inputProv) throws EntitiesNotRegistred {
 		int option1;
 		String option2, newData, id;
@@ -407,6 +498,13 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Menu para a delecao de um fornecedor
+	 * @param operation
+	 * @param managProv
+	 * @param inputProv
+	 * @throws EntitiesNotRegistred
+	 */
 	public static void providersDelMenu(int operation, ManagementProviders managProv, Scanner inputProv) throws EntitiesNotRegistred {
 		String id;
 		managProv.list(true);
@@ -423,6 +521,12 @@ public class Main {
 		
 	}
 	
+	/**
+	 * Chama o metodo responsavel pela operacao escolhida pelo usuario para os produtos
+	 * @param operation
+	 * @param managProd
+	 * @param inputProd
+	 */
 	public static void productsMainMenu(int operation, ManagementProducts managProd, Scanner inputProd) {
 		try {
 			switch(operation) {
@@ -444,6 +548,13 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Registra o novo produto
+	 * @param operation
+	 * @param managProd
+	 * @param inputProd
+	 * @throws EntitiesNotRegistred
+	 */
 	public static void productsRegistMenu(int operation, ManagementProducts managProd, Scanner inputProd) throws EntitiesNotRegistred {
 		String name, price, date;
 		LocalDate validity;
@@ -491,6 +602,13 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Menu para edicao de um produto
+	 * @param operation
+	 * @param managProd
+	 * @param inputProd
+	 * @throws EntitiesNotRegistred
+	 */
 	public static void productsEditMenu(int operation, ManagementProducts managProd, Scanner inputProd) throws EntitiesNotRegistred {
 		String price, date, option2, id;
 		Object newDataProd;
@@ -568,6 +686,13 @@ public class Main {
 			}
 	}
 	
+	/**
+	 * Menu para a delecao de um produto
+	 * @param operation
+	 * @param managProd
+	 * @param inputProd
+	 * @throws EntitiesNotRegistred
+	 */
 	public static void productsDelMenu(int operation, ManagementProducts managProd, Scanner inputProd) throws EntitiesNotRegistred {
 		String id;
 		managProd.list(true);
@@ -590,6 +715,12 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Chama o metodo responsavel pela operacao escolhida pelo usuario para os itens
+	 * @param operation
+	 * @param managMenu
+	 * @param inputItem
+	 */
 	public static void itemsMainMenu(int operation, ManagementMenu managMenu, Scanner inputItem) {
 		try {
 			switch(operation) {
@@ -612,6 +743,13 @@ public class Main {
 		
 	}
 	
+	/**
+	 * Cadastra o novo item
+	 * @param operation
+	 * @param managMenu
+	 * @param inputItem
+	 * @throws EntitiesNotRegistred
+	 */
 	public static void itemsRegistMenu(int operation, ManagementMenu managMenu, Scanner inputItem) throws EntitiesNotRegistred {
 		String name, description, price, category;
 		int quantity;
@@ -669,6 +807,13 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Menu para edicao de um item 
+	 * @param operation
+	 * @param managMenu
+	 * @param inputItem
+	 * @throws EntitiesNotRegistred
+	 */
 	public static void itemsEditMenu(int operation, ManagementMenu managMenu, Scanner inputItem) throws EntitiesNotRegistred {
 		String price, option2, id;
 		int quantity;
@@ -796,6 +941,13 @@ public class Main {
 			}
 	}
 	
+	/**
+	 * Menu para deleção de um item
+	 * @param operation
+	 * @param managMenu
+	 * @param inputItem
+	 * @throws EntitiesNotRegistred
+	 */
 	public static void itemsDelMenu(int operation, ManagementMenu managMenu, Scanner inputItem) throws EntitiesNotRegistred {
 		String id;
 		
@@ -814,6 +966,12 @@ public class Main {
 		
 	}
 	
+	/**
+	 * Chama o metodo responsavel pela operacao escolhida pelo usuario para as vendas
+	 * @param operation
+	 * @param managSales
+	 * @param inputSale
+	 */
 	public static void salesMainMenu(int operation, ManagementSales managSales, Scanner inputSale) {
 		try {
 			switch(operation) {
@@ -835,6 +993,13 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Cadastra uma nova venda
+	 * @param operation
+	 * @param managSales
+	 * @param inputSale
+	 * @throws EntitiesNotRegistred
+	 */
 	public static void salesRegistMenu(int operation, ManagementSales managSales, Scanner inputSale) throws EntitiesNotRegistred {
 		String dateStr, timeStr, paymentMethod, idItem;
 		LocalDate date;
@@ -905,6 +1070,13 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * Menu para edicao de uma venda
+	 * @param operation
+	 * @param managSales
+	 * @param inputSale
+	 * @throws EntitiesNotRegistred
+	 */
 	public static void salesEditMenu(int operation, ManagementSales managSales, Scanner inputSale) throws EntitiesNotRegistred {
 		String dateStr, timeStr, option2, id;
 		int option1;
@@ -1043,7 +1215,13 @@ public class Main {
 			}
 	}
 	
-
+	/**
+	 * Menu para delecao de uma venda
+	 * @param operation
+	 * @param managSales
+	 * @param inputSale
+	 * @throws EntitiesNotRegistred
+	 */
 	public static void salesDelMenu(int operation, ManagementSales managSales, Scanner inputSale) throws EntitiesNotRegistred {
 		String id;
 		
@@ -1060,14 +1238,26 @@ public class Main {
 		System.out.println("Venda deletada com sucesso.");
 	}
 	
+	/**
+	 * Checa se o id ja foi cadastrado
+	 * @param idCheck: Id a ser checado
+	 * @return true: se o I ja esta cadastrado
+	 */
 	public static boolean idExist(String idCheck) {
 		return ids.contains(idCheck);
 	}
 	
+	/**
+	 * Adiciona um ID na lista de IDs 
+	 * @param id: id a ser adicionado
+	 */
 	public static void addId(String id) {
 		ids.add(id);
 	}
 
+	/**
+	 * @return a lista de todos os IDs
+	 */
 	public ArrayList<String> getIds() {
 		return ids;
 	}
