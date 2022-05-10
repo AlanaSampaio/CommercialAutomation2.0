@@ -18,14 +18,10 @@ import org.junit.platform.suite.api.Suite;
 	SalesTest.class,
 	UsersTest.class,
 	ReportsProviderTest.class,
-<<<<<<< HEAD
 	ReportsStockTest.class,
 	ReportsSaleTest.class,
-	
-=======
 	ReportsSaleTest.class,
 	ReportsStockTest.class,
->>>>>>> c14ff6084adc688fd3363d069cfdad0c9d78dca3
 })
 class TestSuite {
 };
