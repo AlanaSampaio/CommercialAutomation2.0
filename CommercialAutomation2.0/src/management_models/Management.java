@@ -17,7 +17,7 @@ import exceptions.*;
 import modeling_models.Entities;
 import modeling_models.Users;
 /**
- *Classe abstrata que sea� herdada por todos os gerenciamentos.
+ *Classe abstrata que sera herdada por todos os gerenciamentos.
  *@author Vanderleicio Junior
  *@author Alana Sampaio
  */
@@ -59,7 +59,7 @@ private ArrayList<Entities> listManagement = new ArrayList<>();
 	}
 	
 	/**
-	 *  Procura e retorna uma Entidade a partir do seu nickname
+	 * Procura e retorna uma Entidade a partir do seu nickname
 	 * @param nick: nickname 
 	 * @return item da lista
 	 */
