@@ -1,3 +1,14 @@
+/***************************
+Autores: Alana Sampaio e Vanderleicio Junior
+Componente Curricular: Programação II
+Concluido em: 09/05/2022
+Declaro que este código foi elaborado por mim de forma individual e não contém nenhum
+trecho de código de outro colega ou de outro autor, tais como provindos de livros e
+apostilas, e páginas ou documentos eletrônicos da Internet. Qualquer trecho de código
+de outra autoria que não a minha está destacado com uma citação para o autor e a fonte
+do código, e estou ciente que estes trechos não serão considerados para fins de avaliação.
+******************************/
+
 package main;
 
 import java.awt.Desktop;
@@ -21,8 +32,20 @@ import modeling_models.Entities;
 import modeling_models.Products;
 import modeling_models.Providers;
 
+/**
+ * Classe que gera os relatorios relacionados aos fornecedores
+ * @author Alana Sampaio
+ * @author Vanderleicio Junior
+ */
 public class ReportsProvider {
 
+	/**
+	 * Gera o pdf com o relatorio
+	 * @param provider: Gerenciamento de fornecedores
+	 * @param products: Gerenciamento de produtos
+	 * @throws IdDoesntExist
+	 * @throws EntitiesNotRegistred
+	 */
 	public void generatePDF(ManagementProviders provider, ManagementProducts products) throws IdDoesntExist, EntitiesNotRegistred {
 		Document document = new Document();
 		String name = "provider_" + dateHour() + ".pdf";
@@ -68,6 +91,13 @@ public class ReportsProvider {
         }
 	}
 	
+	/**
+	 * Adiciona no pdf as informações do fornecedor
+	 * @param provider
+	 * @param p
+	 * @param document
+	 * @throws DocumentException
+	 */
 	public void providerRelationship(ManagementProviders provider, Paragraph p, Document document) throws DocumentException {
 		p = new Paragraph(" ");
         document.add(p);
@@ -94,6 +124,13 @@ public class ReportsProvider {
         
 	}
 	
+	/**
+	 * Adiciona as informacoes dos produtos no pdf
+	 * @param products
+	 * @param p
+	 * @param document
+	 * @throws DocumentException
+	 */
 	public void providerProduct(ManagementProducts products, Paragraph p, Document document) throws DocumentException {
 		p = new Paragraph(" ");
         document.add(p);
@@ -114,6 +151,9 @@ public class ReportsProvider {
         }
 	}
 	
+	/**
+	 * @return Retorna a data e o dia atual formatados para o nome do arquivo
+	 */
 	public String dateHour() {
 		Date d = Calendar.getInstance().getTime();
 		String formatString = "dd.MM.yyyy_hh.mm.ss" ;
